@@ -1,21 +1,80 @@
 #pragma once
+
+// string
 #include <string>
+
+// vector
 #include <vector>
 
-namespace cypReference
+// file
+#include <filesystem>
+#include <ostream>
+#include <fstream>
+
+// communication
+#include <WS2tcpip.h>
+#pragma comment(lib, "ws2_32")
+
+namespace cyp
 {
 	namespace string
 	{
-		static bool z_isAlphabet(const std::string& input_);
-		static bool z_isContain(const std::string& original, const std::string comparison_);
-		static void z_Change(std::string& input_, const std::string& find_, const std::string& change);
-		static bool z_isNumber(const std::string& input_);
+		static bool isAlphabet(const std::string& str_);
+		static bool isContain(const std::string& original, const std::string comparison_);
+		static void changeStr(std::string& str_, const std::string& find_, const std::string& change);
+		static bool isNumber(const std::string& input_);
 	};
-
 
 	namespace vector
 	{
 		template<typename T>
-		static bool z_isContain(const std::vector<T>& original, const T find_);
+		static bool isContain(const std::vector<T>& original, const T find_);
 	};
+
+	namespace file
+	{
+		static bool deleteFile(const std::string& fileLoc_);
+		static bool createDirectory(const std::string& directoryLoc_);
+		static void createFile(const std::string& fileName_, const std::string& fileContent_ = "");
+		static std::string readAllFile(const std::string& fileName_);
+	
+	}
+
+	namespace communication
+	{
+		class tcp
+		{
+		private:
+			WSADATA wsaData;
+
+			std::unique_ptr<SOCKET> socListen = std::make_unique<SOCKET>();
+			std::unique_ptr<SOCKET> socClient = std::make_unique<SOCKET>();
+
+		public:
+			tcp()
+			{
+				if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
+				{
+					throw "error : WSAStartup failed";
+				}
+			}
+
+			~tcp()
+			{
+				WSACleanup();
+			}
+
+			void openServer(const int port_);
+			void openClient(const std::string& serverIp_, const int port_);
+
+			std::string receive();
+			bool sendM();
+
+		};
+
+		class udp
+		{
+
+		};
+	}
 };
