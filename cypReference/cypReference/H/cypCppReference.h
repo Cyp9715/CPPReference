@@ -37,7 +37,6 @@ namespace cyp
 		static bool createDirectory(const std::string& directoryLoc_);
 		static void createFile(const std::string& fileName_, const std::string& fileContent_ = "");
 		static std::string readAllFile(const std::string& fileName_);
-	
 	}
 
 	namespace communication
@@ -51,18 +50,8 @@ namespace cyp
 			std::unique_ptr<SOCKET> socClient = std::make_unique<SOCKET>();
 
 		public:
-			tcp()
-			{
-				if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
-				{
-					throw "error : WSAStartup failed";
-				}
-			}
-
-			~tcp()
-			{
-				WSACleanup();
-			}
+			tcp();
+			~tcp();
 
 			void openServer(const int port_);
 			void openClient(const std::string& serverIp_, const int port_);
