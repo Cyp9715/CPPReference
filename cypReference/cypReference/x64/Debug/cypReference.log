@@ -1,6 +1,5 @@
 ﻿  cypCppReference.cpp
   test.cpp
   코드를 생성하고 있습니다...
-D:\4.Github\CPPReference\cypReference\cypReference\CPP\cypCppReference.cpp(199): warning C4715: 'cyp::communication::tcp::sendM': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  LINK : D:\4.Github\CPPReference\cypReference\x64\Debug\cypReference.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+D:\4.Github\CPPReference\cypReference\cypReference\CPP\cypCppReference.cpp(219): warning C4715: 'cyp::communication::tcp::sendM': 모든 제어 경로에서 값을 반환하지는 않습니다.
   cypReference.vcxproj -> D:\4.Github\CPPReference\cypReference\x64\Debug\cypReference.exe

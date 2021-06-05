@@ -20,15 +20,15 @@ namespace cyp
 	namespace string
 	{
 		static bool isAlphabet(const std::string& str_);
-		static bool isContain(const std::string& original, const std::string comparison_);
+		static bool isContain(const std::string& original, const std::string& find_);
 		static void changeStr(std::string& str_, const std::string& find_, const std::string& change);
-		static bool isNumber(const std::string& input_);
+		static bool isNumber(const std::string& str_);
 	};
 
 	namespace vector
 	{
 		template<typename T>
-		static bool isContain(const std::vector<T>& original, const T find_);
+		static bool isContain(const std::vector<T>& v_input, const T find_);
 	};
 
 	namespace file
@@ -63,7 +63,11 @@ namespace cyp
 
 		class udp
 		{
+			udp();
+			~udp();
 
+			bool sendM();
+			bool receiveM();
 		};
 	}
 };

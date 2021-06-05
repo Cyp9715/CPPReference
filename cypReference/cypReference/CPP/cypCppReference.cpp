@@ -4,7 +4,7 @@ namespace cyp
 {
 	namespace string
 	{
-		bool isContain(const std::string& input_, const std::string find_)
+		bool isContain(const std::string& input_, const std::string& find_)
 		{
 			if (input_.find(find_) == std::string::npos)
 			{
@@ -16,9 +16,9 @@ namespace cyp
 			}
 		}
 
-		void changeStr(std::string& input_, const std::string& find_, const std::string& change)
+		void changeStr(std::string& str_, const std::string& find_, const std::string& change)
 		{
-			size_t ui_num = input_.find(find_);
+			size_t ui_num = str_.find(find_);
 
 			while (true)
 			{
@@ -28,18 +28,18 @@ namespace cyp
 				}
 				else
 				{
-					input_.erase(ui_num, find_.size());
-					input_.insert(ui_num, change);
+					str_.erase(ui_num, find_.size());
+					str_.insert(ui_num, change);
 				}
-				ui_num = input_.find(find_, change.size());
+				ui_num = str_.find(find_, change.size());
 			}
 		}
 
-		bool isAlphabet(const std::string& input_)
+		bool isAlphabet(const std::string& str_)
 		{
-			for (size_t i = 0; i < input_.size(); ++i)
+			for (size_t i = 0; i < str_.size(); ++i)
 			{
-				if ((input_[i] >= 97 && 122 >= input_[i]) || (input_[i] >= 65 && 90 >= input_[i]))
+				if ((str_[i] >= 97 && 122 >= str_[i]) || (str_[i] >= 65 && 90 >= str_[i]))
 				{
 					continue;
 				}
@@ -51,10 +51,10 @@ namespace cyp
 			return true;
 		}
 
-		bool isNumber(const std::string& input_)
+		bool isNumber(const std::string& str_)
 		{
-			return !input_.empty() && std::find_if(input_.begin(), input_.end(),
-				[](unsigned char c) { return !std::isdigit(c); }) == input_.end();
+			return !str_.empty() && std::find_if(str_.begin(), str_.end(),
+				[](unsigned char c) { return !std::isdigit(c); }) == str_.end();
 		}
 
 	}
