@@ -41,13 +41,29 @@ namespace cyp
 
 	namespace communication
 	{
+		enum error
+		{
+			BIND_ERROR = -1,
+			BIND_SUCCESS = 0
+		};
+
+		enum udpOpen
+		{
+			OPEN_SEND = 0,
+			OPEN_RECEIVE = 1
+		};
+
 		class tcp
 		{
 		private:
 			WSADATA wsaData;
 
+			// using server
 			std::unique_ptr<SOCKET> socListen = std::make_unique<SOCKET>();
 			std::unique_ptr<SOCKET> socClient = std::make_unique<SOCKET>();
+
+			// using client
+			std::unique_ptr<SOCKET> socServer = std::make_unique<SOCKET>();
 
 		public:
 			tcp();
@@ -56,18 +72,31 @@ namespace cyp
 			void openServer(const int port_);
 			void openClient(const std::string& serverIp_, const int port_);
 
-			std::string receive();
-			bool sendM();
+			void sendServerToClient(std::string& message_);
+			void sendClientToServer(std::string& message_);
 
+			std::string serverReceive();
+			std::string clientReceive();
 		};
 
 		class udp
 		{
+			WSADATA wsaData;
+
+			SOCKET sendSocket = INVALID_SOCKET;
+			SOCKET recvSocket;
+
+			sockaddr_in recvAddr, sendAddr, dummyAddr;
+			int dummyAddrSize = 0;
+
+		public:
 			udp();
 			~udp();
 
-			bool sendM();
-			bool receiveM();
+			void open(const std::string& ip_, const int port_);
+
+			bool send(const std::string& message_);
+			std::string receive();
 		};
 	}
 };

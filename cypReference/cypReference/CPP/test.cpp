@@ -3,9 +3,7 @@
 
 int main()
 {
-	std::filesystem::path example{ "ddd" };
-	cyp::communication::tcp* tcp = new cyp::communication::tcp();
-	tcp->openServer(7777);
-	std::cout << tcp->receive();
-	tcp->sendM();
+	cyp::communication::udp *udp = new cyp::communication::udp();
+	udp->open("192.168.100.32", 7777);
+	std::cout << udp->receive();
 }
