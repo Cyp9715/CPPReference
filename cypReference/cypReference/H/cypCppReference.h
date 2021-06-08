@@ -39,18 +39,14 @@ namespace cyp
 		static std::string readAllFile(const std::string& fileName_);
 	}
 
+	// windows
 	namespace communication
 	{
 		enum error
 		{
 			BIND_ERROR = -1,
-			BIND_SUCCESS = 0
-		};
-
-		enum udpOpen
-		{
-			OPEN_SEND = 0,
-			OPEN_RECEIVE = 1
+			BIND_SUCCESS = 0,
+			INET_PTON_SUCCESS = 1
 		};
 
 		class tcp
@@ -59,11 +55,11 @@ namespace cyp
 			WSADATA wsaData;
 
 			// using server
-			std::unique_ptr<SOCKET> socListen = std::make_unique<SOCKET>();
-			std::unique_ptr<SOCKET> socClient = std::make_unique<SOCKET>();
+			SOCKET listenSocket;
+			SOCKET clientSocket;
 
 			// using client
-			std::unique_ptr<SOCKET> socServer = std::make_unique<SOCKET>();
+			SOCKET serverSocket;
 
 		public:
 			tcp();

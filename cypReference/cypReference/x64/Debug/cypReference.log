@@ -1,5 +1,4 @@
 ﻿  cypCppReference.cpp
-D:\5_Github\CPPReference\cypReference\cypReference\CPP\cypCppReference.cpp(282,7): warning C4267: '인수': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   test.cpp
   코드를 생성하고 있습니다...
-  cypReference.vcxproj -> D:\5_Github\CPPReference\cypReference\x64\Debug\cypReference.exe
+  cypReference.vcxproj -> D:\4.Github\CPPReference\cypReference\x64\Debug\cypReference.exe

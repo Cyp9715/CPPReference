@@ -121,59 +121,61 @@ namespace cyp
 			{
 				throw "error : WSAStartup failed";
 			}
+
+			listenSocket = INVALID_SOCKET;
+			clientSocket = INVALID_SOCKET;
+			serverSocket = INVALID_SOCKET;
 		}
 
 		tcp::~tcp()
 		{
-			closesocket(*socListen);
-			closesocket(*socClient);
-			closesocket(*socServer);
+			closesocket(listenSocket);
+			closesocket(clientSocket);
+			closesocket(serverSocket);
+
 			WSACleanup();
 		}
 
 		void tcp::openServer(const int port_)
 		{
-			*socListen = INVALID_SOCKET;
-			*socClient = INVALID_SOCKET;
+			listenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-			*socListen = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-
-			if (*socListen == INVALID_SOCKET)
+			if (listenSocket == INVALID_SOCKET)
 			{
 				throw "error : listenSocket stop";
 			}
 
 			SOCKADDR_IN addrServer;
+			ZeroMemory(&addrServer, sizeof(addrServer));
 			addrServer.sin_family = AF_INET;
 			addrServer.sin_port = htons(port_);
 			addrServer.sin_addr.s_addr = htonl(INADDR_ANY);
 
-			if (bind(*socListen, (SOCKADDR*)&addrServer, sizeof(addrServer)) == BIND_ERROR)
+			if (bind(listenSocket, (SOCKADDR*)&addrServer, sizeof(addrServer)) == BIND_ERROR)
 			{
 				throw "error bind failed";
 			}
 
-			if (listen(*socListen, SOMAXCONN) == SOCKET_ERROR)
+			if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR)
 			{
 				throw "error : listen failed";
 			}
 
 			SOCKADDR_IN addrClient;
 			int addrSize = sizeof(addrClient);
-			*socClient = accept(*socListen, (SOCKADDR*)&addrClient, &addrSize);
+			clientSocket = accept(listenSocket, (SOCKADDR*)&addrClient, &addrSize);
 
-			if (*socClient == INVALID_SOCKET)
+			if (clientSocket == INVALID_SOCKET)
 			{
 				throw "error : accept failed";
 			}
 
-			closesocket(*socListen);
+			closesocket(listenSocket);
 		}
 
 		void tcp::openClient(const std::string& serverIp_, const int port_)
 		{
-			*socServer = INVALID_SOCKET;
-			*socServer = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+			serverSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 			if (socket(PF_INET, SOCK_STREAM, IPPROTO_TCP) == INVALID_SOCKET)
 			{
@@ -181,14 +183,15 @@ namespace cyp
 			}
 
 			SOCKADDR_IN addrServer;
-			addrServer.sin_family = AF_INET;
+			ZeroMemory(&addrServer, sizeof(addrServer));
+			addrServer.sin_family = PF_INET;
 			addrServer.sin_port = htons(port_);
-			if (inet_pton(AF_INET, serverIp_.c_str(), &(addrServer.sin_addr.s_addr)) != 1)
+			if (inet_pton(PF_INET, serverIp_.c_str(), &(addrServer.sin_addr.s_addr)) != INET_PTON_SUCCESS)
 			{
 				throw "error : can't inet_pton init";
 			}
 
-			if (connect(*socServer, (SOCKADDR*)&addrServer, sizeof(addrServer)) != 0)
+			if (connect(serverSocket, (SOCKADDR*)&addrServer, sizeof(addrServer)) != 0)
 			{
 				throw "error : can't connection";
 			}
@@ -198,7 +201,7 @@ namespace cyp
 		{
 			char buffer[512];
 
-			if (recv(*socClient, buffer, 512, 0) == SOCKET_ERROR)
+			if (recv(clientSocket, buffer, 512, 0) == SOCKET_ERROR)
 			{
 				throw "error : accept failed";
 			}
@@ -210,7 +213,7 @@ namespace cyp
 		{
 			char buffer[512];
 
-			if (recv(*socServer, buffer, 512, 0) == SOCKET_ERROR)
+			if (recv(serverSocket, buffer, 512, 0) == SOCKET_ERROR)
 			{
 				throw "error : accept failed";
 			}
@@ -220,7 +223,7 @@ namespace cyp
 
 		void tcp::sendServerToClient(std::string& message_)
 		{
-			if (send(*socClient, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
+			if (send(clientSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
 			{
 				throw "error : server error send";
 			}			
@@ -228,7 +231,7 @@ namespace cyp
 
 		void tcp::sendClientToServer(std::string& message_)
 		{
-			if (send(*socServer, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
+			if (send(serverSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
 			{
 				throw "error : client error send";
 			}
@@ -245,6 +248,9 @@ namespace cyp
 
 		udp::~udp()
 		{
+			closesocket(sendSocket);
+			closesocket(recvSocket);
+
 			WSACleanup();
 		}
 
@@ -258,19 +264,19 @@ namespace cyp
 			ZeroMemory(&sendAddr, sizeof(sendAddr));
 			dummyAddrSize = sizeof(dummyAddr);
 
-
 			// recv
 			sendAddr.sin_family = PF_INET;
 			sendAddr.sin_port = htons(port_);
 			sendAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-
 			
 			// send
 			recvAddr.sin_family = PF_INET;
 			recvAddr.sin_port = htons(port_);
-			InetPton(AF_INET, ip_.c_str(), &recvAddr.sin_addr.s_addr);
+			if (inet_pton(PF_INET, ip_.c_str(), &recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
+			{
+				throw "error : can't inet_pton init";
+			}
 
-		
 			if(bind(recvSocket, (SOCKADDR*)&sendAddr, sizeof(sendAddr)) == BIND_ERROR)
 			{
 				throw "error : bind failed";
@@ -279,7 +285,8 @@ namespace cyp
 
 		bool udp::send(const std::string& message_)
 		{
-			if (sendto(sendSocket, message_.data(), message_.length(), 0, (struct sockaddr*)&recvAddr, sizeof(recvAddr)) == SOCKET_ERROR)
+			if (sendto(sendSocket, message_.data(), static_cast<int>(message_.length()), 0, 
+								(struct sockaddr*)&recvAddr, sizeof(recvAddr)) == SOCKET_ERROR)
 			{
 				return false;
 			}
