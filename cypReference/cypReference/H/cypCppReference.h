@@ -35,8 +35,8 @@ namespace cyp
 	{
 		static bool deleteFile(const std::string& fileLoc_);
 		static bool createDirectory(const std::string& directoryLoc_);
-		static void createFile(const std::string& fileName_, const std::string& fileContent_ = "");
-		static std::string readAllFile(const std::string& fileName_);
+		static void createFile(const std::string& fileLoc_, const std::string& fileContent_ = "");
+		static std::string readAllFile(const std::string& fileLoc_);
 	}
 
 	// windows
@@ -54,12 +54,9 @@ namespace cyp
 		private:
 			WSADATA wsaData;
 
-			// using server
 			SOCKET listenSocket;
-			SOCKET clientSocket;
-
-			// using client
 			SOCKET serverSocket;
+			SOCKET clientSocket;
 
 		public:
 			tcp();
@@ -68,8 +65,8 @@ namespace cyp
 			void openServer(const int port_);
 			void openClient(const std::string& serverIp_, const int port_);
 
-			void sendServerToClient(std::string& message_);
-			void sendClientToServer(std::string& message_);
+			void sendServerToClient(const std::string& message_);
+			void sendClientToServer(const std::string& message_);
 
 			std::string serverReceive();
 			std::string clientReceive();
@@ -80,9 +77,11 @@ namespace cyp
 			WSADATA wsaData;
 
 			SOCKET sendSocket = INVALID_SOCKET;
-			SOCKET recvSocket;
+			SOCKET recvSocket = INVALID_SOCKET;
 
-			sockaddr_in recvAddr, sendAddr, dummyAddr;
+			sockaddr_in recvAddr = { 0 };
+			sockaddr_in sendAddr = { 0 };
+			sockaddr_in dummyAddr = { 0 };
 			int dummyAddrSize = 0;
 
 		public:

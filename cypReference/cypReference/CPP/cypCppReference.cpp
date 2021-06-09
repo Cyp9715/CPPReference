@@ -88,16 +88,16 @@ namespace cyp
 			return std::filesystem::create_directory(directoryLoc_) ? true : false;
 		}
 
-		void createFile(const std::string& fileName_, const std::string& fileContent_)
+		void createFile(const std::string& fileLoc_, const std::string& fileContent_)
 		{
-			std::ofstream file(fileName_);
+			std::ofstream file(fileLoc_);
 			file << fileContent_;
 			file.close();
 		}
 
-		std::string readAllFile(const std::string& fileName_)
+		std::string readAllFile(const std::string& fileLoc_)
 		{
-			std::ifstream file(fileName_);
+			std::ifstream file(fileLoc_);
 			std::string buffer = "";
 
 			if (file.is_open()) {
@@ -109,7 +109,7 @@ namespace cyp
 				return buffer;
 			}
 
-			return "error : cypReference::file::readAllFile";
+			throw "error : cypReference::file::readAllFile";
 		}
 	}
 
@@ -123,15 +123,15 @@ namespace cyp
 			}
 
 			listenSocket = INVALID_SOCKET;
-			clientSocket = INVALID_SOCKET;
 			serverSocket = INVALID_SOCKET;
+			clientSocket = INVALID_SOCKET;
 		}
 
 		tcp::~tcp()
 		{
 			closesocket(listenSocket);
-			closesocket(clientSocket);
 			closesocket(serverSocket);
+			closesocket(clientSocket);
 
 			WSACleanup();
 		}
@@ -145,8 +145,11 @@ namespace cyp
 				throw "error : listenSocket stop";
 			}
 
-			SOCKADDR_IN addrServer;
+			SOCKADDR_IN addrServer, addrClient;
 			ZeroMemory(&addrServer, sizeof(addrServer));
+			ZeroMemory(&addrClient, sizeof(addrClient));
+			int addrSize = sizeof(addrClient);
+
 			addrServer.sin_family = AF_INET;
 			addrServer.sin_port = htons(port_);
 			addrServer.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -161,11 +164,9 @@ namespace cyp
 				throw "error : listen failed";
 			}
 
-			SOCKADDR_IN addrClient;
-			int addrSize = sizeof(addrClient);
-			clientSocket = accept(listenSocket, (SOCKADDR*)&addrClient, &addrSize);
+			serverSocket = accept(listenSocket, (SOCKADDR*)&addrClient, &addrSize);
 
-			if (clientSocket == INVALID_SOCKET)
+			if (serverSocket == INVALID_SOCKET)
 			{
 				throw "error : accept failed";
 			}
@@ -175,7 +176,7 @@ namespace cyp
 
 		void tcp::openClient(const std::string& serverIp_, const int port_)
 		{
-			serverSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+			clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 			if (socket(PF_INET, SOCK_STREAM, IPPROTO_TCP) == INVALID_SOCKET)
 			{
@@ -184,32 +185,21 @@ namespace cyp
 
 			SOCKADDR_IN addrServer;
 			ZeroMemory(&addrServer, sizeof(addrServer));
+
 			addrServer.sin_family = PF_INET;
 			addrServer.sin_port = htons(port_);
-			if (inet_pton(PF_INET, serverIp_.c_str(), &(addrServer.sin_addr.s_addr)) != INET_PTON_SUCCESS)
+			if (inet_pton(PF_INET, serverIp_.data(), &(addrServer.sin_addr.s_addr)) != INET_PTON_SUCCESS)
 			{
 				throw "error : can't inet_pton init";
 			}
 
-			if (connect(serverSocket, (SOCKADDR*)&addrServer, sizeof(addrServer)) != 0)
+			if (connect(clientSocket, (SOCKADDR*)&addrServer, sizeof(addrServer)) != 0)
 			{
 				throw "error : can't connection";
 			}
 		}
 
 		std::string tcp::serverReceive()
-		{
-			char buffer[512];
-
-			if (recv(clientSocket, buffer, 512, 0) == SOCKET_ERROR)
-			{
-				throw "error : accept failed";
-			}
-
-			return buffer;
-		}
-
-		std::string tcp::clientReceive()
 		{
 			char buffer[512];
 
@@ -221,17 +211,29 @@ namespace cyp
 			return buffer;
 		}
 
-		void tcp::sendServerToClient(std::string& message_)
+		std::string tcp::clientReceive()
 		{
-			if (send(clientSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
+			char buffer[512];
+
+			if (recv(clientSocket, buffer, 512, 0) == SOCKET_ERROR)
+			{
+				throw "error : accept failed";
+			}
+
+			return buffer;
+		}
+
+		void tcp::sendServerToClient(const std::string& message_)
+		{
+			if (send(serverSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
 			{
 				throw "error : server error send";
 			}			
 		}
 
-		void tcp::sendClientToServer(std::string& message_)
+		void tcp::sendClientToServer(const std::string& message_)
 		{
-			if (send(serverSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
+			if (send(clientSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
 			{
 				throw "error : client error send";
 			}
@@ -272,7 +274,7 @@ namespace cyp
 			// send
 			recvAddr.sin_family = PF_INET;
 			recvAddr.sin_port = htons(port_);
-			if (inet_pton(PF_INET, ip_.c_str(), &recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
+			if (inet_pton(PF_INET, ip_.data(), &recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
 			{
 				throw "error : can't inet_pton init";
 			}
