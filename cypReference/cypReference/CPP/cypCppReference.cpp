@@ -1,5 +1,4 @@
 #include "cypCppReference.h"
-#pragma warning(disable : 4996)
 
 namespace cyp
 {
