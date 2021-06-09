@@ -54,9 +54,9 @@ namespace cyp
 		private:
 			WSADATA wsaData;
 
-			SOCKET listenSocket;
-			SOCKET serverSocket;
-			SOCKET clientSocket;
+			SOCKET listenSocket = INVALID_SOCKET;
+			SOCKET serverSocket = INVALID_SOCKET;
+			SOCKET clientSocket = INVALID_SOCKET;
 
 		public:
 			tcp();
@@ -74,6 +74,7 @@ namespace cyp
 
 		class udp
 		{
+		private:
 			WSADATA wsaData;
 
 			SOCKET sendSocket = INVALID_SOCKET;

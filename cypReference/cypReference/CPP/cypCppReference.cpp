@@ -121,10 +121,6 @@ namespace cyp
 			{
 				throw "error : WSAStartup failed";
 			}
-
-			listenSocket = INVALID_SOCKET;
-			serverSocket = INVALID_SOCKET;
-			clientSocket = INVALID_SOCKET;
 		}
 
 		tcp::~tcp()
