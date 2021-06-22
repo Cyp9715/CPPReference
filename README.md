@@ -13,7 +13,7 @@ any comments on the source code are welcome.
 
 <h3 align="center">DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE</h1>
 
-However, additional libraries are installed.
+However, additional libraries have been installed.
 
 Please check the libraries below, as they are licensed individually.
 
@@ -31,7 +31,7 @@ Visual Studio : 2019
 
 I prefer to use the latest version.
 
-whenever windows OS, C++, visual studio... or etc are officially updated. 
+whenever official versions of Windows OS, C++, Visual Studio, etc. are updated,
 
 I will check the compatibility and update repositories
 
