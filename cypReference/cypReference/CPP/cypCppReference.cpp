@@ -100,9 +100,9 @@ namespace cyp
 
 	namespace file
 	{
-		bool deleteFile(const std::string& fileLoc)
+		bool deleteFile(const std::string& filePath)
 		{
-			return std::filesystem::remove(fileLoc) ? true : false;
+			return std::filesystem::remove(filePath) ? true : false;
 		}
 
 		bool createDirectory(const std::string& directoryLoc)
@@ -110,9 +110,9 @@ namespace cyp
 			return std::filesystem::create_directory(directoryLoc) ? true : false;
 		}
 
-		void createFile(const std::string& fileLoc, const std::string& fileContent)
+		void createFile(const std::string& filePath, const std::string& fileContent)
 		{
-			std::ofstream file(fileLoc);
+			std::ofstream file(filePath);
 			file << fileContent;
 			file.close();
 		}
@@ -321,6 +321,39 @@ namespace cyp
 			char buffer[512];
 			recvfrom(recvSocket, buffer, 512, 0, (SOCKADDR*)&dummyAddr, &dummyAddrSize);
 			return buffer;
+		}
+	}
+
+	namespace hash
+	{
+		std::string strToMD5(const std::string& str)
+		{
+			return std::string();
+		}
+
+		std::string fileToMD5(const std::string filePath)
+		{
+			return std::string();
+		}
+
+		std::string strToSHA256(const std::string& str)
+		{
+			return std::string();
+		}
+
+		std::string fileToSHA256(const std::string& filePath)
+		{
+			return std::string();
+		}
+
+		std::string strToSHA512(const std::string& str)
+		{
+			return std::string();
+		}
+
+		std::string fileToSHA512(const std::string& filePath)
+		{
+			return std::string();
 		}
 	}
 }

@@ -21,8 +21,9 @@ namespace cyp
 	{
 		bool isAlphabet(const std::string& str);
 		bool isContain(const std::string& original, const std::string& find);
-		void changeStr(std::string& str, const std::string& find, const std::string& change);
 		bool isNumber(const std::string& str);
+
+		void changeStr(std::string& str, const std::string& find, const std::string& change);
 		
 		std::string removeExtension(const std::string& fileName, bool removeMultiExtension = false);
 	};
@@ -35,10 +36,20 @@ namespace cyp
 
 	namespace file
 	{
-		bool deleteFile(const std::string& fileLoc);
+		void createFile(const std::string& filePath, const std::string& fileContent = "");
+		bool deleteFile(const std::string& filePath);
 		bool createDirectory(const std::string& directoryLoc);
-		void createFile(const std::string& fileLoc, const std::string& fileContent = "");
 		std::string readAllFile(const std::string& fileLoc);
+	}
+
+	namespace hash
+	{
+		std::string strToMD5(const std::string& str);
+		std::string fileToMD5(const std::string filePath);
+		std::string strToSHA256(const std::string& str);
+		std::string fileToSHA256(const std::string& filePath);
+		std::string strToSHA512(const std::string& str);
+		std::string fileToSHA512(const std::string& filePath);
 	}
 
 	namespace communication
