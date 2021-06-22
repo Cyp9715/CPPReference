@@ -11,8 +11,10 @@ any comments on the source code are welcome.
 
 # 1. License
 
-![WTFPL](https://i.imgur.com/nAsQFRo.png)
-DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+![WTFPL](https://i.imgur.com/nAsQFRo.png) 
+
+<h3 align="center">DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE</h1>
+
 
 # 2. Environment
 
