@@ -29,3 +29,13 @@ I prefer to use the latest version whenever possible.
 whenever windows OS, C++, visual studio... or etc are officially updated. 
 
 I will check the compatibility of those repositorie and update.
+
+# 3. caution
+
+this code was created without thinking of continuous calls.
+
+for this reason, some functions require modifications when used for the following purposes.
+
+1. When analyzing large amounts of data.
+
+    The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
