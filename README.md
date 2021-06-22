@@ -19,7 +19,7 @@ However, additional libraries are installed.
 
 Please check the libraries below, as they are licensed individually.
 
-- [crypropp 8.5](https://github.com/weidai11/cryptopp)
+- [crypropp 8.5.0](https://github.com/weidai11/cryptopp)
 
 # 2. Environment
 
