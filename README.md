@@ -26,9 +26,9 @@ Please check the libraries below, as they are licensed individually.
 
 OS : Windows 10
 
-Complier : C++17
+Complier : C++17 / x64
 
-Visual Studio Version : 2019
+Visual Studio : 2019
 
 
 I prefer to use the latest version.
