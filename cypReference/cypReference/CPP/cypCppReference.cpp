@@ -4,9 +4,9 @@ namespace cyp
 {
 	namespace string
 	{
-		bool isContain(const std::string& input_, const std::string& find_)
+		bool isContain(const std::string& input, const std::string& find)
 		{
-			if (input_.find(find_) == std::string::npos)
+			if (input.find(find) == std::string::npos)
 			{
 				return false;
 			}
@@ -16,9 +16,9 @@ namespace cyp
 			}
 		}
 
-		void changeStr(std::string& str_, const std::string& find_, const std::string& change)
+		void changeStr(std::string& str, const std::string& find, const std::string& change)
 		{
-			size_t ui_num = str_.find(find_);
+			size_t ui_num = str.find(find);
 
 			while (true)
 			{
@@ -28,18 +28,18 @@ namespace cyp
 				}
 				else
 				{
-					str_.erase(ui_num, find_.size());
-					str_.insert(ui_num, change);
+					str.erase(ui_num, find.size());
+					str.insert(ui_num, change);
 				}
-				ui_num = str_.find(find_, change.size());
+				ui_num = str.find(find, change.size());
 			}
 		}
 
-		bool isAlphabet(const std::string& str_)
+		bool isAlphabet(const std::string& str)
 		{
-			for (size_t i = 0; i < str_.size(); ++i)
+			for (size_t i = 0; i < str.size(); ++i)
 			{
-				if ((str_[i] >= 97 && 122 >= str_[i]) || (str_[i] >= 65 && 90 >= str_[i]))
+				if ((str[i] >= 97 && 122 >= str[i]) || (str[i] >= 65 && 90 >= str[i]))
 				{
 					continue;
 				}
@@ -51,10 +51,33 @@ namespace cyp
 			return true;
 		}
 
-		bool isNumber(const std::string& str_)
+		bool isNumber(const std::string& str)
 		{
-			return !str_.empty() && std::find_if(str_.begin(), str_.end(),
-				[](unsigned char c) { return !std::isdigit(c); }) == str_.end();
+			return !str.empty() && std::find_if(str.begin(), str.end(),
+				[](unsigned char c) { return !std::isdigit(c); }) == str.end();
+		}
+
+		std::string removeExtension(const std::string& fileName, bool removeMultiExtension)
+		{
+			std::string temp_ = fileName;
+			auto point = temp_.find('.');
+
+			if (point == std::string::npos)
+			{
+				return "cyp::string::removeExtension() no exist extension point '.'";
+			}
+
+			if (removeMultiExtension)
+			{
+				temp_.erase(point);
+			}
+			else
+			{
+				auto rpoint = temp_.rfind('.');
+				temp_.erase(rpoint);
+			}
+
+			return temp_;
 		}
 
 	}
@@ -62,9 +85,9 @@ namespace cyp
 	namespace vector
 	{
 		template<typename T>
-		bool isContain(const std::vector<T>& v_input, const T find_)
+		bool isContain(const std::vector<T>& v_input, const T find)
 		{
-			if (std::find(v_input.begin(), v_input.end(), find_) != v_input.end())
+			if (std::find(v_input.begin(), v_input.end(), find) != v_input.end())
 			{
 				return true;
 			}
@@ -77,26 +100,26 @@ namespace cyp
 
 	namespace file
 	{
-		bool deleteFile(const std::string& fileLoc_)
+		bool deleteFile(const std::string& fileLoc)
 		{
-			return std::filesystem::remove(fileLoc_) ? true : false;
+			return std::filesystem::remove(fileLoc) ? true : false;
 		}
 
-		bool createDirectory(const std::string& directoryLoc_)
+		bool createDirectory(const std::string& directoryLoc)
 		{
-			return std::filesystem::create_directory(directoryLoc_) ? true : false;
+			return std::filesystem::create_directory(directoryLoc) ? true : false;
 		}
 
-		void createFile(const std::string& fileLoc_, const std::string& fileContent_)
+		void createFile(const std::string& fileLoc, const std::string& fileContent)
 		{
-			std::ofstream file(fileLoc_);
-			file << fileContent_;
+			std::ofstream file(fileLoc);
+			file << fileContent;
 			file.close();
 		}
 
-		std::string readAllFile(const std::string& fileLoc_)
+		std::string readAllFile(const std::string& fileLoc)
 		{
-			std::ifstream file(fileLoc_);
+			std::ifstream file(fileLoc);
 			std::string buffer = "";
 
 			if (file.is_open()) {
@@ -131,7 +154,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void tcp::openServer(const int port_)
+		void tcp::openServer(const int port)
 		{
 			listenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -146,7 +169,7 @@ namespace cyp
 			int addrSize = sizeof(addrClient);
 
 			addrServer.sin_family = AF_INET;
-			addrServer.sin_port = htons(port_);
+			addrServer.sin_port = htons(port);
 			addrServer.sin_addr.s_addr = htonl(INADDR_ANY);
 
 			if (bind(listenSocket, (SOCKADDR*)&addrServer, sizeof(addrServer)) == BIND_ERROR)
@@ -169,7 +192,7 @@ namespace cyp
 			closesocket(listenSocket);
 		}
 
-		void tcp::openClient(const std::string& serverIp_, const int port_)
+		void tcp::openClient(const std::string& serverIp, const int port)
 		{
 			clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -182,8 +205,8 @@ namespace cyp
 			ZeroMemory(&addrServer, sizeof(addrServer));
 
 			addrServer.sin_family = PF_INET;
-			addrServer.sin_port = htons(port_);
-			if (inet_pton(PF_INET, serverIp_.data(), &(addrServer.sin_addr.s_addr)) != INET_PTON_SUCCESS)
+			addrServer.sin_port = htons(port);
+			if (inet_pton(PF_INET, serverIp.data(), &(addrServer.sin_addr.s_addr)) != INET_PTON_SUCCESS)
 			{
 				throw "error : can't inet_pton init";
 			}
@@ -218,17 +241,17 @@ namespace cyp
 			return buffer;
 		}
 
-		void tcp::sendServerToClient(const std::string& message_)
+		void tcp::sendServerToClient(const std::string& message)
 		{
-			if (send(serverSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
+			if (send(serverSocket, message.data(), static_cast<int>(message.length()), 0) == SOCKET_ERROR)
 			{
 				throw "error : server error send";
 			}			
 		}
 
-		void tcp::sendClientToServer(const std::string& message_)
+		void tcp::sendClientToServer(const std::string& message)
 		{
-			if (send(clientSocket, message_.data(), static_cast<int>(message_.length()), 0) == SOCKET_ERROR)
+			if (send(clientSocket, message.data(), static_cast<int>(message.length()), 0) == SOCKET_ERROR)
 			{
 				throw "error : client error send";
 			}
@@ -251,7 +274,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void udp::open(const std::string& ip_, const int port_)
+		void udp::open(const std::string& ip, const int port)
 		{
 			sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 			recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -263,13 +286,13 @@ namespace cyp
 
 			// recv
 			sendAddr.sin_family = PF_INET;
-			sendAddr.sin_port = htons(port_);
+			sendAddr.sin_port = htons(port);
 			sendAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 			
 			// send
 			recvAddr.sin_family = PF_INET;
-			recvAddr.sin_port = htons(port_);
-			if (inet_pton(PF_INET, ip_.data(), &recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
+			recvAddr.sin_port = htons(port);
+			if (inet_pton(PF_INET, ip.data(), &recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
 			{
 				throw "error : can't inet_pton init";
 			}
@@ -280,9 +303,9 @@ namespace cyp
 			}
 		}
 
-		bool udp::send(const std::string& message_)
+		bool udp::send(const std::string& message)
 		{
-			if (sendto(sendSocket, message_.data(), static_cast<int>(message_.length()), 0, 
+			if (sendto(sendSocket, message.data(), static_cast<int>(message.length()), 0, 
 								(struct sockaddr*)&recvAddr, sizeof(recvAddr)) == SOCKET_ERROR)
 			{
 				return false;

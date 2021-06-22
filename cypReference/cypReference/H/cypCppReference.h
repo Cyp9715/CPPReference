@@ -19,27 +19,28 @@ namespace cyp
 {
 	namespace string
 	{
-		static bool isAlphabet(const std::string& str_);
-		static bool isContain(const std::string& original, const std::string& find_);
-		static void changeStr(std::string& str_, const std::string& find_, const std::string& change);
-		static bool isNumber(const std::string& str_);
+		bool isAlphabet(const std::string& str);
+		bool isContain(const std::string& original, const std::string& find);
+		void changeStr(std::string& str, const std::string& find, const std::string& change);
+		bool isNumber(const std::string& str);
+		
+		std::string removeExtension(const std::string& fileName, bool removeMultiExtension = false);
 	};
 
 	namespace vector
 	{
 		template<typename T>
-		static bool isContain(const std::vector<T>& v_input, const T find_);
+		bool isContain(const std::vector<T>& v_input, const T find);
 	};
 
 	namespace file
 	{
-		static bool deleteFile(const std::string& fileLoc_);
-		static bool createDirectory(const std::string& directoryLoc_);
-		static void createFile(const std::string& fileLoc_, const std::string& fileContent_ = "");
-		static std::string readAllFile(const std::string& fileLoc_);
+		bool deleteFile(const std::string& fileLoc);
+		bool createDirectory(const std::string& directoryLoc);
+		void createFile(const std::string& fileLoc, const std::string& fileContent = "");
+		std::string readAllFile(const std::string& fileLoc);
 	}
 
-	// windows
 	namespace communication
 	{
 		enum error
@@ -62,11 +63,11 @@ namespace cyp
 			tcp();
 			~tcp();
 
-			void openServer(const int port_);
-			void openClient(const std::string& serverIp_, const int port_);
+			void openServer(const int port);
+			void openClient(const std::string& serverIp, const int port);
 
-			void sendServerToClient(const std::string& message_);
-			void sendClientToServer(const std::string& message_);
+			void sendServerToClient(const std::string& message);
+			void sendClientToServer(const std::string& message);
 
 			std::string serverReceive();
 			std::string clientReceive();
@@ -89,9 +90,9 @@ namespace cyp
 			udp();
 			~udp();
 
-			void open(const std::string& ip_, const int port_);
+			void open(const std::string& ip, const int port);
 
-			bool send(const std::string& message_);
+			bool send(const std::string& message);
 			std::string receive();
 		};
 	}
