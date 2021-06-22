@@ -15,6 +15,11 @@ any comments on the source code are welcome.
 
 <h3 align="center">DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE</h1>
 
+However, additional libraries are installed.
+
+Please check the libraries below, as they are licensed individually.
+
+- [crypropp 8.5](https://github.com/weidai11/cryptopp)
 
 # 2. Environment
 
@@ -40,4 +45,4 @@ for this reason, some functions require modifications when used for the followin
 
 1. When analyzing large amounts of data.
 
-    The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
+1) The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
