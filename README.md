@@ -1,7 +1,5 @@
 # CPPReference
 
-this repository is personal.
-
 C++ libraries are complex, fragmented, and hard to find well abstracted libraries.
 
 my personal library is easy to use.(especially useful for beginner)
