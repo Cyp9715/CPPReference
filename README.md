@@ -35,7 +35,7 @@ whenever windows OS, C++, visual studio... or etc are officially updated.
 
 I will check the compatibility and update repositories
 
-# 3. caution
+# 3. Caution
 
 this code was created without thinking of continuous calls.
 
