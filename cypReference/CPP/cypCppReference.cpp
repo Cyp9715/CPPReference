@@ -154,7 +154,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void tcp::openServer(const int port)
+		void tcp::openServer(const u_short port)
 		{
 			listenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -192,7 +192,7 @@ namespace cyp
 			closesocket(listenSocket);
 		}
 
-		void tcp::openClient(const std::string& serverIp, const int port)
+		void tcp::openClient(const std::string& serverIp, const u_short port)
 		{
 			clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -274,7 +274,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void udp::open(const std::string& ip, const int port)
+		void udp::open(const std::string& ip, const u_short port)
 		{
 			sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 			recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -328,6 +328,8 @@ namespace cyp
 	{
 		std::string strToMD5(const std::string& str)
 		{
+
+
 			return std::string();
 		}
 

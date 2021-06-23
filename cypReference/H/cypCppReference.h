@@ -15,6 +15,15 @@
 #include <WS2tcpip.h>
 #pragma comment(lib, "ws2_32")
 
+// hash
+#include "cryptopp/cryptlib.h"
+#include "cryptopp/channels.h"
+#include "cryptopp/filters.h"
+#include "cryptopp/files.h"
+#include "cryptopp/sha.h"
+#include "cryptopp/crc.h"
+#include "cryptopp/hex.h"
+
 namespace cyp
 {
 	namespace string
@@ -74,8 +83,8 @@ namespace cyp
 			tcp();
 			~tcp();
 
-			void openServer(const int port);
-			void openClient(const std::string& serverIp, const int port);
+			void openServer(const u_short port);
+			void openClient(const std::string& serverIp, const u_short port);
 
 			void sendServerToClient(const std::string& message);
 			void sendClientToServer(const std::string& message);
@@ -101,7 +110,7 @@ namespace cyp
 			udp();
 			~udp();
 
-			void open(const std::string& ip, const int port);
+			void open(const std::string& ip, const u_short port);
 
 			bool send(const std::string& message);
 			std::string receive();
