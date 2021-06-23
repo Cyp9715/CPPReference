@@ -17,7 +17,7 @@ However, additional libraries have been installed.
 
 Please check the libraries below, as they are licensed individually.
 
-- [Cryptopp 8.5.0](https://github.com/weidai11/cryptopp)
+- [Cryptopp 8.5.0](https://github.com/weidai11/cryptopp) (need improvement.)
 
 # 2. Environment
 
@@ -26,7 +26,7 @@ OS : Windows 10
 
 Complier : C++17 / x64
 
-Visual Studio : 2019
+Visual Studio : 2019 / MTd
 
 
 I prefer to use the latest version.
@@ -43,4 +43,4 @@ for this reason, some functions require modifications when used for the followin
 
 1. When analyzing large amounts of data.
 
-1) The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
+    The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
