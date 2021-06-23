@@ -1,5 +1,14 @@
 #pragma once
 
+// hash
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
+#include "cryptopp/cryptlib.h"
+#include "cryptopp/sha.h"
+#include "cryptopp/sha3.h"
+#include "cryptopp/md5.h"
+#include "cryptopp/hex.h"
+#include "cryptopp/files.h"
+
 // string
 #include <string>
 
@@ -15,14 +24,6 @@
 #include <WS2tcpip.h>
 #pragma comment(lib, "ws2_32")
 
-// hash
-#include "cryptopp/cryptlib.h"
-#include "cryptopp/channels.h"
-#include "cryptopp/filters.h"
-#include "cryptopp/files.h"
-#include "cryptopp/sha.h"
-#include "cryptopp/crc.h"
-#include "cryptopp/hex.h"
 
 namespace cyp
 {
@@ -53,12 +54,45 @@ namespace cyp
 
 	namespace hash
 	{
-		std::string strToMD5(const std::string& str);
-		std::string fileToMD5(const std::string filePath);
-		std::string strToSHA256(const std::string& str);
-		std::string fileToSHA256(const std::string& filePath);
-		std::string strToSHA512(const std::string& str);
-		std::string fileToSHA512(const std::string& filePath);
+		// The MD algorithm is not secure.
+		class MD
+		{	
+		public:
+			/* MD5 */
+			std::string strToMD5(const std::string& str);
+			std::string fileToMD5(const std::string filePath);
+		};
+
+		// The SHA1 algorithm is not secure.
+		class SHA
+		{
+			// will use it later to improve the logic.
+			enum SHA_TYPE
+			{
+				SHA1,
+				SHA2_256,
+				SHA2_512,
+				SHA3_256,
+				SHA3_512
+			};
+
+		public:
+			/* SHA1 */
+			std::string strToSHA1(const std::string& str);
+			std::string fileToSHA1(const std::string& filePath);
+			
+			/* SHA2 */
+			std::string strToSHA2_256(const std::string& str);
+			std::string fileToSHA2_256(const std::string& filePath);
+			std::string strToSHA2_512(const std::string& str);
+			std::string fileToSHA2_512(const std::string& filePath);
+
+			/* SHA3 */
+			std::string strToSHA3_256(const std::string& str);
+			std::string fileToSHA3_256(const std::string& filePath);
+			std::string strToSHA3_512(const std::string& str);
+			std::string fileToSHA3_512(const std::string& filePath);
+		};
 	}
 
 	namespace communication

@@ -1,9 +1,9 @@
 ﻿#include "cypCppReference.h"
-#include <iostream>
 
-int main()
+int main() 
 {
-	std::cout << cyp::string::removeExtension("asd.sd.kk", true);
+	cyp::hash::SHA sha;
+	cyp::hash::MD md;
 
-    return 0;
+	std::cout << md.fileToMD5("C:\\Users\\Cyp\\Desktop\\openCV_고기동.cs");
 }
