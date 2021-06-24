@@ -57,6 +57,30 @@ namespace cyp
 				[](unsigned char c) { return !std::isdigit(c); }) == str.end();
 		}
 
+		void toLower(std::string& str)
+		{
+			std::transform(str.begin(), str.end(), str.begin(),	[](unsigned char c) { return std::tolower(c); });
+		}
+
+		void toUpper(std::string& str)
+		{
+			std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return std::toupper(c); });
+		}
+
+		void removeContinuousChar(std::string& str, char target)
+		{
+			for (int i = 0; i < str.length() - 1; ++i)
+			{
+				if (str[i] == target && str[i+1] == target)
+				{
+					str.erase(i, 1);
+					--i;
+				}
+			}
+
+			return str;
+		}
+
 		std::string removeExtension(const std::string& fileName, bool removeMultiExtension)
 		{
 			std::string temp_ = fileName;
