@@ -77,8 +77,6 @@ namespace cyp
 					--i;
 				}
 			}
-
-			return str;
 		}
 
 		std::string removeExtension(const std::string& fileName, bool removeMultiExtension)
