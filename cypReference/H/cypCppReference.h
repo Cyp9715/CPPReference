@@ -71,16 +71,6 @@ namespace cyp
 		// The SHA1 algorithm is not secure.
 		class SHA
 		{
-			// will use it later to improve the logic.
-			enum SHA_TYPE
-			{
-				SHA1,
-				SHA2_256,
-				SHA2_512,
-				SHA3_256,
-				SHA3_512
-			};
-
 		public:
 			/* SHA1 */
 			std::string strToSHA1(const std::string& str);
@@ -98,6 +88,13 @@ namespace cyp
 			std::string strToSHA3_512(const std::string& str);
 			std::string fileToSHA3_512(const std::string& filePath);
 		};
+	}
+
+	namespace command
+	{
+		void systemCmd(const std::string& commad);
+		void popenCmd(const std::string& command);
+		std::string getStrPopenCmd(const std::string& command);
 	}
 
 	namespace communication
