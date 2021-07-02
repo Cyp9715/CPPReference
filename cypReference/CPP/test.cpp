@@ -2,5 +2,5 @@
 
 int main() 
 {
-	cyp::command::systemCmd("ipconfig");
+	cyp::command::systemCmd("ls");
 }

@@ -505,8 +505,7 @@ namespace cyp
 	{
 		void systemCmd(const std::string& command)
 		{
-			int result = system(command.c_str());
-			if (result == 0 || result == 127 || result == -1) throw std::runtime_error("system() failed");
+			system(command.c_str());
 		}
 
 		void popenCmd(const std::string& command)
