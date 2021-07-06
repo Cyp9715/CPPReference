@@ -135,11 +135,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\cypCppReference.cpp" />
     <ClCompile Include="CPP\test.cpp" />
+    <ClCompile Include="cyp_command.cpp" />
+    <ClCompile Include="cyp_communication.cpp" />
+    <ClCompile Include="cyp_file.cpp" />
+    <ClCompile Include="cyp_hash.cpp" />
+    <ClCompile Include="cyp_string.cpp" />
+    <ClCompile Include="cyp_vector.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="H\cypCppReference.h" />
+    <ClInclude Include="cyp_common.hpp" />
+    <ClInclude Include="cyp_file.hpp" />
+    <ClInclude Include="cyp_hash.hpp" />
+    <ClInclude Include="cyp_string.hpp" />
+    <ClInclude Include="cyp_vector.hpp" />
+    <ClInclude Include="cyp_command.hpp" />
+    <ClInclude Include="cyp_communication.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
