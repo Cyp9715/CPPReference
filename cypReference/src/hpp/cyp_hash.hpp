@@ -12,6 +12,8 @@ namespace cyp
 {
 	namespace hash
 	{
+		std::string errorType(CryptoPP::Exception::ErrorType exception);
+
 		// The MD algorithm is not secure.
 		class MD
 		{

@@ -15,48 +15,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPP\test.cpp">
+    <ClCompile Include="src\cpp\cyp_command.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cyp_string.cpp">
+    <ClCompile Include="src\cpp\cyp_communication.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cyp_vector.cpp">
+    <ClCompile Include="src\cpp\cyp_file.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cyp_file.cpp">
+    <ClCompile Include="src\cpp\cyp_hash.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cyp_communication.cpp">
+    <ClCompile Include="src\cpp\cyp_string.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cyp_hash.cpp">
+    <ClCompile Include="src\cpp\cyp_vector.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cyp_command.cpp">
+    <ClCompile Include="src\cpp\test.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cyp_command.hpp">
+    <ClInclude Include="src\hpp\cyp_command.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cyp_communication.hpp">
+    <ClInclude Include="src\hpp\cyp_common.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cyp_file.hpp">
+    <ClInclude Include="src\hpp\cyp_communication.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cyp_hash.hpp">
+    <ClInclude Include="src\hpp\cyp_file.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cyp_string.hpp">
+    <ClInclude Include="src\hpp\cyp_hash.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cyp_vector.hpp">
+    <ClInclude Include="src\hpp\cyp_string.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="cyp_common.hpp">
+    <ClInclude Include="src\hpp\cyp_vector.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
