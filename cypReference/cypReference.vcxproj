@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\cpp\cyp_command.cpp" />
     <ClCompile Include="src\cpp\cyp_communication.cpp" />
+    <ClCompile Include="src\cpp\cyp_encrypt.cpp" />
     <ClCompile Include="src\cpp\cyp_file.cpp" />
     <ClCompile Include="src\cpp\cyp_hash.cpp" />
     <ClCompile Include="src\cpp\cyp_string.cpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="src\hpp\cyp_command.hpp" />
     <ClInclude Include="src\hpp\cyp_common.hpp" />
     <ClInclude Include="src\hpp\cyp_communication.hpp" />
+    <ClInclude Include="src\hpp\cyp_encrypt.hpp" />
     <ClInclude Include="src\hpp\cyp_file.hpp" />
     <ClInclude Include="src\hpp\cyp_hash.hpp" />
     <ClInclude Include="src\hpp\cyp_string.hpp" />

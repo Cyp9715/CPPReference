@@ -15,7 +15,7 @@ namespace cyp
 		std::string errorType(CryptoPP::Exception::ErrorType exception);
 
 		// The MD algorithm is not secure.
-		class MD
+		class Md
 		{
 		public:
 			/* MD5 */
@@ -24,7 +24,7 @@ namespace cyp
 		};
 
 		// The SHA1 algorithm is not secure.
-		class SHA
+		class Sha
 		{
 		public:
 			/* SHA1 */

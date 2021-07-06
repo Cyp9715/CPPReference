@@ -16,7 +16,7 @@ namespace cyp
 			INET_PTON_SUCCESS = 1
 		};
 
-		class tcp
+		class Tcp
 		{
 		private:
 			WSADATA wsaData;
@@ -26,8 +26,8 @@ namespace cyp
 			SOCKET clientSocket = INVALID_SOCKET;
 
 		public:
-			tcp();
-			~tcp();
+			Tcp();
+			~Tcp();
 
 			void openServer(const u_short port);
 			void openClient(const std::string& serverIp, const u_short port);
@@ -39,7 +39,7 @@ namespace cyp
 			std::string clientReceive();
 		};
 
-		class udp
+		class Udp
 		{
 		private:
 			WSADATA wsaData;
@@ -53,8 +53,8 @@ namespace cyp
 			int dummyAddrSize = 0;
 
 		public:
-			udp();
-			~udp();
+			Udp();
+			~Udp();
 
 			void open(const std::string& ip, const u_short port);
 
