@@ -7,6 +7,6 @@ int main()
 	cyp::communication::Tcp tcp;
 	cyp::encrypt::Aes aes;
 
-	cyp::hash::Sha sha;
-	sha.strToSHA2_512("123213");
+	auto a = aes.cbcEncrypt("KIM");
+	aes.cbcDecrypt(std::get<0>(a), std::get<1>(a), std::get<2>(a));
 }

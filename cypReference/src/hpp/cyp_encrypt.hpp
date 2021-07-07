@@ -7,10 +7,9 @@
 #include "cryptopp/osrng.h"
 #include "cryptopp/hex.h"
 
-#include <iostream>
-#include <string>
+#include "cyp_common.hpp"
 
-
+#include <tuple>
 
 namespace cyp
 {
@@ -18,8 +17,12 @@ namespace cyp
 	{
 		class Aes
 		{
+		private:
+
 		public:
 			Aes();
+			std::tuple<std::string, std::string, std::string> cbcEncrypt(const std::string& plainText);
+			std::string cbcDecrypt(const std::string& key, const std::string& iv, const std::string& cipherText);
 		};
 
 		class Rsa

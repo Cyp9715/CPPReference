@@ -4,84 +4,71 @@ namespace cyp
 {
 	namespace encrypt
 	{
-        // example code, need analysis.
+		// example code, need analysis.
 		Aes::Aes()
 		{
-            using namespace CryptoPP;
 
-            AutoSeededRandomPool prng;
-            HexEncoder encoder(new FileSink(std::cout));
+		}
 
-            SecByteBlock key(AES::DEFAULT_KEYLENGTH);
-            SecByteBlock iv(AES::BLOCKSIZE);
+		std::tuple<std::string, std::string, std::string> Aes::cbcEncrypt(const std::string& plainText)
+		{
+			std::string cipher;
+			std::string output_cipher, output_iv, output_key;
 
-            prng.GenerateBlock(key, key.size());
-            prng.GenerateBlock(iv, iv.size());
+			CryptoPP::AutoSeededRandomPool prng;
 
-            std::string plain = "CBC Mode Test";
-            std::string cipher, recovered;
+			CryptoPP::byte key[CryptoPP::AES::DEFAULT_KEYLENGTH];
+			prng.GenerateBlock(key, sizeof(key));
 
-            std::cout << "plain text: " << plain << std::endl;
+			CryptoPP::byte iv[CryptoPP::AES::BLOCKSIZE];
+			prng.GenerateBlock(iv, sizeof(iv));
 
-            /*********************************\
-            \*********************************/
+			CryptoPP::StringSource(key, sizeof(key), true,
+				new CryptoPP::HexEncoder(
+					new CryptoPP::StringSink(output_key)
+				)
+			);
 
-            try
-            {
-                CBC_Mode< AES >::Encryption e;
-                e.SetKeyWithIV(key, key.size(), iv);
+			CryptoPP::StringSource(iv, sizeof(iv), true,
+				new CryptoPP::HexEncoder(
+					new CryptoPP::StringSink(output_iv)
+				)
+			);
 
-                StringSource s(plain, true,
-                    new StreamTransformationFilter(e,
-                        new StringSink(cipher)
-                    ) // StreamTransformationFilter
-                ); // StringSource
-            }
-            catch (const Exception& e)
-            {
-                std::cerr << e.what() << std::endl;
-                exit(1);
-            }
+			try
+			{
+				CryptoPP::CBC_Mode< CryptoPP::AES >::Encryption e;
+				e.SetKeyWithIV(key, sizeof(key), iv);
 
-            /*********************************\
-            \*********************************/
+				CryptoPP::StringSource s(plainText, true,
+					new CryptoPP::StreamTransformationFilter(e,
+						new CryptoPP::StringSink(cipher)
+					)
+				);
+			}
+			catch (const CryptoPP::Exception& e)
+			{
+				std::cerr << e.what() << std::endl;
+				exit(1);
+			}
 
-            std::cout << "key: ";
-            encoder.Put(key, key.size());
-            encoder.MessageEnd();
-            std::cout << std::endl;
 
-            std::cout << "iv: ";
-            encoder.Put(iv, iv.size());
-            encoder.MessageEnd();
-            std::cout << std::endl;
+			CryptoPP::StringSource(cipher, true,
+				new CryptoPP::HexEncoder(
+					new CryptoPP::StringSink(output_cipher)
+				)
+			);
 
-            std::cout << "cipher text: ";
-            encoder.Put((const byte*)&cipher[0], cipher.size());
-            encoder.MessageEnd();
-            std::cout << std::endl;
+			std::tuple<std::string, std::string, std::string> output = std::make_tuple(output_key, output_iv, output_cipher);
 
-            /*********************************\
-            \*********************************/
+			return output;
+		}
 
-            try
-            {
-                CBC_Mode< AES >::Decryption d;
-                d.SetKeyWithIV(key, key.size(), iv);
 
-                StringSource s(cipher, true,
-                    new StreamTransformationFilter(d,
-                        new StringSink(recovered)
-                    ) // StreamTransformationFilter
-                ); // StringSource
+		std::string Aes::cbcDecrypt(const std::string& keyText, const std::string& ivText, const std::string& cipherText)
+		{
 
-                std::cout << "recovered text: " << recovered << std::endl;
-            }
-            catch (const Exception& e)
-            {
-                std::cerr << e.what() << std::endl;
-                exit(1);
-            }
+			return std::string();
 		}
 	}
 }
