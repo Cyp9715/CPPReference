@@ -24,6 +24,7 @@ namespace cyp
 		};
 
 		// The SHA1 algorithm is not secure.
+		// The name of the sha format is subtle. I declared all intuitively, without using the template.
 		class Sha
 		{
 		public:
