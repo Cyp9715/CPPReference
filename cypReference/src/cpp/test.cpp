@@ -9,4 +9,7 @@ int main()
 
 	auto a = aes.cbcEncrypt("KIM");
 	aes.cbcDecrypt(std::get<0>(a), std::get<1>(a), std::get<2>(a));
+
+	cyp::hash::Sha sha;
+	std::cout << sha.fileToSHA2_256("C:\\Users\\Cyp\\Desktop\\openCV_고기동.cs");
 }
