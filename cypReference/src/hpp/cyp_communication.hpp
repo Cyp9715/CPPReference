@@ -19,11 +19,11 @@ namespace cyp
 		class Tcp
 		{
 		private:
-			WSADATA wsaData;
+			WSADATA _wsaData;
 
-			SOCKET listenSocket = INVALID_SOCKET;
-			SOCKET serverSocket = INVALID_SOCKET;
-			SOCKET clientSocket = INVALID_SOCKET;
+			SOCKET _listenSocket = INVALID_SOCKET;
+			SOCKET _serverSocket = INVALID_SOCKET;
+			SOCKET _clientSocket = INVALID_SOCKET;
 
 		public:
 			Tcp();
@@ -42,15 +42,15 @@ namespace cyp
 		class Udp
 		{
 		private:
-			WSADATA wsaData;
+			WSADATA _wsaData;
 
-			SOCKET sendSocket = INVALID_SOCKET;
-			SOCKET recvSocket = INVALID_SOCKET;
+			SOCKET _sendSocket = INVALID_SOCKET;
+			SOCKET _recvSocket = INVALID_SOCKET;
 
-			sockaddr_in recvAddr = { 0 };
-			sockaddr_in sendAddr = { 0 };
-			sockaddr_in dummyAddr = { 0 };
-			int dummyAddrSize = 0;
+			sockaddr_in _recvAddr = { 0 };
+			sockaddr_in _sendAddr = { 0 };
+			sockaddr_in _dummyAddr = { 0 };
+			int _dummyAddrSize = 0;
 
 		public:
 			Udp();

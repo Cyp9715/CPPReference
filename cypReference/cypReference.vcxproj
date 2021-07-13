@@ -26,7 +26,6 @@
     <ClCompile Include="src\cpp\cyp_hash.cpp" />
     <ClCompile Include="src\cpp\cyp_string.cpp" />
     <ClCompile Include="src\cpp\cyp_timer.cpp" />
-    <ClCompile Include="src\cpp\cyp_vector.cpp" />
     <ClCompile Include="src\cpp\test.cpp" />
   </ItemGroup>
   <ItemGroup>
