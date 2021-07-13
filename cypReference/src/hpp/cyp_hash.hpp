@@ -26,6 +26,8 @@ namespace cyp
 		// The name of the sha format is subtle. I declared all intuitively, without using the template.
 		class Sha
 		{
+			void strToSha();
+			void fileToSha();
 		public:
 			/* SHA1 */
 			std::string strToSHA1(const std::string& str);
