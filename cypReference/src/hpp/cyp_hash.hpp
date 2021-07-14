@@ -1,6 +1,5 @@
 #pragma once
 
-#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include "cryptopp/cryptlib.h"
 #include "cryptopp/sha.h"
 #include "cryptopp/sha3.h"
@@ -15,7 +14,7 @@ namespace cyp
 		std::string errorType(CryptoPP::Exception::ErrorType exception);
 
 		// The MD algorithm is not secure.
-		class MD
+		class Md
 		{
 		public:
 			/* MD5 */
@@ -24,7 +23,8 @@ namespace cyp
 		};
 
 		// The SHA1 algorithm is not secure.
-		class SHA
+		// The name of the sha format is subtle. I declared all intuitively, without using the template.
+		class Sha
 		{
 		public:
 			/* SHA1 */
@@ -42,6 +42,12 @@ namespace cyp
 			std::string fileToSHA3_256(const std::string& filePath);
 			std::string strToSHA3_512(const std::string& str);
 			std::string fileToSHA3_512(const std::string& filePath);
+
+			/* SHA */
+			template <typename T>
+			std::string strToSha(const std::string& str);
+			template <typename T>
+			std::string fileToSha(const std::string& filePath);
 		};
 	}
 

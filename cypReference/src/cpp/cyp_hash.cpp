@@ -4,7 +4,62 @@ namespace cyp
 {
 	namespace hash
 	{
-		std::string MD::strToMD5(const std::string& str)
+		template std::string Sha::strToSha<CryptoPP::SHA1>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA224>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA256>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA384>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA512>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA3_224>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA3_256>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA3_384>(const std::string& str);
+		template std::string Sha::strToSha<CryptoPP::SHA3_512>(const std::string& str);
+
+		template std::string Sha::fileToSha<CryptoPP::SHA1>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA224>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA256>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA384>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA512>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA3_224>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA3_256>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA3_384>(const std::string& str);
+		template std::string Sha::fileToSha<CryptoPP::SHA3_512>(const std::string& str);
+
+		template <typename T>
+		std::string Sha::strToSha(const std::string& str)
+		{
+			T hash;
+			std::string output;
+
+			CryptoPP::StringSource s(str, true, new CryptoPP::HashFilter(hash,
+				new CryptoPP::HexEncoder(new CryptoPP::StringSink(output))));
+
+			return output;
+		}
+
+		template <typename T>
+		std::string Sha::fileToSha(const std::string& filePath)
+		{
+			T hash;
+			std::string output;
+
+			try
+			{
+				CryptoPP::FileSource f(filePath.c_str(), true,
+					new CryptoPP::HashFilter(hash,
+						new CryptoPP::HexEncoder(new
+							CryptoPP::StringSink(output))));
+			}
+			catch (CryptoPP::FileStore::OpenErr const& e)
+			{
+				CryptoPP::Exception::ErrorType errorMsg = e.GetErrorType();
+				output = "Error : fileToSha() = " + errorType(errorMsg);
+				return output;
+			}
+
+			return output;
+		}
+
+		std::string Md::strToMD5(const std::string& str)
 		{
 			CryptoPP::byte digest[CryptoPP::Weak::MD5::DIGESTSIZE];
 
@@ -21,7 +76,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string MD::fileToMD5(const std::string filePath)
+		std::string Md::fileToMD5(const std::string filePath)
 		{
 			CryptoPP::Weak::MD5 md;
 			std::string output;
@@ -46,7 +101,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::strToSHA1(const std::string& str)
+		std::string Sha::strToSHA1(const std::string& str)
 		{
 			CryptoPP::SHA1 hash;
 			std::string output;
@@ -57,7 +112,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::fileToSHA1(const std::string& filePath)
+		std::string Sha::fileToSHA1(const std::string& filePath)
 		{
 			CryptoPP::SHA1 hash;
 			std::string output;
@@ -79,7 +134,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::strToSHA2_256(const std::string& str)
+		std::string Sha::strToSHA2_256(const std::string& str)
 		{
 			CryptoPP::SHA256 hash;
 			std::string output;
@@ -90,7 +145,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::fileToSHA2_256(const std::string& filePath)
+		std::string Sha::fileToSHA2_256(const std::string& filePath)
 		{
 			CryptoPP::SHA256 hash;
 			std::string output;
@@ -112,7 +167,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::strToSHA2_512(const std::string& str)
+		std::string Sha::strToSHA2_512(const std::string& str)
 		{
 			CryptoPP::SHA512 hash;
 			std::string output;
@@ -123,7 +178,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::fileToSHA2_512(const std::string& filePath)
+		std::string Sha::fileToSHA2_512(const std::string& filePath)
 		{
 			CryptoPP::SHA512 hash;
 			std::string output;
@@ -145,7 +200,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::strToSHA3_256(const std::string& str)
+		std::string Sha::strToSHA3_256(const std::string& str)
 		{
 			CryptoPP::SHA3_256 hash;
 			std::string output;
@@ -156,7 +211,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::fileToSHA3_256(const std::string& filePath)
+		std::string Sha::fileToSHA3_256(const std::string& filePath)
 		{
 			CryptoPP::SHA3_256 hash;
 			std::string output;
@@ -178,7 +233,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::strToSHA3_512(const std::string& str)
+		std::string Sha::strToSHA3_512(const std::string& str)
 		{
 			CryptoPP::SHA3_512 hash;
 			std::string output;
@@ -189,7 +244,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string SHA::fileToSHA3_512(const std::string& filePath)
+		std::string Sha::fileToSHA3_512(const std::string& filePath)
 		{
 			CryptoPP::SHA3_512 hash;
 			std::string output;
@@ -249,7 +304,6 @@ namespace cyp
 
 			return output;
 		}
-
 	}
 
 }

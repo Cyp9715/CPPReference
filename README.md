@@ -1,4 +1,4 @@
-# CPPReference
+# Cpp Reference
 
 C++ libraries are complex, fragmented, and hard to find well abstracted libraries.
 
@@ -17,7 +17,7 @@ However, additional libraries have been installed.
 
 Please check the libraries below, as they are licensed individually.
 
-- [Cryptopp 8.5.0](https://github.com/weidai11/cryptopp) (need improvement.)
+- [Cryptopp 8.5.0](https://github.com/weidai11/cryptopp)
 
 # 2. Environment
 
