@@ -42,6 +42,12 @@ namespace cyp
 			std::string fileToSHA3_256(const std::string& filePath);
 			std::string strToSHA3_512(const std::string& str);
 			std::string fileToSHA3_512(const std::string& filePath);
+
+			/* SHA */
+			template <typename T>
+			std::string strToSha(const std::string& str);
+			template <typename T>
+			std::string fileToSha(const std::string& filePath);
 		};
 	}
 
