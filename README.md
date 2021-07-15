@@ -35,7 +35,23 @@ whenever official versions of Windows OS, C++, Visual Studio, etc. are updated,
 
 I will check the compatibility and update repositories
 
-# 3. Caution
+# 3. Introduce namespaces
+- cyp::command
+    + You can use the command. Using commands and receiving command return values are concisely configured.
+- cyp::communication
+    + You can use Tcp, Udp communication.
+- cyp::encrypt
+    + It's not implemented properly yet.
+- cyp::file
+    + You can Create, delete, read, for files and folder.
+- cyp::hash
+    + You can create sha, md5 hash values for std::string and files.
+- cyp::string
+    + You can std::string is more comfortable.
+- cyp::timer
+    + You can use Timer and FpsCounter.
+
+# 4. Caution
 
 this code was created without thinking of continuous calls.
 
