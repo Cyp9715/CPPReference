@@ -9,17 +9,14 @@ int main()
 
     while (true)// your main loop. could also be the idle() function in glut or whatever
     {
+        counter.timeCountingStart();
+        //std::cout << counter.loopCounting() << std::endl;
+
         int sum = 10;
-        for (int i = 0; i < 2000000; ++i)
+        for (int i = 0; i < 20000000; ++i)
         {
-            sum += i;
-            sum -= i;         sum += i;
-            sum -= i;         sum += i;
-            sum -= i;         sum += i;
-            sum -= i;         sum += i;
-            sum -= i;
         }
         
-        std::cout << counter.loopCounting() << std::endl;
+        std::cout << counter.timeCountingEnd() << std::endl;
     }
 }

@@ -44,6 +44,7 @@ namespace cyp
 			return _simplefpsR;
 		}
 
+
 		void FpsCounter::timeCountingStart()
 		{
 			_start = std::chrono::system_clock::now();
@@ -53,7 +54,11 @@ namespace cyp
 		{
 			_end = std::chrono::system_clock::now();
 			std::chrono::milliseconds delta = std::chrono::duration_cast<std::chrono::milliseconds>(_end - _start);
-			return (MILISECOND / delta.count());
+			
+			if(delta.count() > 0)
+				return MILISECOND / delta.count();
+			
+			return 0;
 		}
 	}
 }
