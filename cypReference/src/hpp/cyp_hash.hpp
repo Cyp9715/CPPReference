@@ -27,22 +27,6 @@ namespace cyp
 		class Sha
 		{
 		public:
-			/* SHA1 */
-			std::string strToSHA1(const std::string& str);
-			std::string fileToSHA1(const std::string& filePath);
-
-			/* SHA2 */
-			std::string strToSHA2_256(const std::string& str);
-			std::string fileToSHA2_256(const std::string& filePath);
-			std::string strToSHA2_512(const std::string& str);
-			std::string fileToSHA2_512(const std::string& filePath);
-
-			/* SHA3 */
-			std::string strToSHA3_256(const std::string& str);
-			std::string fileToSHA3_256(const std::string& filePath);
-			std::string strToSHA3_512(const std::string& str);
-			std::string fileToSHA3_512(const std::string& filePath);
-
 			/* SHA */
 			template <typename T>
 			std::string strToSha(const std::string& str);

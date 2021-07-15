@@ -7,6 +7,12 @@ namespace cyp
 {
 	namespace vector
 	{
+		// declaration of template
+		template<typename T>
+		bool isContain(const std::vector<T>& v_input, const T find);
+	
+
+		// implementation of template
 		template<typename T>
 		bool isContain(const std::vector<T>& v_input, const T find)
 		{
@@ -19,5 +25,8 @@ namespace cyp
 				return false;
 			}
 		}
+		
 	};
+
+
 }
