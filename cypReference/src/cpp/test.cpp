@@ -4,7 +4,21 @@
 
 int main()
 {
-	cyp::hash::Sha sha;
-	std::cout << sha.strToSha<CryptoPP::SHA1>("123");
-	std::cout << sha.fileToSha<CryptoPP::SHA224>("123");
+	cyp::timer::FpsCounter counter;
+	
+	while (true)
+	{
+		int sum = 10;
+		for (int i = 0; i < 10000000; ++i)
+		{
+			sum *= i;
+			sum *= i;
+			sum *= i;
+			sum *= i;
+			sum *= i;
+			sum *= i;
+			sum *= i;
+		}
+		counter.counting();
+	}
 }

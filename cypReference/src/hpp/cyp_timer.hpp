@@ -22,6 +22,11 @@ namespace cyp
 
 		class FpsCounter
 		{
+		private:
+			int _fps;
+			std::chrono::time_point<std::chrono::steady_clock> _start;
+			std::chrono::system_clock::time_point _current;
+
 		public:
 			void init();
 			float counting();

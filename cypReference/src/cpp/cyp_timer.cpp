@@ -29,5 +29,24 @@ namespace cyp
 			T t = std::chrono::duration_cast<T>(_current - _start);
 			return t.count();
 		}
+
+		void FpsCounter::init()
+		{
+			_fps = 0;
+			_start = std::chrono::high_resolution_clock::now();
+		}
+
+		float FpsCounter::counting()
+		{
+			++_fps;
+			if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - _start) >= std::chrono::seconds{ 1 }) 
+			{
+				_start = std::chrono::high_resolution_clock::now();
+				std::cout << "FPS: " << _fps << std::endl;
+				_fps = 0;
+			}
+
+			return 0.0f;
+		}
 	}
 }
