@@ -32,25 +32,25 @@ namespace cyp
 
 		int FpsCounter::loopCounting()
 		{
-			++_simplefps;
-			if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _simpleStart) >= std::chrono::seconds(1))
+			++_tempFps;
+			if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _loopStart) >= std::chrono::seconds(1))
 			{
-				_simplefpsR = _simplefps;
-				_simplefps = 0;
-				_simpleStart = std::chrono::system_clock::now();
-				return _simplefpsR;
+				_loopFps = _tempFps;
+				_tempFps = 0;
+				_loopStart = std::chrono::system_clock::now();
+				return _loopFps;
 			} 
 			
-			return _simplefpsR;
+			return _loopFps;
 		}
 
 
-		void FpsCounter::timeCountingStart()
+		void FpsCounter::startTimeCounting()
 		{
 			_start = std::chrono::system_clock::now();
 		}
 
-		float FpsCounter::timeCountingEnd()
+		float FpsCounter::endTimeCounting()
 		{
 			_end = std::chrono::system_clock::now();
 			std::chrono::milliseconds delta = std::chrono::duration_cast<std::chrono::milliseconds>(_end - _start);

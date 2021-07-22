@@ -26,12 +26,11 @@ namespace cyp
 		private:
 			const float MILISECOND = 1000.0;
 
-			int _simplefps = 0;
-			int _simplefpsR = 0;
+			int _tempFps = 0;
+			int _loopFps = 0;
 			float _fps = 0;
 
-			std::chrono::system_clock::time_point _simpleStart;
-			std::chrono::system_clock::time_point _simpleCurrent;
+			std::chrono::system_clock::time_point _loopStart;
 
 			std::chrono::system_clock::time_point _start;
 			std::chrono::system_clock::time_point _end;
@@ -43,8 +42,8 @@ namespace cyp
 
 			// The Return criteria, number of times a second is divided by running time.
 			// i.e., can measure FPS indirectly even if not loop
-			void timeCountingStart();
-			float timeCountingEnd();
+			void startTimeCounting();
+			float endTimeCounting();
 		};
 	}
 }

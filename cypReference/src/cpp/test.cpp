@@ -7,16 +7,20 @@ int main()
 {
     cyp::timer::FpsCounter counter;
 
-    while (true)// your main loop. could also be the idle() function in glut or whatever
+    while (true)
     {
-        counter.timeCountingStart();
-        //std::cout << counter.loopCounting() << std::endl;
+        counter.startTimeCounting();
+
+        std::vector<int> v_int;
 
         int sum = 10;
-        for (int i = 0; i < 20000000; ++i)
+        for (int i = 0; i < 2000000; ++i)
         {
+            ++sum;
+            v_int.push_back(sum);
         }
         
-        std::cout << counter.timeCountingEnd() << std::endl;
+        //std::cout << counter.loopCounting() << std::endl;
+        std::cout << counter.endTimeCounting() << std::endl;
     }
 }
