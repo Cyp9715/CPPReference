@@ -24,6 +24,7 @@
     <ClCompile Include="src\cpp\cyp_encrypt.cpp" />
     <ClCompile Include="src\cpp\cyp_file.cpp" />
     <ClCompile Include="src\cpp\cyp_hash.cpp" />
+    <ClCompile Include="src\cpp\cyp_image.cpp" />
     <ClCompile Include="src\cpp\cyp_string.cpp" />
     <ClCompile Include="src\cpp\cyp_timer.cpp" />
     <ClCompile Include="src\cpp\test.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="src\hpp\cyp_encrypt.hpp" />
     <ClInclude Include="src\hpp\cyp_file.hpp" />
     <ClInclude Include="src\hpp\cyp_hash.hpp" />
+    <ClInclude Include="src\hpp\cyp_image.hpp" />
     <ClInclude Include="src\hpp\cyp_string.hpp" />
     <ClInclude Include="src\hpp\cyp_timer.hpp" />
     <ClInclude Include="src\hpp\cyp_vector.hpp" />
@@ -154,7 +156,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(ProjectDir)library\lib\static;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>cryptlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cryptlib.lib;Gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
