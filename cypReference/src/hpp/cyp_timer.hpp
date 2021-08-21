@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cyp_common.hpp"
+#include <math.h>
 #include <chrono>
 
 namespace cyp
@@ -23,27 +24,26 @@ namespace cyp
 		class FpsCounter
 		{
 		private:
-			const float MILISECOND = 1000;
+			const float MILISECOND = 1000.0;
 
-			int _simplefps = 0;
-			int _simplefpsR = 0;
+			int _tempFps = 0;
+			int _loopFps = 0;
 			float _fps = 0;
 
-			std::chrono::system_clock::time_point _simpleStart;
-			std::chrono::system_clock::time_point _simpleCurrent;
+			std::chrono::system_clock::time_point _loopStart;
 
 			std::chrono::system_clock::time_point _start;
 			std::chrono::system_clock::time_point _end;
 
 		public:
 			// The return criterion is how many loop statements were executed per second.
-			// i.e, only loop use.
+			// i.e, only use in loop.
 			int loopCounting();
 
 			// The Return criteria, number of times a second is divided by running time.
 			// i.e., can measure FPS indirectly even if not loop
-			void timeCountingStart();
-			float timeCountingEnd();
+			void startTimeCounting();
+			float endTimeCounting();
 		};
 	}
 }

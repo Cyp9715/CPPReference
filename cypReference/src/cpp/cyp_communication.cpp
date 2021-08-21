@@ -84,7 +84,7 @@ namespace cyp
 			}
 		}
 
-		std::string Tcp::serverReceive()
+		std::string Tcp::receiveServer()
 		{
 			char buffer[512];
 
@@ -96,7 +96,7 @@ namespace cyp
 			return buffer;
 		}
 
-		std::string Tcp::clientReceive()
+		std::string Tcp::receiveClient()
 		{
 			char buffer[512];
 

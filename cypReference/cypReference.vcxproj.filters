@@ -39,6 +39,9 @@
     <ClCompile Include="src\cpp\cyp_timer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\cyp_image.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\cyp_command.hpp">
@@ -66,6 +69,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="src\hpp\cyp_timer.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hpp\cyp_image.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

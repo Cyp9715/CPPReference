@@ -1,25 +1,8 @@
-﻿#include "cyp_timer.hpp"
-#include "cyp_vector.hpp"
-#include "cyp_hash.hpp"
-#include <future>
+﻿#include <cyp_image.hpp>
 
 int main()
 {
-    cyp::timer::FpsCounter counter;
-
-    while (true)// your main loop. could also be the idle() function in glut or whatever
-    {
-        int sum = 10;
-        for (int i = 0; i < 2000000; ++i)
-        {
-            sum += i;
-            sum -= i;         sum += i;
-            sum -= i;         sum += i;
-            sum -= i;         sum += i;
-            sum -= i;         sum += i;
-            sum -= i;
-        }
-        
-        std::cout << counter.loopCounting() << std::endl;
-    }
+	cyp::image::ScreenShot* sc = new cyp::image::ScreenShot();
+	std::string a = "C:\\Users\\Cyp\\Desktop\\test\\" + std::to_string(49) + ".png";
+	sc->capture(a, cyp::image::ScreenShot::imageType::bmp, 0, 0, 2560, 1440);
 }

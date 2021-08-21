@@ -35,8 +35,8 @@ namespace cyp
 			void sendServerToClient(const std::string& message);
 			void sendClientToServer(const std::string& message);
 
-			std::string serverReceive();
-			std::string clientReceive();
+			std::string receiveServer();
+			std::string receiveClient();
 		};
 
 		class Udp
