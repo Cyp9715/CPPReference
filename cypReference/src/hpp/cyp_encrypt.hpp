@@ -9,6 +9,8 @@
 
 #include "cyp_common.hpp"
 
+#pragma comment(lib, "cryptlib.lib")
+
 #include <tuple>
 
 namespace cyp

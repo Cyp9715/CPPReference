@@ -1,11 +1,14 @@
 #pragma once
 
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
+
 #include "cryptopp/cryptlib.h"
 #include "cryptopp/sha.h"
 #include "cryptopp/sha3.h"
 #include "cryptopp/md5.h"
 #include "cryptopp/hex.h"
 #include "cryptopp/files.h"
+
 
 namespace cyp
 {

@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include "gdiplus.h"
 
+#pragma comment(lib, "Gdiplus.lib")
+
 namespace cyp
 {
 	namespace image
