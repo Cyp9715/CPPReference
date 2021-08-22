@@ -50,7 +50,9 @@ I will check the compatibility and update repositories
     + You can std::string is more comfortable.
 - cyp::timer
     + You can use Timer and FpsCounter.
-
+- cyp::image
+    + At the moment, have a code that can capture images simply (BMP, PNG).
+   
 # 4. Caution
 
 this code was created without thinking of continuous calls.
