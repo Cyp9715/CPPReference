@@ -62,3 +62,15 @@ for this reason, some functions require modifications when used for the followin
 1. When analyzing large amounts of data.
 
     The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
+ 
+2. Avoid using static libraries.
+    The lib folder contains dynamic library folders, but will not contain any files.
+
+    I deliberately avoid using dll for stability.
+    This code has no binary purpose.
+    The purpose is to be built by implanting it into another code.
+
+    Therefore, using dynamic libraries faced a number of miscellaneous problems,
+    most of which were minorly different environments, making it impossible to build.
+
+    I think it may be a problem that I lack experience in, but the conclusion that I made at the moment is that I should avoid using dynamic libraries.
