@@ -59,10 +59,6 @@ namespace cyp
 				)
 			);
 
-
-
-			std::string recovered;
-
 			std::tuple<std::string, std::string, std::string> output = std::make_tuple(output_key, output_iv, output_cipher);
 
 			return output;
