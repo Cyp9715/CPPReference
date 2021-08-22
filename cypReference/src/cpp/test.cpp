@@ -1,8 +1,14 @@
-﻿#include <cyp_image.hpp>
+﻿#include <cyp_encrypt.hpp>
 
 int main()
 {
-	cyp::image::ScreenShot* sc = new cyp::image::ScreenShot();
-	std::string a = "C:\\Users\\Cyp\\Desktop\\test\\" + std::to_string(49) + ".png";
-	sc->capture(a, cyp::image::ScreenShot::imageType::bmp, 0, 0, 2560, 1440);
+	cyp::encrypt::Aes aes;
+	auto a = aes.cbcEncrypt("kim ouk ja");
+	std::cout << std::get<0>(a) << std::endl;
+	std::cout << std::get<1>(a) << std::endl;
+	std::cout << std::get<2>(a) << std::endl;
+
+	auto b = aes.cbcDecrypt(std::get<0>(a), std::get<1>(a), std::get<2>(a));
+	std::cout << b << std::endl;
+
 }

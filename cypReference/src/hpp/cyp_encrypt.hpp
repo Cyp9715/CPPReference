@@ -6,7 +6,6 @@
 #include "cryptopp/files.h"
 #include "cryptopp/osrng.h"
 #include "cryptopp/hex.h"
-
 #include "cyp_common.hpp"
 
 #pragma comment(lib, "cryptlib.lib")

@@ -59,6 +59,10 @@ namespace cyp
 				)
 			);
 
+
+
+			std::string recovered;
+
 			std::tuple<std::string, std::string, std::string> output = std::make_tuple(output_key, output_iv, output_cipher);
 
 			return output;
@@ -67,8 +71,55 @@ namespace cyp
 
 		std::string Aes::cbcDecrypt(const std::string& keyText, const std::string& ivText, const std::string& cipherText)
 		{
+			std::string keyHex;
+			std::string ivHex;
+			std::string cipherHex;
+			std::string plainText;
 
-			return std::string();
+
+			CryptoPP::StringSource(keyText, true,
+				new CryptoPP::HexDecoder(
+					new CryptoPP::StringSink(keyHex)
+				)
+			);
+
+			CryptoPP::StringSource(ivText, true,
+				new CryptoPP::HexDecoder(
+					new CryptoPP::StringSink(ivHex)
+				)
+			);
+
+			CryptoPP::StringSource(cipherText, true,
+				new CryptoPP::HexDecoder(
+					new CryptoPP::StringSink(cipherHex)
+				)
+			);
+
+			unsigned char tempKey[16];
+			unsigned char tempIv[16];
+			std::copy(keyHex.begin(), keyHex.end(), tempKey);
+			std::copy(ivHex.begin(), ivHex.end(), tempIv);
+
+			try
+			{
+				CryptoPP::CBC_Mode< CryptoPP::AES >::Decryption d;
+				d.SetKeyWithIV(tempKey, keyHex.size(), tempIv);
+
+				CryptoPP::StringSource s(cipherHex, true,
+					new CryptoPP::StreamTransformationFilter(d,
+						new CryptoPP::StringSink(plainText)
+					)
+				);
+
+				std::cout << "recovered text: " << plainText << std::endl;
+			}
+			catch (const CryptoPP::Exception& e)
+			{
+				std::cerr << e.what() << std::endl;
+				exit(1);
+			}
+
+			return plainText;
 		}
 	}
 }

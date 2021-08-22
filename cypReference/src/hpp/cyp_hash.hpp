@@ -8,7 +8,9 @@
 #include "cryptopp/md5.h"
 #include "cryptopp/hex.h"
 #include "cryptopp/files.h"
+#include "cyp_common.hpp"
 
+#pragma comment(lib, "cryptlib.lib")
 
 namespace cyp
 {
