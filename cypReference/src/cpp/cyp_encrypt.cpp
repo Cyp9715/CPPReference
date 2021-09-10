@@ -10,26 +10,26 @@ namespace cyp
 
 		}
 
-		std::tuple<std::string, std::string, std::string> Aes::cbcEncrypt(const std::string& plainText)
+		std::tuple<std::string, std::string, std::string> Aes::cbcEncrypt_hex256(const std::string& plainText)
 		{
 			std::string cipher;
 			std::string output_cipher, output_iv, output_key;
 
 			CryptoPP::AutoSeededRandomPool prng;
 
-			CryptoPP::byte key[CryptoPP::AES::DEFAULT_KEYLENGTH];
+			CryptoPP::byte key[16];
 			prng.GenerateBlock(key, sizeof(key));
 
-			CryptoPP::byte iv[CryptoPP::AES::BLOCKSIZE];
+			CryptoPP::byte iv[8];
 			prng.GenerateBlock(iv, sizeof(iv));
 
-			CryptoPP::StringSource(key, sizeof(key), true,
+			CryptoPP::StringSource ss_key(key, sizeof(key), true,
 				new CryptoPP::HexEncoder(
 					new CryptoPP::StringSink(output_key)
 				)
 			);
 
-			CryptoPP::StringSource(iv, sizeof(iv), true,
+			CryptoPP::StringSource ss_iv(iv, sizeof(iv), true,
 				new CryptoPP::HexEncoder(
 					new CryptoPP::StringSink(output_iv)
 				)
@@ -37,7 +37,7 @@ namespace cyp
 
 			try
 			{
-				CryptoPP::CBC_Mode< CryptoPP::AES >::Encryption e;
+				CryptoPP::CBC_Mode<CryptoPP::AES>::Encryption e;
 				e.SetKeyWithIV(key, sizeof(key), iv);
 
 				CryptoPP::StringSource s(plainText, true,
@@ -53,7 +53,7 @@ namespace cyp
 			}
 
 
-			CryptoPP::StringSource(cipher, true,
+			CryptoPP::StringSource ss_cipher(cipher, true,
 				new CryptoPP::HexEncoder(
 					new CryptoPP::StringSink(output_cipher)
 				)
@@ -65,13 +65,12 @@ namespace cyp
 		}
 
 
-		std::string Aes::cbcDecrypt(const std::string& keyText, const std::string& ivText, const std::string& cipherText)
+		std::string Aes::cbcDecrypt_hex256(const std::string& keyText, const std::string& ivText, const std::string& cipherText)
 		{
 			std::string keyHex;
 			std::string ivHex;
 			std::string cipherHex;
 			std::string plainText;
-
 
 			CryptoPP::StringSource(keyText, true,
 				new CryptoPP::HexDecoder(
@@ -92,7 +91,7 @@ namespace cyp
 			);
 
 			unsigned char tempKey[16];
-			unsigned char tempIv[16];
+			unsigned char tempIv[8];
 			std::copy(keyHex.begin(), keyHex.end(), tempKey);
 			std::copy(ivHex.begin(), ivHex.end(), tempIv);
 
