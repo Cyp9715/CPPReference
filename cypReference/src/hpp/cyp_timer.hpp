@@ -3,6 +3,8 @@
 #include "cyp_common.hpp"
 #include <math.h>
 #include <chrono>
+#include <future>
+#include <functional>
 
 namespace cyp
 {
@@ -44,6 +46,17 @@ namespace cyp
 			// i.e., can measure FPS indirectly even if not loop
 			void startTimeCounting();
 			float endTimeCounting();
+		};
+
+		// It is not possible to build a general - purpose library of that callback timer.
+		// This is a limitation of the C++ language.
+		// recommended to modify and use the prototype as needed.
+		class CallbackTimer
+		{
+		public:
+			void regist(int miliseconds, std::function<void()>& func);
+			// An infinite loop thread that is already running can be stopped using the isLoop reference variable.
+			void regist_loop(int miliseconds, std::function<void()>& func, bool &isLoop);
 		};
 	}
 }

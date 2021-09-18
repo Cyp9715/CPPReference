@@ -60,5 +60,26 @@ namespace cyp
 			
 			return 0;
 		}
+
+		void CallbackTimer::regist(int miliseconds, std::function<void()>& func)
+		{
+			std::thread([miliseconds, &func]()
+				{
+					std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+					func();
+				}).detach();
+		}
+
+		void CallbackTimer::regist_loop(int miliseconds, std::function<void()>& func, bool& isLoop)
+		{
+			std::thread([miliseconds, &func, &isLoop]()
+				{
+					do
+					{
+						std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+						func();
+					} while (isLoop == true);
+				}).detach();
+		}
 	}
 }
