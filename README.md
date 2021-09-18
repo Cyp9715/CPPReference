@@ -35,6 +35,9 @@ whenever official versions of Windows OS, C++, Visual Studio, etc. are updated,
 
 I will check the compatibility and update repositories
 
+=> Visual Studio 2022 will reflect the C++ 20 version upon its official release.
+
+
 # 3. Introduce namespaces
 - cyp::command
     + You can use the command. Using commands and receiving command return values are concisely configured.
@@ -52,7 +55,9 @@ I will check the compatibility and update repositories
     + You can use Timer and FpsCounter.
 - cyp::image
     + At the moment, have a code that can capture images simply (BMP, PNG).
-   
+    + Considering openCV support.
+- cyp:hook
+    + Not yet made (will support keyboard, mouse global hook).
 # 4. Caution
 
 this code was created without thinking of continuous calls.
