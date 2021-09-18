@@ -53,6 +53,7 @@ I will check the compatibility and update repositories
     + You can std::string is more comfortable.
 - cyp::timer
     + You can use Timer and FpsCounter.
+    + You can run the callback function by attaching it to the timer (delay execution is possible)
 - cyp::image
     + At the moment, have a code that can capture images simply (BMP, PNG).
     + Considering openCV support.
