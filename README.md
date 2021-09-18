@@ -44,7 +44,7 @@ I will check the compatibility and update repositories
 - cyp::communication
     + You can use Tcp, Udp communication.
 - cyp::encrypt
-    + It's not implemented properly yet.
+    + *It's not implemented properly yet.*
 - cyp::file
     + You can Create, delete, read, for files and folder.
 - cyp::hash
@@ -56,9 +56,9 @@ I will check the compatibility and update repositories
     + You can run the callback function by attaching it to the timer (delay execution is possible)
 - cyp::image
     + At the moment, have a code that can capture images simply (BMP, PNG).
-    + Considering openCV support.
+    + *Considering openCV support.*
 - cyp:hook
-    + Not yet made (will support keyboard, mouse global hook).
+    + *Not yet made (will support keyboard, mouse global hook).*
 # 4. Caution
 
 this code was created without thinking of continuous calls.
