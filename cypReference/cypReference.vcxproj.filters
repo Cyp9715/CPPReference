@@ -74,5 +74,8 @@
     <ClInclude Include="src\hpp\cyp_image.hpp">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="src\hpp\cyp_sharedMemory.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -37,6 +37,7 @@
     <ClInclude Include="src\hpp\cyp_file.hpp" />
     <ClInclude Include="src\hpp\cyp_hash.hpp" />
     <ClInclude Include="src\hpp\cyp_image.hpp" />
+    <ClInclude Include="src\hpp\cyp_sharedMemory.hpp" />
     <ClInclude Include="src\hpp\cyp_string.hpp" />
     <ClInclude Include="src\hpp\cyp_timer.hpp" />
     <ClInclude Include="src\hpp\cyp_vector.hpp" />
@@ -113,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)src\hpp;$(ProjectDir)library\hpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
