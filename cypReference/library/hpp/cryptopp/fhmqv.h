@@ -1,4 +1,3 @@
-
 // fhmqv.h - written and placed in the public domain by Jeffrey Walton, Ray Clayton and Uri Blumenthal
 //           Shamelessly based upon Wei Dai's MQV source files
 
