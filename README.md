@@ -24,7 +24,7 @@ Please check the libraries below, as they are licensed individually.
 
 OS : Windows 10
 
-Complier : C++17 / x64
+Complier : C++20 / x64
 
 Visual Studio : 2019 / MTd
 
@@ -54,6 +54,8 @@ I will check the compatibility and update repositories
 - cyp::timer
     + You can use Timer and FpsCounter.
     + You can run the callback function by attaching it to the timer (delay execution is possible)
+- cyp::sharedMemory
+    + shared memory allows data to be shared between processes.
 - cyp::image
     + At the moment, have a code that can capture images simply (BMP, PNG).
     + *Considering openCV support.*
