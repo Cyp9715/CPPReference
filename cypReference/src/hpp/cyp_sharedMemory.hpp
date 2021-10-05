@@ -16,38 +16,38 @@ namespace cyp
 		class Server
 		{
 		private:
-			void * hmapFile;
-			T* pBuf;
+			void * _hmapFile;
+			T* _pBuf;
 
 		public:
 			~Server()
 			{
-				CloseHandle(hmapFile);
-				UnmapViewOfFile(pBuf);
+				CloseHandle(_hmapFile);
+				UnmapViewOfFile(_pBuf);
 			}
 
 			Server(int maximumSize = 0)
 			{
-				hmapFile = nullptr;
-				pBuf = nullptr;
+				_hmapFile = nullptr;
+				_pBuf = nullptr;
 			}
 
 			bool start(std::string key, DWORD fileAccess = FILE_MAP_ALL_ACCESS)
 			{
-				hmapFile = CreateFileMapping(
+				_hmapFile = CreateFileMapping(
 					INVALID_HANDLE_VALUE, NULL,
 					PAGE_READWRITE, 0,
 					64, key.c_str());
 
-				if (hmapFile == NULL)
+				if (_hmapFile == NULL)
 					return false;
 
-				pBuf = (T *)MapViewOfFile(hmapFile, fileAccess, 0, 0, 0);
+				_pBuf = (T *)MapViewOfFile(_hmapFile, fileAccess, 0, 0, 0);
 
-				if (!pBuf)
+				if (!_pBuf)
 				{
-					if (hmapFile)
-						CloseHandle(hmapFile);
+					if (_hmapFile)
+						CloseHandle(_hmapFile);
 					return false;
 				}
 
@@ -56,12 +56,12 @@ namespace cyp
 
 			T* getMemory()
 			{
-				if (pBuf == nullptr)
+				if (_pBuf == nullptr)
 				{
 					// add error process
  				}
 
-				return pBuf;
+				return _pBuf;
 			}
 		};
 
@@ -69,47 +69,47 @@ namespace cyp
 		class Client
 		{
 		private:
-			void* hmapFile;
-			T* pBuf;
+			void* _hmapFile;
+			T* _pBuf;
 
 		public:
 			~Client()
 			{
-				CloseHandle(hmapFile);
-				UnmapViewOfFile(pBuf);
+				CloseHandle(_hmapFile);
+				UnmapViewOfFile(_pBuf);
 			}
 
 			Client()
 			{
-				hmapFile = nullptr;
-				pBuf = nullptr;
+				_hmapFile = nullptr;
+				_pBuf = nullptr;
 			}
 
 			bool start(std::string key, DWORD fileAccess = FILE_MAP_READ)
 			{
-				hmapFile = OpenFileMapping(fileAccess, FALSE, key.c_str());
+				_hmapFile = OpenFileMapping(fileAccess, FALSE, key.c_str());
 
-				if (!hmapFile)
+				if (!_hmapFile)
 					return false;
 
-				pBuf = (T *)MapViewOfFile(hmapFile, fileAccess, 0, 0, 0);
+				_pBuf = (T *)MapViewOfFile(_hmapFile, fileAccess, 0, 0, 0);
 
-				if (!pBuf)
+				if (!_pBuf)
 				{
-					if (hmapFile)
-						CloseHandle(hmapFile);
+					if (_hmapFile)
+						CloseHandle(_hmapFile);
 					return false;
 				}
 			}
 
 			T* getMemory()
 			{
-				if (pBuf == nullptr)
+				if (_pBuf == nullptr)
 				{
 					// add error process
 				}
 
-				return pBuf;
+				return _pBuf;
 			}
 		};
 	}

@@ -12,4 +12,4 @@ int main()
 {
 	cyp::encrypt::Aes aes;
 	auto a = aes.cbcEncrypt_hex256("123");
-	}
+}

@@ -72,19 +72,19 @@ namespace cyp
 			std::string cipherHex;
 			std::string plainText;
 
-			CryptoPP::StringSource(keyText, true,
+			CryptoPP::StringSource ss_key(keyText, true,
 				new CryptoPP::HexDecoder(
 					new CryptoPP::StringSink(keyHex)
 				)
 			);
 
-			CryptoPP::StringSource(ivText, true,
+			CryptoPP::StringSource ss_iv(ivText, true,
 				new CryptoPP::HexDecoder(
 					new CryptoPP::StringSink(ivHex)
 				)
 			);
 
-			CryptoPP::StringSource(cipherText, true,
+			CryptoPP::StringSource ss_cipher(cipherText, true,
 				new CryptoPP::HexDecoder(
 					new CryptoPP::StringSink(cipherHex)
 				)
@@ -113,7 +113,6 @@ namespace cyp
 				std::cerr << e.what() << std::endl;
 				exit(1);
 			}
-
 			return plainText;
 		}
 	}
