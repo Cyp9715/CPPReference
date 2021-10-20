@@ -35,6 +35,8 @@ whenever official versions of Windows OS, C++, Visual Studio, etc. are updated,
 
 I will check the compatibility and update repositories
 
+※ there are currently no plans to write Linux code.
+
 # 3. Introduce namespaces
 - cyp::command
     + You can use the command. Using commands and receiving command return values are concisely configured.
