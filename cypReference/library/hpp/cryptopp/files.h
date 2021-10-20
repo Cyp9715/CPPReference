@@ -28,7 +28,7 @@ public:
 	public:
 		Err(const std::string &s) : Exception(IO_ERROR, s) {}
 	};
-	/// \brief Exception thrown when file-based open error is encountered
+	/// \brief Exception thrown when file-based open_send error is encountered
 	class OpenErr : public Err {public: OpenErr(const std::string &filename) : Err("FileStore: error opening file for reading: " + filename) {}};
 	/// \brief Exception thrown when file-based read error is encountered
 	class ReadErr : public Err {public: ReadErr() : Err("FileStore: error reading file") {}};
@@ -42,13 +42,13 @@ public:
 		{StoreInitialize(MakeParameters(Name::InputStreamPointer(), &in));}
 
 	/// \brief Construct a FileStore
-	/// \param filename the narrow name of the file to open
+	/// \param filename the narrow name of the file to open_send
 	FileStore(const char *filename) : m_stream(NULLPTR), m_space(NULLPTR), m_len(0), m_waiting(0)
 		{StoreInitialize(MakeParameters(Name::InputFileName(), filename ? filename : ""));}
 
 #if defined(CRYPTOPP_UNIX_AVAILABLE) || defined(CRYPTOPP_DOXYGEN_PROCESSING) || _MSC_VER >= 1400
 	/// \brief Construct a FileStore
-	/// \param filename the Unicode name of the file to open
+	/// \param filename the Unicode name of the file to open_send
 	/// \details On non-Windows OS, this function assumes that setlocale() has been called.
 	FileStore(const wchar_t *filename)
 		{StoreInitialize(MakeParameters(Name::InputFileNameWide(), filename));}
@@ -102,7 +102,7 @@ public:
 		: SourceTemplate<FileStore>(attachment) {SourceInitialize(pumpAll, MakeParameters(Name::InputStreamPointer(), &in));}
 
 	/// \brief Construct a FileSource
-	/// \param filename the narrow name of the file to open
+	/// \param filename the narrow name of the file to open_send
 	/// \param pumpAll flag indicating if source data should be pumped to its attached transformation
 	/// \param attachment an optional attached transformation
 	/// \param binary flag indicating if the file is binary
@@ -111,7 +111,7 @@ public:
 
 #if defined(CRYPTOPP_UNIX_AVAILABLE) || defined(CRYPTOPP_DOXYGEN_PROCESSING) || _MSC_VER >= 1400
 	/// \brief Construct a FileSource
-	/// \param filename the Unicode name of the file to open
+	/// \param filename the Unicode name of the file to open_send
 	/// \param pumpAll flag indicating if source data should be pumped to its attached transformation
 	/// \param attachment an optional attached transformation
 	/// \param binary flag indicating if the file is binary
@@ -136,7 +136,7 @@ public:
 	public:
 		Err(const std::string &s) : Exception(IO_ERROR, s) {}
 	};
-	/// \brief Exception thrown when file-based open error is encountered
+	/// \brief Exception thrown when file-based open_send error is encountered
 	class OpenErr : public Err {public: OpenErr(const std::string &filename) : Err("FileSink: error opening file for writing: " + filename) {}};
 	/// \brief Exception thrown when file-based write error is encountered
 	class WriteErr : public Err {public: WriteErr() : Err("FileSink: error writing file") {}};
@@ -150,14 +150,14 @@ public:
 		{IsolatedInitialize(MakeParameters(Name::OutputStreamPointer(), &out));}
 
 	/// \brief Construct a FileSink
-	/// \param filename the narrow name of the file to open
+	/// \param filename the narrow name of the file to open_send
 	/// \param binary flag indicating if the file is binary
 	FileSink(const char *filename, bool binary=true)
 		{IsolatedInitialize(MakeParameters(Name::OutputFileName(), filename)(Name::OutputBinaryMode(), binary));}
 
 #if defined(CRYPTOPP_UNIX_AVAILABLE) || _MSC_VER >= 1400
 	/// \brief Construct a FileSink
-	/// \param filename the Unicode name of the file to open
+	/// \param filename the Unicode name of the file to open_send
 	/// \details On non-Windows OS, this function assumes that setlocale() has been called.
 	FileSink(const wchar_t *filename, bool binary=true)
 		{IsolatedInitialize(MakeParameters(Name::OutputFileNameWide(), filename)(Name::OutputBinaryMode(), binary));}

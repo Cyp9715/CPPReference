@@ -298,7 +298,7 @@ struct NewObject
 ///  above when using Visual Studio 2015 (<tt>cl.exe</tt> version 19.00). If C++11 is desired, you should
 ///  set <tt>WINVER</tt> or <tt>_WIN32_WINNT</tt> to 0x600 (or above), and compile with Visual Studio 2015.
 /// \sa <A HREF="http://preshing.com/20130930/double-checked-locking-is-fixed-in-cpp11/">Double-Checked Locking
-///  is Fixed In C++11</A>, <A HREF="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm">Dynamic
+///  is Fixed In C++11</A>, <A HREF="http://www.open_send-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm">Dynamic
 ///  Initialization and Destruction with Concurrency</A> and
 ///  <A HREF="http://msdn.microsoft.com/en-us/library/6yh4a9k1.aspx">Thread Local Storage (TLS)</A> on MSDN.
 /// \since Crypto++ 5.2

@@ -141,20 +141,12 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void Udp::open(const std::string& ip, const u_short port)
+		void Udp::open_send(const std::string& ip, const u_short port)
 		{
 			_sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-			_recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-			ZeroMemory(&_dummyAddr, sizeof(_dummyAddr));
 			ZeroMemory(&_recvAddr, sizeof(_recvAddr));
-			ZeroMemory(&_sendAddr, sizeof(_sendAddr));
 			_dummyAddrSize = sizeof(_dummyAddr);
-
-			// recv
-			_sendAddr.sin_family = PF_INET;
-			_sendAddr.sin_port = htons(port);
-			_sendAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
 			// send
 			_recvAddr.sin_family = PF_INET;
@@ -163,6 +155,19 @@ namespace cyp
 			{
 				throw "error : can't inet_pton init";
 			}
+		}
+
+		void Udp::open_receive(const u_short port)
+		{
+			_recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+			ZeroMemory(&_dummyAddr, sizeof(_dummyAddr));
+			ZeroMemory(&_sendAddr, sizeof(_sendAddr));
+
+			// recv
+			_sendAddr.sin_family = PF_INET;
+			_sendAddr.sin_port = htons(port);
+			_sendAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
 			if (bind(_recvSocket, (SOCKADDR*)&_sendAddr, sizeof(_sendAddr)) == BIND_ERROR)
 			{
@@ -185,9 +190,110 @@ namespace cyp
 
 		std::string Udp::receive()
 		{
-			char buffer[512];
-			recvfrom(_recvSocket, buffer, 512, 0, (SOCKADDR*)&_dummyAddr, &_dummyAddrSize);
-			return buffer;
+			std::string output;
+			char msgbuf[512];
+			int addrlen = sizeof(_recvAddr);
+			int nbytes = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+			if (nbytes < 0)
+			{
+				throw "recvfrom";
+			}
+			msgbuf[nbytes] = '\0';
+			output = msgbuf;
+			return output;
+		}
+
+		Udp_multicast::Udp_multicast()
+		{
+			if (WSAStartup(MAKEWORD(2, 2), &_wsaData) != NO_ERROR)
+			{
+				throw "error : WSAStartup failed";
+			}
+		}
+
+		Udp_multicast::~Udp_multicast()
+		{
+			closesocket(_sendSocket);
+			closesocket(_recvSocket);
+
+			WSACleanup();
+		}
+
+		void Udp_multicast::open_send(const std::string& ip_multicast, const u_short port_multicast)
+		{
+			_sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+			ZeroMemory(&_sendAddr, sizeof(_sendAddr));
+
+			// receive
+			_recvAddr.sin_family = PF_INET;
+			_recvAddr.sin_port = htons(port_multicast);
+			if (inet_pton(PF_INET, ip_multicast.data(), &_recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
+			{
+				throw "error : can't inet_pton init";
+			}
+			setsockopt(_sendSocket, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&_setsockoptBuf, sizeof(_setsockoptBuf));
+		}
+
+		void Udp_multicast::open_receive(const std::string& ip_multicast, const u_short port_multicast)
+		{
+			_recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+			if (setsockopt(_recvSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&_setsockoptBuf, sizeof(_setsockoptBuf)) < 0)
+			{
+				throw "error : Reusing ADDR failed";
+			}
+
+			ZeroMemory(&_sendAddr, sizeof(_sendAddr));
+			_sendAddr.sin_family = PF_INET;
+			_sendAddr.sin_addr.s_addr = htonl(INADDR_ANY); 
+			_sendAddr.sin_port = htons(port_multicast);
+		
+			// bind to send address
+			if (bind(_recvSocket, (struct sockaddr*)&_sendAddr, sizeof(_sendAddr)) < 0)
+			{
+				throw "bind";
+				return;
+			}
+
+			// use setsockopt() to request that the kernel join a multicast group
+			if (inet_pton(PF_INET, ip_multicast.data(), &_imr_receive.imr_multiaddr.s_addr) != INET_PTON_SUCCESS)
+			{
+				throw "error : can't inet_pton init";
+			}
+			_imr_receive.imr_interface.s_addr = htonl(INADDR_ANY);
+			if (setsockopt(_recvSocket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&_imr_receive, sizeof(_imr_receive)) < 0)
+			{
+				throw "error : setsockopt";
+			}
+		}
+
+		bool Udp_multicast::send(const std::string& message)
+		{
+			if (sendto(_sendSocket, message.data(), static_cast<int>(message.length()), 0,
+				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		std::string Udp_multicast::receive()
+		{
+			std::string output;
+			char msgbuf[512];
+			int addrlen = sizeof(_recvAddr);
+			int nbytes = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+			if (nbytes < 0) 
+			{
+				throw "recvfrom";
+			}
+			msgbuf[nbytes] = '\0';
+			output = msgbuf;
+			return output;
 		}
 	}
 
