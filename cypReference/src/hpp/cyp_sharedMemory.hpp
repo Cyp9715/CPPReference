@@ -10,7 +10,7 @@ namespace cyp
 		* CAUTION
 		* shared memory cannot expand its size dynamically.
 		* avoid using dynamically assignable types like std::string.
-		* even when allocating class poiCnters, do not use dynamically assignable types within a class.
+		* even when allocating class pointer, do not use dynamically assignable types within a class.
 		*/
 		template <typename T>
 		class Server
