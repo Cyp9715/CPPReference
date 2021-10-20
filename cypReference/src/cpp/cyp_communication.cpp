@@ -232,7 +232,11 @@ namespace cyp
 			{
 				throw "error : can't inet_pton init";
 			}
-			setsockopt(_sendSocket, IPPROTO_IP, IP_MULTICAST_TTL, (char *)&_setsockoptBuf, sizeof(_setsockoptBuf));
+
+			if (setsockopt(_sendSocket, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&_setsockoptBuf, sizeof(_setsockoptBuf)) < 0)
+			{
+				throw "error : setsockopt";
+			}
 		}
 
 		void Udp_multicast::open_receive(const std::string& ip_multicast, const u_short port_multicast)
