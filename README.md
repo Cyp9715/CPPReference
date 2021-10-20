@@ -22,9 +22,9 @@ Please check the libraries below, as they are licensed individually.
 # 2. Environment
 
 
-OS : Windows 10
+OS : Windows 10 and 11
 
-Complier : C++20 / x64
+Complier : C++17 and C++20 / x64
 
 Visual Studio : 2019 / MTd
 
@@ -40,6 +40,7 @@ I will check the compatibility and update repositories
     + You can use the command. Using commands and receiving command return values are concisely configured.
 - cyp::communication
     + You can use Tcp, Udp communication.
+    + You can use Udp multicast communication.
 - cyp::encrypt
     + *It's not implemented properly yet.*
 - cyp::file
