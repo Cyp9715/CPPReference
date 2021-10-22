@@ -69,7 +69,7 @@ for this reason, some functions require modifications when used for the followin
 
 1. When analyzing large amounts of data.
 
-    The cyp::vector::isContain() = has a time complexity of O(n). This is very inefficient.
+    The cyp::vector::isContain() = has a time complexity of O(n)^2. This is very inefficient.
  
 2. Avoid using dynamic libraries.
 
