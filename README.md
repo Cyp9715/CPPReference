@@ -50,7 +50,7 @@ I will check the compatibility and update repositories
 - cyp::hash
     + You can create sha, md5 hash values for std::string and files.
 - cyp::string
-    + You can std::string is more comfortable.
+    + makes the std::string easier to use.
 - cyp::timer
     + You can use Timer and FpsCounter.
     + You can run the callback function by attaching it to the timer (delay execution is possible)
