@@ -82,7 +82,4 @@ for this reason, some functions require modifications when used for the followin
 
     Therefore, using dynamic libraries faced a number of miscellaneous problems,
     
-    most of which were minorly different environments, making it impossible to build.
-
-
-    I think it may be a problem that I lack experience in, but the conclusion that I made at the moment is that I should avoid using dynamic libraries.
+    use dynamic libraries only for the purpose of distributing programs.
