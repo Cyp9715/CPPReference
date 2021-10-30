@@ -1,13 +1,11 @@
-﻿#include "cyp_communication.hpp"
+﻿#include "cyp_encrypt.hpp"
 
 int main()
 {
-	cyp::communication::Udp_multicast udp;
-	udp.open_send("224.100.100.99", 3001);
-	udp.send("444");
-
-	udp.open_receive("224.100.100.99", 3001);
-	std::cout <<  udp.receive() << std::endl;
-	int a;
-	std::cin >> a;
+	cyp::encrypt::Aes aed;
+	auto aa = aed.cbcEncrypt_hex256("테스트문자열 : my name is C++ 20");
+	std::cout << std::get<0>(aa) << std::endl;
+	std::cout << std::get<1>(aa) << std::endl;
+	std::cout << std::get<2>(aa) << std::endl;
+	aed.cbcDecrypt_hex256(std::get<0>(aa), std::get<1>(aa), std::get<2>(aa));
 }

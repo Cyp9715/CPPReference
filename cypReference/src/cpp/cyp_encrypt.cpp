@@ -12,26 +12,26 @@ namespace cyp
 
 		std::tuple<std::string, std::string, std::string> Aes::cbcEncrypt_hex256(const std::string& plainText)
 		{
-			std::string cipher;
-			std::string output_cipher, output_iv, output_key;
+			std::string cipherHex;
+			std::string cipherText, ivText, keyText;
 
 			CryptoPP::AutoSeededRandomPool prng;
 
-			CryptoPP::byte key[16];
+			CryptoPP::byte key[32];
 			prng.GenerateBlock(key, sizeof(key));
 
-			CryptoPP::byte iv[8];
+			CryptoPP::byte iv[32];
 			prng.GenerateBlock(iv, sizeof(iv));
 
 			CryptoPP::StringSource ss_key(key, sizeof(key), true,
 				new CryptoPP::HexEncoder(
-					new CryptoPP::StringSink(output_key)
+					new CryptoPP::StringSink(keyText)
 				)
 			);
 
 			CryptoPP::StringSource ss_iv(iv, sizeof(iv), true,
 				new CryptoPP::HexEncoder(
-					new CryptoPP::StringSink(output_iv)
+					new CryptoPP::StringSink(ivText)
 				)
 			);
 
@@ -42,7 +42,7 @@ namespace cyp
 
 				CryptoPP::StringSource s(plainText, true,
 					new CryptoPP::StreamTransformationFilter(e,
-						new CryptoPP::StringSink(cipher)
+						new CryptoPP::StringSink(cipherHex)
 					)
 				);
 			}
@@ -53,13 +53,13 @@ namespace cyp
 			}
 
 
-			CryptoPP::StringSource ss_cipher(cipher, true,
+			CryptoPP::StringSource ss_cipher(cipherHex, true,
 				new CryptoPP::HexEncoder(
-					new CryptoPP::StringSink(output_cipher)
+					new CryptoPP::StringSink(cipherText)
 				)
 			);
 
-			std::tuple<std::string, std::string, std::string> output = std::make_tuple(output_key, output_iv, output_cipher);
+			std::tuple<std::string, std::string, std::string> output = std::make_tuple(keyText, ivText, cipherText);
 
 			return output;
 		}
@@ -90,8 +90,8 @@ namespace cyp
 				)
 			);
 
-			unsigned char tempKey[16];
-			unsigned char tempIv[8];
+			unsigned char tempKey[32];
+			unsigned char tempIv[32];
 			std::copy(keyHex.begin(), keyHex.end(), tempKey);
 			std::copy(ivHex.begin(), ivHex.end(), tempIv);
 
@@ -105,8 +105,6 @@ namespace cyp
 						new CryptoPP::StringSink(plainText)
 					)
 				);
-
-				std::cout << "recovered text: " << plainText << std::endl;
 			}
 			catch (const CryptoPP::Exception& e)
 			{
