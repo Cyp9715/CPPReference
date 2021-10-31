@@ -58,7 +58,7 @@ namespace cyp
 					new CryptoPP::StringSink(cipherText)
 				)
 			);
-
+	
 			std::tuple<std::string, std::string, std::string> output = std::make_tuple(keyText, ivText, cipherText);
 
 			return output;
