@@ -44,7 +44,8 @@ I will check the compatibility and update repositories
     + You can use Tcp, Udp communication.
     + You can use Udp multicast communication.
 - cyp::encrypt
-    + *It's not implemented properly yet.*
+    + You can use AES encryption.
+    + *except for AES 256, is not yet implemented properly...*
 - cyp::file
     + You can Create, delete, read, for files and folder.
 - cyp::hash
