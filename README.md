@@ -67,8 +67,6 @@ this code was created without thinking of continuous calls.
 for this reason, some functions require modifications when used for the following purposes.
 
 1. When analyzing large amounts of data.
-
-    The cyp::vector::isContain() = has a time complexity of O(n)^2. This is very inefficient.
  
 2. Avoid using dynamic libraries.
 
