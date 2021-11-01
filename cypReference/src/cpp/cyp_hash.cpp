@@ -24,6 +24,33 @@ namespace cyp
 		template std::string Sha::fileToSha<CryptoPP::SHA3_384>(const std::string& str);
 		template std::string Sha::fileToSha<CryptoPP::SHA3_512>(const std::string& str);
 
+
+		/* 
+		* Add other hash algorithms if necessary.
+		* If CryptoPP supports it, most algorithms can be added.
+		* ex) MD5 : template std::string Hkdf::strToHkdf<CryptoPP::Weak::MD5>(const std::string& str...
+		* ex) BLAKE2 : template std::string Pbkdf2::strToPbkdf2<CryptoPP::BLAKE2b>(const std::string& str...
+		*/
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA1>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA224>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA256>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA384>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA512>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA3_224>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA3_256>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA3_384>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+		template std::string Pbkdf2::strToPbkdf2<CryptoPP::SHA3_512>(const std::string& str, const std::string& salt, unsigned int iterate, float time);
+
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA1>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA224>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA256>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA384>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA512>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA3_224>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA3_256>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA3_384>(const std::string& str, const std::string& salt, const std::string& info);
+		template std::string Hkdf::strToHkdf<CryptoPP::SHA3_512>(const std::string& str, const std::string& salt, const std::string& info);
+
 		template <typename T>
 		std::string Sha::strToSha(const std::string& str)
 		{
@@ -99,6 +126,72 @@ namespace cyp
 			output = std::string(reinterpret_cast<const char*>(buf), size);
 
 			return output;
+		}
+
+		template<typename T>
+		std::string Pbkdf2::strToPbkdf2(const std::string& str, const std::string& salt, unsigned int iterate, float time)
+		{
+			CryptoPP::byte *password_ = new CryptoPP::byte[str.size()+1]();
+			CryptoPP::byte *salt_ = new CryptoPP::byte[salt.size()+1]();
+
+			std::copy(str.begin(), str.end(), password_);
+			std::copy(salt.begin(), salt.end(), salt_);
+
+			size_t passwordLen = strlen((const char*)password_);
+			size_t saltLen = strlen((const char*)salt_);
+
+			CryptoPP::byte derived[T::DIGESTSIZE];
+
+			CryptoPP::PKCS5_PBKDF2_HMAC<T> pbkdf;
+
+			CryptoPP::byte unused = 0;
+
+			pbkdf.DeriveKey(derived, sizeof(derived), unused, password_, passwordLen, salt_, saltLen, iterate, time);
+
+			std::string result;
+			CryptoPP::HexEncoder encoder(new CryptoPP::StringSink(result));
+
+			encoder.Put(derived, sizeof(derived));
+			encoder.MessageEnd();
+
+			delete[] password_;
+			delete[] salt_;
+
+			return result;
+		}
+
+		template<typename T>
+		std::string Hkdf::strToHkdf(const std::string& str, const std::string& salt, const std::string& info)
+		{
+			CryptoPP::byte* password_ = new CryptoPP::byte[str.size() + 1]();
+			CryptoPP::byte* salt_ = new CryptoPP::byte[salt.size() + 1]();
+			CryptoPP::byte* info_ = new CryptoPP::byte[info.size() + 1]();
+
+			std::copy(str.begin(), str.end(), password_);
+			std::copy(salt.begin(), salt.end(), salt_);
+			std::copy(info.begin(), info.end(), info_);
+
+			size_t passwordLen = strlen((const char*)password_);
+			size_t saltLen = strlen((const char*)salt_);
+			size_t infoLen = strlen((const char*)info_);
+
+			CryptoPP::byte derived[T::DIGESTSIZE];
+
+			CryptoPP::HKDF<T> hkdf;
+
+			hkdf.DeriveKey(derived, sizeof(derived), password_, passwordLen, salt_, saltLen, info_, infoLen);
+
+			std::string result;
+			CryptoPP::HexEncoder encoder(new CryptoPP::StringSink(result));
+
+			encoder.Put(derived, sizeof(derived));
+			encoder.MessageEnd();
+
+			delete[] password_;
+			delete[] salt_;
+			delete[] info_;
+
+			return result;
 		}
 
 		std::string errorType(CryptoPP::Exception::ErrorType exception)
