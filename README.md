@@ -39,8 +39,9 @@ I will check the compatibility and update repositories
 - cyp::command
     + You can use the Windows command. Using commands and receiving command return values are concisely configured.
 - cyp::communication
-    + You can use Tcp, Udp communication.
-    + You can use Udp multicast communication.
+    + You can use Tcp
+    + You can use Udp
+    + You can use Udp multicast.
 - cyp::encrypt
     + You can use AES encryption.
     + *except for AES 256, is not yet implemented properly...*
@@ -56,7 +57,8 @@ I will check the compatibility and update repositories
 - cyp::string
     + makes the std::string easier to use.
 - cyp::timer
-    + You can use Timer and FpsCounter.
+    + You can use Timer
+    + You can use FpsCounter
     + You can run the callback function by attaching it to the timer (delay execution is possible)
 - cyp::sharedMemory
     + shared memory allows data to be shared between processes.
