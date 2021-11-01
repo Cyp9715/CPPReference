@@ -47,7 +47,12 @@ I will check the compatibility and update repositories
 - cyp::file
     + You can Create, delete, read, for files and folder.
 - cyp::hash
-    + You can create sha, md5 hash values for std::string and files.
+    + You can use the hash function below for files and std::string.
+    + MD5
+    + SHA5
+    + You can use the hash function below for std::string (I didn't implement it because I thought I wouldn't need a hash.)
+    + PBKDF2
+    + HKDF
 - cyp::string
     + makes the std::string easier to use.
 - cyp::timer
