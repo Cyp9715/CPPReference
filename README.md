@@ -37,7 +37,7 @@ I will check the compatibility and update repositories
 
 # 3. Introduce namespaces
 - cyp::command
-    + You can use the command. Using commands and receiving command return values are concisely configured.
+    + You can use the Windows command. Using commands and receiving command return values are concisely configured.
 - cyp::communication
     + You can use Tcp, Udp communication.
     + You can use Udp multicast communication.
