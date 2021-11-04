@@ -77,15 +77,15 @@ for this reason, some functions require modifications when used for the followin
 
 1. When analyzing large amounts of data.
  
-2. Avoid using dynamic libraries.
+※ Avoid using dynamic libraries.
 
-    The lib folder contains dynamic library folders, but will not contain any files.
+   The lib folder contains dynamic library folders, but will not contain any files.
 
-    I deliberately avoid using dll for stability.
+   I deliberately avoid using dll for stability.
     
-    This code has no binary purpose, is to be built by implanting it into another code.
+   This code has no binary purpose, is to be built by implanting it into another code.
     
 
-    Therefore, using dynamic libraries faced a number of miscellaneous problems,
+   Therefore, using dynamic libraries faced a number of miscellaneous problems,
     
-    use dynamic libraries only for the purpose of distributing programs.
+   use dynamic libraries only for the purpose of distributing programs.
