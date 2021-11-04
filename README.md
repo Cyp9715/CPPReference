@@ -17,7 +17,7 @@ However, additional libraries have been installed.
 
 Please check the libraries below, as they are licensed individually.
 
-- [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp)
+- [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
 
 # 2. Environment
 
@@ -46,12 +46,14 @@ I will check the compatibility and update repositories
     + You can use AES encryption.
     + *except for AES 256, is not yet implemented properly...*
 - cyp::file
-    + You can Create, delete, read, for files and folder.
+    + You can create, delete, read, for files and folder.
 - cyp::hash
-    + You can use the hash function below for files and std::string.
+
+     You can use the hash function below for files and std::string.
     + MD5
     + SHA5
-    + You can use the hash function below for std::string (I didn't implement it because I thought I wouldn't need a hash.)
+     
+     You can use the hash function below for std::string
     + PBKDF2
     + HKDF
 - cyp::string
