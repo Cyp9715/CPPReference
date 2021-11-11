@@ -1,11 +1,10 @@
-﻿#include "cyp_encrypt.hpp"
+﻿#include "cyp_hash.hpp"
 
 int main()
 {
-	cyp::encrypt::Aes aed;
-	auto aa = aed.cbcEncrypt_hex256("테스트문자열 : my name is C++ 20");
-	std::cout << std::get<0>(aa) << std::endl;
-	std::cout << std::get<1>(aa) << std::endl;
-	std::cout << std::get<2>(aa) << std::endl;
-	aed.cbcDecrypt_hex256(std::get<0>(aa), std::get<1>(aa), std::get<2>(aa));
+	cyp::hash::Pbkdf2 pbkdf2;
+	cyp::hash::Hkdf hkdf;
+
+	std::cout << pbkdf2.strToPbkdf2<CryptoPP::SHA256>("123123", "sss", 1024) << std::endl;
+	std::cout << hkdf.strToHkdf<CryptoPP::SHA256>("password", "salt", "HKDF key derivation") << std::endl;
 }

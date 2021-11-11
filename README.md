@@ -17,16 +17,14 @@ However, additional libraries have been installed.
 
 Please check the libraries below, as they are licensed individually.
 
-- [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp)
+- [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
 
 # 2. Environment
 
 
 OS : Windows 10 and 11
 
-Complier : C++17 and C++20 / x64
-
-Visual Studio : 2019 / MTd
+Complier : Visual Studio 2019 / C++20 / x64 / MTd
 
 
 I prefer to use the latest version.
@@ -39,20 +37,30 @@ I will check the compatibility and update repositories
 
 # 3. Introduce namespaces
 - cyp::command
-    + You can use the command. Using commands and receiving command return values are concisely configured.
+    + You can use the Windows command. Using commands and receiving command return values are concisely configured.
 - cyp::communication
-    + You can use Tcp, Udp communication.
-    + You can use Udp multicast communication.
+    + You can use Tcp
+    + You can use Udp
+    + You can use Udp multicast.
 - cyp::encrypt
-    + *It's not implemented properly yet.*
+    + You can use AES encryption.
+    + *except for AES 256, is not yet implemented properly...*
 - cyp::file
-    + You can Create, delete, read, for files and folder.
+    + You can create, delete, read, for files and folder.
 - cyp::hash
-    + You can create sha, md5 hash values for std::string and files.
+
+     You can use the hash function below for files and std::string.
+    + MD5
+    + SHA5
+     
+     You can use the hash function below for std::string
+    + PBKDF2
+    + HKDF
 - cyp::string
     + makes the std::string easier to use.
 - cyp::timer
-    + You can use Timer and FpsCounter.
+    + You can use Timer
+    + You can use FpsCounter
     + You can run the callback function by attaching it to the timer (delay execution is possible)
 - cyp::sharedMemory
     + shared memory allows data to be shared between processes.
@@ -68,18 +76,16 @@ this code was created without thinking of continuous calls.
 for this reason, some functions require modifications when used for the following purposes.
 
 1. When analyzing large amounts of data.
-
-    The cyp::vector::isContain() = has a time complexity of O(n)^2. This is very inefficient.
  
-2. Avoid using dynamic libraries.
+※ Avoid using dynamic libraries.
 
-    The lib folder contains dynamic library folders, but will not contain any files.
+   The lib folder contains dynamic library folders, but will not contain any files.
 
-    I deliberately avoid using dll for stability.
+   I deliberately avoid using dll for stability.
     
-    This code has no binary purpose, is to be built by implanting it into another code.
+   This code has no binary purpose, is to be built by implanting it into another code.
     
 
-    Therefore, using dynamic libraries faced a number of miscellaneous problems,
+   Therefore, using dynamic libraries faced a number of miscellaneous problems,
     
-    use dynamic libraries only for the purpose of distributing programs.
+   use dynamic libraries only for the purpose of distributing programs.

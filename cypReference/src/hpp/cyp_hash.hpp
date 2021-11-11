@@ -10,6 +10,15 @@
 #include "cryptopp/files.h"
 #include "cyp_common.hpp"
 
+// PBKDF2
+#include "cryptopp/pwdbased.h"
+
+// HKDF
+#include "cryptopp/hkdf.h"
+
+#include "cryptopp/blake2.h"
+
+
 #pragma comment(lib, "cryptlib.lib")
 
 namespace cyp
@@ -22,7 +31,6 @@ namespace cyp
 		class Md
 		{
 		public:
-			/* MD5 */
 			std::string strToMD5(const std::string& str);
 			std::string fileToMD5(const std::string filePath);
 		};
@@ -31,11 +39,26 @@ namespace cyp
 		class Sha
 		{
 		public:
-			/* SHA */
 			template <typename T>
 			std::string strToSha(const std::string& str);
 			template <typename T>
 			std::string fileToSha(const std::string& filePath);
+		};
+
+		class Pbkdf2
+		{
+		public:
+			// If time > 0.0 then DeriveKey will run for the specified amount of time. 
+			// If time is 0.0 then DeriveKey will run for the specified number of iterations.
+			template <typename T>
+			std::string strToPbkdf2(const std::string& str, const std::string& salt, unsigned int iterate, float time = 0.0f);
+		};
+
+		class Hkdf
+		{
+		public:
+			template <typename T>
+			std::string strToHkdf(const std::string& str, const std::string& salt_, const std::string& info);
 		};
 	}
 
