@@ -18,7 +18,7 @@ namespace cyp
 
 		class Tcp
 		{
-		private:
+		protected:
 			WSADATA _wsaData;
 
 			SOCKET _listenSocket = INVALID_SOCKET;
@@ -41,7 +41,7 @@ namespace cyp
 
 		class Udp
 		{
-		private:
+		protected:
 			WSADATA _wsaData;
 
 			SOCKET _sendSocket = INVALID_SOCKET;
@@ -66,7 +66,7 @@ namespace cyp
 
 		class Udp_multicast
 		{
-		private:
+		protected:
 			WSADATA _wsaData;
 			struct ip_mreq _imr_receive;
 
