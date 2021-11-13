@@ -86,26 +86,32 @@ namespace cyp
 
 		std::string Tcp::receiveServer()
 		{
-			char buffer[512];
+			char msgbuf[512];
+			std::string output;
 
-			if (recv(_serverSocket, buffer, 512, 0) == SOCKET_ERROR)
+			int size = recv(_serverSocket, msgbuf, 512, 0);
+			if (size < 0)
 			{
-				throw "error : accept failed";
+				throw "recvfrom";
 			}
-
-			return buffer;
+			msgbuf[size] = '\0';
+			output = msgbuf;
+			return output;
 		}
 
 		std::string Tcp::receiveClient()
 		{
-			char buffer[512];
+			char msgbuf[512];
+			std::string output;
 
-			if (recv(_clientSocket, buffer, 512, 0) == SOCKET_ERROR)
+			int size = recv(_clientSocket, msgbuf, 512, 0);
+			if (size < 0)
 			{
-				throw "error : accept failed";
+				throw "recvfrom";
 			}
-
-			return buffer;
+			msgbuf[size] = '\0';
+			output = msgbuf;
+			return output;
 		}
 
 		void Tcp::sendServerToClient(const std::string& message)
@@ -193,12 +199,12 @@ namespace cyp
 			std::string output;
 			char msgbuf[512];
 			int addrlen = sizeof(_recvAddr);
-			int nbytes = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
-			if (nbytes < 0)
+			int size = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+			if (size < 0)
 			{
 				throw "recvfrom";
 			}
-			msgbuf[nbytes] = '\0';
+			msgbuf[size] = '\0';
 			output = msgbuf;
 			return output;
 		}
@@ -290,12 +296,12 @@ namespace cyp
 			std::string output;
 			char msgbuf[512];
 			int addrlen = sizeof(_recvAddr);
-			int nbytes = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
-			if (nbytes < 0) 
+			int size = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+			if (size < 0) 
 			{
 				throw "recvfrom";
 			}
-			msgbuf[nbytes] = '\0';
+			msgbuf[size] = '\0';
 			output = msgbuf;
 			return output;
 		}

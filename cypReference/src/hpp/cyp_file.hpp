@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <ostream>
 #include <fstream>
+#include "cyp_communication.hpp"
 
 namespace cyp
 {
@@ -11,5 +12,24 @@ namespace cyp
 		bool deleteFile(const std::string& filePath);
 		bool createDirectory(const std::string& directoryLoc);
 		std::string readAllFile(const std::string& fileLoc);
+
+		// Since the files are loaded into memory at once and then transferred, a different solution is required for very large files.
+		class FileCommunication : cyp::communication::Tcp
+		{
+		private:
+			char* sendBuffer;
+			std::string sendFilePath;
+			std::string receiveFilePath;
+
+			// send
+			void assignSendBuffer();
+			
+		public:
+			// send : use tcp client.
+			void sendFile(const std::string& ip, u_short port, const std::string& filePath);
+
+			// receive : use tcp server
+			void receiveFile(u_short port, std::string filePath);
+		};
 	}
 }

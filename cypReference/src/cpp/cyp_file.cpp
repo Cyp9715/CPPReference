@@ -37,5 +37,38 @@ namespace cyp
 
 			throw "error : cypReference::file::readAllFile";
 		}
+
+		void FileCommunication::assignSendBuffer()
+		{
+			std::ifstream infile(sendFilePath);
+
+			//get length of file
+			infile.seekg(0, std::ios::end);
+			size_t length = infile.tellg();
+			infile.seekg(0, std::ios::beg);
+			sendBuffer = new char[length];
+
+			//read file
+			infile.read(sendBuffer, length);
+		}
+
+		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
+		{
+			sendFilePath = filePath;
+			openClient(ip, port);
+			assignSendBuffer();
+			sendClientToServer(sendBuffer);
+
+			delete[] sendBuffer;
+		}
+
+		void FileCommunication::receiveFile(u_short port, std::string filePath)
+		{
+			openServer(port);
+			const char * receiveBuffer = receiveServer().c_str();
+
+			std::ofstream file(filePath, std::ios::binary);
+			file.write(receiveBuffer, strlen(receiveBuffer));
+		}
 	}
 }
