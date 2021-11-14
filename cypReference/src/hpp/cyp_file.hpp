@@ -13,16 +13,20 @@ namespace cyp
 		bool createDirectory(const std::string& directoryLoc);
 		std::string readAllFile(const std::string& fileLoc);
 
-		// Since the files are loaded into memory at once and then transferred, a different solution is required for very large files.
-		class FileCommunication : cyp::communication::Tcp
+		/* 
+		* Since the files are loaded into memory at onceand then transferred, a different solution is required for very large files.
+		* ¡Ø currently looking for an encrypted file transfer method.
+		*    the only known working file is a.txt file.
+		*/
+			class FileCommunication : cyp::communication::Tcp
 		{
 		private:
-			char* sendBuffer;
+			//char* sendBuffer;
 			std::string sendFilePath;
 			std::string receiveFilePath;
 
 			// send
-			void assignSendBuffer();
+			void readFileSend();
 			
 		public:
 			// send : use tcp client.

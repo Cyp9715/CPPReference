@@ -38,37 +38,40 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
-		void FileCommunication::assignSendBuffer()
+
+		void FileCommunication::readFileSend()
 		{
-			std::ifstream infile(sendFilePath);
+			std::ifstream file(sendFilePath, std::ios::out | std::ios::binary);
 
 			//get length of file
-			infile.seekg(0, std::ios::end);
-			size_t length = infile.tellg();
-			infile.seekg(0, std::ios::beg);
-			sendBuffer = new char[length];
+			file.seekg(0, std::ios::end);
+			size_t length = file.tellg();
+			file.seekg(0, std::ios::beg);
+			char *sendBuffer = new char[length];
+			file.read(sendBuffer, length);
 
-			//read file
-			infile.read(sendBuffer, length);
+			if (send(_clientSocket, sendBuffer, length, 0) == SOCKET_ERROR)
+			{
+				throw "error : client error send";
+			}
+
+			delete[] sendBuffer;
 		}
 
 		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
 			sendFilePath = filePath;
 			openClient(ip, port);
-			assignSendBuffer();
-			sendClientToServer(sendBuffer);
-
-			delete[] sendBuffer;
+			readFileSend();
 		}
 
 		void FileCommunication::receiveFile(u_short port, std::string filePath)
 		{
 			openServer(port);
-			const char * receiveBuffer = receiveServer().c_str();
+			std::string receiveBuffer = receiveServer();
 
 			std::ofstream file(filePath, std::ios::binary);
-			file.write(receiveBuffer, strlen(receiveBuffer));
+			file.write(receiveBuffer.c_str(), receiveBuffer.length());
 		}
 	}
 }

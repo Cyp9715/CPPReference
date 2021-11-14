@@ -27,7 +27,7 @@ namespace cyp
 
 			if (_listenSocket == INVALID_SOCKET)
 			{
-				throw "error : _listenSocket stop";
+				throw "error : _listenSocket stop"; 
 			}
 
 			SOCKADDR_IN addrServer, addrClient;
