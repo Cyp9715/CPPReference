@@ -47,6 +47,7 @@ I will check the compatibility and update repositories
     + *except for AES 256, is not yet implemented properly...*
 - cyp::file
     + You can create, delete, read, for files and folder.
+    + *planning to provide a class that transfers files through TCP.*
 - cyp::hash
 
      You can use the hash function below for files and std::string.
