@@ -33,7 +33,7 @@ namespace cyp
 			void sendFile(const std::string& ip, u_short port, const std::string& filePath);
 
 			// receive : use tcp server
-			void receiveFile(u_short port, std::string filePath);
+			void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
 		};
 	}
 }

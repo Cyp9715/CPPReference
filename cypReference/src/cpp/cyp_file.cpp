@@ -50,7 +50,7 @@ namespace cyp
 			char *sendBuffer = new char[length];
 			file.read(sendBuffer, length);
 
-			if (send(_clientSocket, sendBuffer, length, 0) == SOCKET_ERROR)
+			if (send(_clientSocket, sendBuffer, static_cast<int>(length), 0) == SOCKET_ERROR)
 			{
 				throw "error : client error send";
 			}
@@ -65,13 +65,15 @@ namespace cyp
 			readFileSend();
 		}
 
-		void FileCommunication::receiveFile(u_short port, std::string filePath)
+		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
 			openServer(port);
-			std::string receiveBuffer = receiveServer();
+			
+			char* receiveBuffer = new char[fileByteSize];
+			recv(_serverSocket, receiveBuffer, fileByteSize, 0);
 
 			std::ofstream file(filePath, std::ios::binary);
-			file.write(receiveBuffer.c_str(), receiveBuffer.length());
+			file.write(receiveBuffer, fileByteSize);
 		}
 	}
 }
