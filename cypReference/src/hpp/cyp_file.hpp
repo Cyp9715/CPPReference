@@ -18,7 +18,7 @@ namespace cyp
 		* ¡Ø currently looking for an encrypted file transfer method.
 		*    the only known working file is a.txt file.
 		*/
-			class FileCommunication : cyp::communication::Tcp
+		class FileCommunication : cyp::communication::Tcp
 		{
 		private:
 			//char* sendBuffer;
