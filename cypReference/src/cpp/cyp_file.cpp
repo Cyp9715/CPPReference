@@ -38,31 +38,32 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
-
-		void FileCommunication::readFileSend()
+		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
-			std::ifstream file(sendFilePath, std::ios::out | std::ios::binary);
+			openClient(ip, port);
 
-			//get length of file
-			file.seekg(0, std::ios::end);
-			size_t length = file.tellg();
-			file.seekg(0, std::ios::beg);
-			char *sendBuffer = new char[length];
-			file.read(sendBuffer, length);
+			std::ifstream file(filePath, std::ios::out | std::ios::binary);
+			char* sendBuffer;
 
-			if (send(_clientSocket, sendBuffer, static_cast<int>(length), 0) == SOCKET_ERROR)
+			if (file.is_open())
 			{
-				throw "error : client error send";
+				file.seekg(0, std::ios::end);
+				size_t length = file.tellg();
+				file.seekg(0, std::ios::beg);
+				sendBuffer = new char[length];
+				file.read(sendBuffer, length);
+
+				if (send(_clientSocket, sendBuffer, static_cast<int>(length), 0) == SOCKET_ERROR)
+				{
+					throw "error : client error send";
+				}
+			}
+			else
+			{
+				throw "error : Unable to open file.";
 			}
 
 			delete[] sendBuffer;
-		}
-
-		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
-		{
-			sendFilePath = filePath;
-			openClient(ip, port);
-			readFileSend();
 		}
 
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)

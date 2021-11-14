@@ -14,25 +14,20 @@ namespace cyp
 		std::string readAllFile(const std::string& fileLoc);
 
 		/* 
-		* Since the files are loaded into memory at onceand then transferred, a different solution is required for very large files.
-		* ¡Ø currently looking for an encrypted file transfer method.
-		*    the only known working file is a.txt file.
+		* 1. Since the files are loaded into memory at onceand then transferred, a different solution is required for very large files.
+		* 2. Basically, it operates within different PCs.
+		* 3. There is room for improvement. (Especially in the receiving part.)
+		* 
+		* I'm going to correct the above problems and delete the comments within a few months.
 		*/
 		class FileCommunication : cyp::communication::Tcp
 		{
-		private:
-			//char* sendBuffer;
-			std::string sendFilePath;
-			std::string receiveFilePath;
-
-			// send
-			void readFileSend();
-			
 		public:
 			// send : use tcp client.
 			void sendFile(const std::string& ip, u_short port, const std::string& filePath);
 
 			// receive : use tcp server
+			// -> There is a possibility of improvement.
 			void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
 		};
 	}
