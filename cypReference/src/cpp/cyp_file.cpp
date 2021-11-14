@@ -74,6 +74,8 @@ namespace cyp
 
 			std::ofstream file(filePath, std::ios::binary);
 			file.write(receiveBuffer, fileByteSize);
+
+			delete[] receiveBuffer;
 		}
 	}
 }
