@@ -43,38 +43,73 @@ namespace cyp
 			openClient(ip, port);
 
 			std::ifstream file(filePath, std::ios::out | std::ios::binary);
-			char* sendBuffer;
 
 			if (file.is_open())
 			{
+				char* sendBuffer;
 				file.seekg(0, std::ios::end);
-				size_t length = file.tellg();
+				unsigned long long fileLength = file.tellg();
 				file.seekg(0, std::ios::beg);
-				sendBuffer = new char[length];
-				file.read(sendBuffer, length);
 
-				if (send(_clientSocket, sendBuffer, static_cast<int>(length), 0) == SOCKET_ERROR)
+				unsigned long long loopCount = fileLength / 1480;
+				unsigned long long ing = 0;
+
+				while (ing < loopCount)
+				{
+					sendBuffer = new char[1480];
+					
+					file.read(sendBuffer, 1480);
+					file.seekg(1480);
+
+					if (send(_clientSocket, sendBuffer, static_cast<int>(fileLength), 0) == SOCKET_ERROR)
+					{
+						throw "error : client error send";
+					}
+
+					++ing;
+					delete[] sendBuffer;
+				}
+
+				file.seekg(std::ios::end);
+				unsigned short end = file.tellg();
+
+				sendBuffer = new char[end];
+				file.read(sendBuffer, end);
+
+				if (send(_clientSocket, sendBuffer, static_cast<int>(fileLength), 0) == SOCKET_ERROR)
 				{
 					throw "error : client error send";
 				}
+
+				delete[] sendBuffer;
 			}
 			else
 			{
 				throw "error : Unable to open file.";
 			}
-
-			delete[] sendBuffer;
 		}
 
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
 			openServer(port);
 			
-			char* receiveBuffer = new char[fileByteSize];
-			recv(_serverSocket, receiveBuffer, fileByteSize, 0);
+			char* receiveBuffer = new char[1480];
+			int ing = 0;
 
 			std::ofstream file(filePath, std::ios::binary);
-			file.write(receiveBuffer, fileByteSize);
+
+			while (ing < 56427)
+			{
+				recv(_serverSocket, receiveBuffer, 1480, 0);
+				file.write(receiveBuffer, 1480);
+				++ing;
+			}
+
+			delete[] receiveBuffer;
+
+			receiveBuffer = new char[1452];
+			recv(_serverSocket, receiveBuffer, 1452 0);
+			file.write(receiveBuffer, 1452);
 
 			delete[] receiveBuffer;
 		}
