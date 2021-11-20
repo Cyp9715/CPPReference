@@ -66,13 +66,12 @@ namespace cyp
 					{
 						throw "error : client error send";
 					}
-					
+
 					++ing;
 					delete[] sendBuffer;
 				}
 
-				file.seekg(std::ios::end);
-				unsigned short end = file.tellg();
+				remain = static_cast<unsigned short>(fileLength - (1480 * ing));
 
 				sendBuffer = new char[remain];
 				ZeroMemory(sendBuffer, remain);
@@ -98,7 +97,7 @@ namespace cyp
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
 			openServer(port);
-			
+
 			char* receiveBuffer = new char[1480];
 			int ing = 0;
 
@@ -119,7 +118,7 @@ namespace cyp
 			file.write(receiveBuffer, 200);
 
 			delete[] receiveBuffer;
-			
+
 			closesocket(_listenSocket);
 			closesocket(_serverSocket);
 		}
