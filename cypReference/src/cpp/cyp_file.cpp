@@ -71,7 +71,8 @@ namespace cyp
 					delete[] sendBuffer;
 				}
 
-				remain = static_cast<unsigned short>(fileLength - (1480 * ing));
+				file.seekg(std::ios::end);
+				unsigned short end = file.tellg();
 
 				sendBuffer = new char[remain];
 				ZeroMemory(sendBuffer, remain);
