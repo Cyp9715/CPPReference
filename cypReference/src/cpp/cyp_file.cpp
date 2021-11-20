@@ -73,7 +73,7 @@ namespace cyp
 				}
 
 				file.seekg(std::ios::end);
-				unsigned short end = file.tellg();
+				unsigned short end = static_cast<unsigned short>(file.tellg());
 
 				sendBuffer = new char[end];
 				file.read(sendBuffer, end);
@@ -89,6 +89,8 @@ namespace cyp
 			{
 				throw "error : Unable to open file.";
 			}
+
+			closesocket(_clientSocket);
 		}
 
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
@@ -100,7 +102,8 @@ namespace cyp
 
 			std::ofstream file(filePath, std::ios::binary);
 
-			while (ing < 56427)
+			// testCode
+			while (ing < 591)
 			{
 				recv(_serverSocket, receiveBuffer, 1480, 0);
 				file.write(receiveBuffer, 1480);
@@ -109,11 +112,14 @@ namespace cyp
 
 			delete[] receiveBuffer;
 
-			receiveBuffer = new char[1452];
-			recv(_serverSocket, receiveBuffer, 1452, 0);
-			file.write(receiveBuffer, 1452);
+			receiveBuffer = new char[200];
+			recv(_serverSocket, receiveBuffer, 200, 0);
+			file.write(receiveBuffer, 200);
 
 			delete[] receiveBuffer;
+			
+			closesocket(_listenSocket);
+			closesocket(_serverSocket);
 		}
 	}
 }
