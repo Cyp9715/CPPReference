@@ -42,7 +42,7 @@ namespace cyp
 		{
 			openClient(ip, port);
 
-			std::ifstream file(filePath, std::ios::out | std::ios::binary);
+			std::ifstream file(filePath, std::ios::binary);
 
 			if (file.is_open())
 			{
@@ -53,32 +53,33 @@ namespace cyp
 
 				unsigned long long loopCount = fileLength / 1480;
 				unsigned long long ing = 0;
+				unsigned short remain = 0;
 
 				while (ing < loopCount)
 				{
 					sendBuffer = new char[1480];
 					ZeroMemory(sendBuffer, 1480);
 					file.read(sendBuffer, 1480);
-					file.seekg(1480);
+					file.seekg(1480, std::ios_base::cur);
 
-					if(send(_clientSocket, sendBuffer, static_cast<int>(1480), 0))
+					if(send(_clientSocket, sendBuffer, static_cast<int>(1480), 0) == SOCKET_ERROR)
 					{
 						throw "error : client error send";
 					}
 					
-					std::cout << ing << std::endl;
-
 					++ing;
 					delete[] sendBuffer;
 				}
 
-				file.seekg(std::ios::end);
-				unsigned short end = file.tellg();
+				remain = static_cast<unsigned short>(fileLength - (1480 * ing));
 
-				sendBuffer = new char[end];
-				file.read(sendBuffer, end);
+				sendBuffer = new char[remain];
+				ZeroMemory(sendBuffer, remain);
+				file.read(sendBuffer, remain);
+				file.seekg(remain, std::ios_base::cur);
 
-				if (send(_clientSocket, sendBuffer, static_cast<int>(end), 0) == SOCKET_ERROR)
+
+				if (send(_clientSocket, sendBuffer, static_cast<int>(remain), 0) == SOCKET_ERROR)
 				{
 					throw "error : client error send";
 				}
@@ -89,6 +90,8 @@ namespace cyp
 			{
 				throw "error : Unable to open file.";
 			}
+
+			closesocket(_clientSocket);
 		}
 
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
@@ -100,7 +103,8 @@ namespace cyp
 
 			std::ofstream file(filePath, std::ios::binary);
 
-			while (ing < 56427)
+			// testCode
+			while (ing < 591)
 			{
 				recv(_serverSocket, receiveBuffer, 1480, 0);
 				file.write(receiveBuffer, 1480);
@@ -109,11 +113,14 @@ namespace cyp
 
 			delete[] receiveBuffer;
 
-			receiveBuffer = new char[1452];
-			recv(_serverSocket, receiveBuffer, 1452, 0);
-			file.write(receiveBuffer, 1452);
+			receiveBuffer = new char[200];
+			recv(_serverSocket, receiveBuffer, 200, 0);
+			file.write(receiveBuffer, 200);
 
 			delete[] receiveBuffer;
+			
+			closesocket(_listenSocket);
+			closesocket(_serverSocket);
 		}
 	}
 }
