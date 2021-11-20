@@ -57,14 +57,16 @@ namespace cyp
 				while (ing < loopCount)
 				{
 					sendBuffer = new char[1480];
-					
+					ZeroMemory(sendBuffer, 1480);
 					file.read(sendBuffer, 1480);
 					file.seekg(1480);
 
-					if (send(_clientSocket, sendBuffer, static_cast<int>(fileLength), 0) == SOCKET_ERROR)
+					if(send(_clientSocket, sendBuffer, static_cast<int>(1480), 0))
 					{
 						throw "error : client error send";
 					}
+					
+					std::cout << ing << std::endl;
 
 					++ing;
 					delete[] sendBuffer;
@@ -76,7 +78,7 @@ namespace cyp
 				sendBuffer = new char[end];
 				file.read(sendBuffer, end);
 
-				if (send(_clientSocket, sendBuffer, static_cast<int>(fileLength), 0) == SOCKET_ERROR)
+				if (send(_clientSocket, sendBuffer, static_cast<int>(end), 0) == SOCKET_ERROR)
 				{
 					throw "error : client error send";
 				}
@@ -108,7 +110,7 @@ namespace cyp
 			delete[] receiveBuffer;
 
 			receiveBuffer = new char[1452];
-			recv(_serverSocket, receiveBuffer, 1452 0);
+			recv(_serverSocket, receiveBuffer, 1452, 0);
 			file.write(receiveBuffer, 1452);
 
 			delete[] receiveBuffer;
