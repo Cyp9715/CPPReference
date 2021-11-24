@@ -4,6 +4,5 @@ int main()
 {
 	cyp::file::FileCommunication f;
 
-	f.sendFile("192.168.100.32", 9998, "C:\\Users\\Cyp\\Desktop\\test.txt");
-	Sleep(2000);
+	f.receiveFile(9998, "C:\\Users\\cyphe\\Desktop\\cyp2.txt", 123);
 }

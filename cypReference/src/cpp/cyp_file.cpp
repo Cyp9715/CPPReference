@@ -190,13 +190,13 @@ namespace cyp
 				recvfrom(_recvSocket, receiveBuffer, PACKET_MAX, 0, (struct sockaddr*)&_recvAddr, &addrlen);
 				memcpy(r_ident, receiveBuffer, HEADER_IDENT_MAX);
 
-				if (cmpCharArr(r_ident,HEADER_IDENT, HEADER_IDENT_MAX))
+				if (cmpCharArr(r_ident, HEADER_IDENT, HEADER_IDENT_MAX))
 				{
 					memcpy(&r_fileIngLength, receiveBuffer + 4, 8);
 					memcpy(&r_fileFullLength, receiveBuffer + 12, 8);
 					
-					std::copy(sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).begin(), 
-						sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).end(), r_checkSum);
+					//std::copy(sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).begin(), 
+					//	sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).end(), r_checkSum);
 
 					if (r_checkSum == r_checkSumContent)
 					{
