@@ -35,7 +35,7 @@ namespace cyp
 
 			// send
 			template<typename T>
-			void arrayAddarray_char(char* input, T addChar, int index, int insert_length);
+			void addArr_char(char* input, T addChar, int index, int insert_length);
 			void assembleIngPacket();
 			void assembleRemainPacket();
 
@@ -57,7 +57,9 @@ namespace cyp
 			char* r_checkSumContent = new char[PACKET_MAX - CHECKSUM_MAX];
 			char* r_checkSum = new char[CHECKSUM_MAX];
 
-			void disassemblePacket();
+			template<typename T>
+			void assignCharArrToObject(T& obj, char* charArr);
+			bool cmpCharArr(char * input1, char * input2, int size);
 
 		public:
 			~FileCommunication();
