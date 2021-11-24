@@ -1,4 +1,4 @@
-#include "cyp_file.hpp"
+﻿#include "cyp_file.hpp"
 
 namespace cyp
 {
@@ -38,75 +38,112 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
+		template<typename T>
+		void FileCommunication::arrayAddarray_char(char* original, T addChar, int originalIndex, int addCharLength)
+		{
+			std::cout << typeid(addChar).name() << std::endl;
+			if constexpr (std::is_same_v<T, char*>)
+			{
+				memcpy(original + originalIndex, addChar, addCharLength);
+			}
+			else
+			{
+				memcpy(original + originalIndex, static_cast<char*>(static_cast<void*>(&addChar)), addCharLength);
+			}
+		}
+
+		FileCommunication::~FileCommunication()
+		{
+			delete[] header;
+			delete[] checkHash;
+		}
+
+		/*
+		* TCP basically guarantees sequential transmission.
+		* However, the size is limited to 4 gb, and memory consumption may temporarily surge, 
+		* So the file is disassembled and sent.
+		* 
+		* This process allows users to transfer up to 18446.744 Petabytes.
+		*/
 		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
-			openClient(ip, port);
+			open_send(ip, port);
 
-			std::ifstream file(filePath, std::ios::binary);
+			std::ifstream file(filePath, std::ios_base::binary);
 
 			if (file.is_open())
 			{
-				char* sendBuffer;
 				file.seekg(0, std::ios::end);
-				unsigned long long fileLength = file.tellg();
+				fileLength = file.tellg();
 				file.seekg(0, std::ios::beg);
 
-				unsigned long long loopCount = fileLength / 1480;
-				unsigned long long ing = 0;
-				unsigned short remain = 0;
+				// byte Count
+				unsigned short remainCount = 0;
+				
+				arrayAddarray_char(header, fileLength, 4, sizeof(unsigned long long));
 
-				while (ing < loopCount)
+				while (ingLength < fileLength)
 				{
-					sendBuffer = new char[1480];
-					ZeroMemory(sendBuffer, 1480);
-					file.read(sendBuffer, 1480);
-					file.seekg(1480, std::ios_base::cur);
+					payload = new char[1456];
+					file.read(payload, 1456);
+					
+					arrayAddarray_char(header, ingLength, 12, sizeof(unsigned long long));
+					arrayAddarray_char(sendBuffer, header, 0, 20);
+					arrayAddarray_char(sendBuffer, payload, 20, 1456);
+					sha.strToSha<CryptoPP::SHA1>(sendBuffer);
 
-					if(send(_clientSocket, sendBuffer, static_cast<int>(1480), 0) == SOCKET_ERROR)
+					if (sendto(_sendSocket, sendBuffer, static_cast<int>(1500), 0,
+						(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 					{
 						throw "error : client error send";
 					}
+					
+					Sleep(50);
+					ingLength += 1456;
 
-					++ing;
-					delete[] sendBuffer;
+					delete[] payload;
 				}
 
-				remain = static_cast<unsigned short>(fileLength - (1480 * ing));
+				remainCount = fileLength - ingLength;
 
-				sendBuffer = new char[remain];
-				ZeroMemory(sendBuffer, remain);
-				file.read(sendBuffer, remain);
-				file.seekg(remain, std::ios_base::cur);
+				payload = new char[remainCount];
+				file.read(payload, remainCount);
 
-
-				if (send(_clientSocket, sendBuffer, static_cast<int>(remain), 0) == SOCKET_ERROR)
+				if (sendto(_sendSocket, sendBuffer, static_cast<int>(remainCount), 0,
+					(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 				{
 					throw "error : client error send";
 				}
 
-				delete[] sendBuffer;
+				delete[] payload;
 			}
 			else
 			{
 				throw "error : Unable to open file.";
 			}
 
-			closesocket(_clientSocket);
+			closesocket(_sendSocket);
+			WSACleanup();
 		}
 
+		/* 
+		* The reason for using std::vector is that it is sent in order when sending,
+		* but there is no guarantee that it will come in order when receiving it. 
+		*/
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
-			openServer(port);
+			open_receive(port);
 
 			char* receiveBuffer = new char[1480];
 			int ing = 0;
 
 			std::ofstream file(filePath, std::ios::binary);
+			int addrlen = sizeof(_recvAddr);
 
 			// testCode
 			while (ing < 591)
 			{
-				recv(_serverSocket, receiveBuffer, 1480, 0);
+				recvfrom(_recvSocket, receiveBuffer, 1480, 0, (struct sockaddr*)&_recvAddr, &addrlen);
 				file.write(receiveBuffer, 1480);
 				++ing;
 			}
@@ -114,13 +151,14 @@ namespace cyp
 			delete[] receiveBuffer;
 
 			receiveBuffer = new char[200];
-			recv(_serverSocket, receiveBuffer, 200, 0);
+			recvfrom(_recvSocket, receiveBuffer, 200, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+
 			file.write(receiveBuffer, 200);
 
 			delete[] receiveBuffer;
 
-			closesocket(_listenSocket);
-			closesocket(_serverSocket);
+			closesocket(_recvSocket);
+			WSACleanup();
 		}
 	}
 }

@@ -1,8 +1,11 @@
-#pragma once
+﻿#pragma once
 #include <filesystem>
 #include <ostream>
 #include <fstream>
+#include <type_traits>
+#include <typeinfo>
 #include "cyp_communication.hpp"
+#include "cyp_hash.hpp"
 
 namespace cyp
 {
@@ -20,9 +23,24 @@ namespace cyp
 		* 
 		* I'm going to correct the above problems and delete the comments within a few months.
 		*/
-		class FileCommunication : cyp::communication::Tcp
+		class FileCommunication : cyp::communication::Udp
 		{
+			char* header = new char[20] { 0x3D, 0x3D, 0x3D, 0x11 };
+			char* payload;
+			char* checkHash = new char[16];
+			char* sendBuffer = new char[1500];
+
+			template<typename T>
+			void arrayAddarray_char(char* input, T addChar, int index, int insert_length);
+
+			unsigned long long fileLength;
+			unsigned long long ingLength;
+
+			cyp::hash::Sha sha;
+
 		public:
+			~FileCommunication();
+
 			// send : use tcp client.
 			void sendFile(const std::string& ip, u_short port, const std::string& filePath);
 
