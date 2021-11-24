@@ -41,7 +41,6 @@ namespace cyp
 		template<typename T>
 		void FileCommunication::arrayAddarray_char(char* original, T addChar, int originalIndex, int addCharLength)
 		{
-			std::cout << typeid(addChar).name() << std::endl;
 			if constexpr (std::is_same_v<T, char*>)
 			{
 				memcpy(original + originalIndex, addChar, addCharLength);
@@ -52,10 +51,29 @@ namespace cyp
 			}
 		}
 
+		void FileCommunication::assembleIngPacket()
+		{
+			arrayAddarray_char(s_header, s_fileIngLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
+			arrayAddarray_char(s_Buffer, s_header, 0, HEADER_MAX);
+			arrayAddarray_char(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
+			sha.strToSha<CryptoPP::SHA1>(s_Buffer).copy(s_checkSum, CHECKSUM_MAX);
+			arrayAddarray_char(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
+		}
+
+		void FileCommunication::assembleRemainPacket()
+		{
+			arrayAddarray_char(s_header, s_fileRemainLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
+			arrayAddarray_char(s_Buffer, s_header, 0, HEADER_MAX);
+			arrayAddarray_char(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
+			sha.strToSha<CryptoPP::SHA1>(s_Buffer).copy(s_checkSum, CHECKSUM_MAX);
+			arrayAddarray_char(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
+		}
+
 		FileCommunication::~FileCommunication()
 		{
-			delete[] header;
-			delete[] checkHash;
+			delete[] s_header;
+			delete[] s_checkSum;
+			delete[] HEADER_IDENT;
 		}
 
 		/*
@@ -64,6 +82,11 @@ namespace cyp
 		* So the file is disassembled and sent.
 		* 
 		* This process allows users to transfer up to 18446.744 Petabytes.
+		* 
+		* packet struct [8byte : default UDP Header], [20byte (4byte : identification number), (8byte : ingLength), (8byte : fullLength)]
+		*				[1452byte : payload(disassemble body)], [20byte : sha1 checksum] = 1500 byte
+		* 
+		* I don't think it's a problem to use sha 1 because sha 1 is for simple error check, not security.
 		*/
 		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
@@ -74,48 +97,44 @@ namespace cyp
 			if (file.is_open())
 			{
 				file.seekg(0, std::ios::end);
-				fileLength = file.tellg();
+				s_fileFullLength = file.tellg();
 				file.seekg(0, std::ios::beg);
 
-				// byte Count
-				unsigned short remainCount = 0;
-				
-				arrayAddarray_char(header, fileLength, 4, sizeof(unsigned long long));
+				arrayAddarray_char(s_header, s_fileFullLength, 12, sizeof(unsigned long long));
 
-				while (ingLength < fileLength)
+				while (s_fileIngLength < s_fileFullLength)
 				{
-					payload = new char[1456];
-					file.read(payload, 1456);
+					s_payload = new char[PAYLOAD_MAX];
+					file.read(s_payload, PAYLOAD_MAX);
 					
-					arrayAddarray_char(header, ingLength, 12, sizeof(unsigned long long));
-					arrayAddarray_char(sendBuffer, header, 0, 20);
-					arrayAddarray_char(sendBuffer, payload, 20, 1456);
-					sha.strToSha<CryptoPP::SHA1>(sendBuffer);
+					assembleIngPacket();
 
-					if (sendto(_sendSocket, sendBuffer, static_cast<int>(1500), 0,
+					if (sendto(_sendSocket, s_Buffer, static_cast<int>(PACKET_MAX), 0,
 						(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 					{
 						throw "error : client error send";
 					}
 					
-					Sleep(50);
-					ingLength += 1456;
+					Sleep(50); // testCode
+					s_fileIngLength += PAYLOAD_MAX;
 
-					delete[] payload;
+					delete[] s_payload;
 				}
 
-				remainCount = fileLength - ingLength;
+				s_fileRemainLength = s_fileFullLength - s_fileIngLength;
 
-				payload = new char[remainCount];
-				file.read(payload, remainCount);
+				s_payload = new char[s_fileRemainLength];
+				file.read(s_payload, s_fileRemainLength);
 
-				if (sendto(_sendSocket, sendBuffer, static_cast<int>(remainCount), 0,
+				assembleRemainPacket();
+
+				if (sendto(_sendSocket, s_Buffer, static_cast<int>(s_fileRemainLength), 0,
 					(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 				{
 					throw "error : client error send";
 				}
 
-				delete[] payload;
+				delete[] s_payload;
 			}
 			else
 			{
@@ -134,27 +153,36 @@ namespace cyp
 		{
 			open_receive(port);
 
-			char* receiveBuffer = new char[1480];
+			char* receiveBuffer = new char[PACKET_MAX];
 			int ing = 0;
 
 			std::ofstream file(filePath, std::ios::binary);
 			int addrlen = sizeof(_recvAddr);
 
-			// testCode
-			while (ing < 591)
+			while (true)
 			{
-				recvfrom(_recvSocket, receiveBuffer, 1480, 0, (struct sockaddr*)&_recvAddr, &addrlen);
-				file.write(receiveBuffer, 1480);
-				++ing;
+				recvfrom(_recvSocket, receiveBuffer, PACKET_MAX, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+				memcpy(r_ident, receiveBuffer, HEADER_IDENT_MAX);
+
+				if (r_ident == HEADER_IDENT)
+				{
+					memcpy(r_checkSum, receiveBuffer + 1472, 20);
+					memcpy(r_checkSumContent, receiveBuffer, 1472);
+					std::copy(sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).begin(), 
+						sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).end(), r_checkSum);
+
+					if (r_checkSum == r_checkSumContent)
+					{
+						memcpy(r_payload, receiveBuffer + HEADER_MAX, PAYLOAD_MAX);
+
+						file.write(r_payload, PAYLOAD_MAX);
+					}
+					else
+					{
+
+					}
+				}
 			}
-
-			delete[] receiveBuffer;
-
-			receiveBuffer = new char[200];
-			recvfrom(_recvSocket, receiveBuffer, 200, 0, (struct sockaddr*)&_recvAddr, &addrlen);
-
-			file.write(receiveBuffer, 200);
-
 			delete[] receiveBuffer;
 
 			closesocket(_recvSocket);

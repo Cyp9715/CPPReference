@@ -3,7 +3,6 @@
 #include <ostream>
 #include <fstream>
 #include <type_traits>
-#include <typeinfo>
 #include "cyp_communication.hpp"
 #include "cyp_hash.hpp"
 
@@ -25,18 +24,40 @@ namespace cyp
 		*/
 		class FileCommunication : cyp::communication::Udp
 		{
-			char* header = new char[20] { 0x3D, 0x3D, 0x3D, 0x11 };
-			char* payload;
-			char* checkHash = new char[16];
-			char* sendBuffer = new char[1500];
-
-			template<typename T>
-			void arrayAddarray_char(char* input, T addChar, int index, int insert_length);
-
-			unsigned long long fileLength;
-			unsigned long long ingLength;
+			u_short const HEADER_MAX = 20;
+			u_short const HEADER_IDENT_MAX = 4;
+			u_short const PAYLOAD_MAX = 1452;
+			u_short const CHECKSUM_MAX = 20;
+			u_short const PACKET_MAX = 1492;
+			char* HEADER_IDENT = new char[HEADER_IDENT_MAX] { 0x3D, 0x3D, 0x3D, 0x11 };
 
 			cyp::hash::Sha sha;
+
+			// send
+			template<typename T>
+			void arrayAddarray_char(char* input, T addChar, int index, int insert_length);
+			void assembleIngPacket();
+			void assembleRemainPacket();
+
+			char* s_header = new char[HEADER_MAX] { 0x3D, 0x3D, 0x3D, 0x11 };
+			char* s_payload;
+			char* s_checkSum = new char[CHECKSUM_MAX];
+			char* s_Buffer = new char[PACKET_MAX];
+
+			unsigned long long s_fileFullLength;
+			unsigned long long s_fileIngLength;
+			unsigned short s_fileRemainLength;
+
+			// receive
+			char* r_ident = new char[HEADER_IDENT_MAX];
+			unsigned long long r_fileIngLength;
+			unsigned long long r_fileFullLength;
+			unsigned short r_fileRemainLength;
+			char* r_payload;
+			char* r_checkSumContent = new char[PACKET_MAX - CHECKSUM_MAX];
+			char* r_checkSum = new char[CHECKSUM_MAX];
+
+			void disassemblePacket();
 
 		public:
 			~FileCommunication();
