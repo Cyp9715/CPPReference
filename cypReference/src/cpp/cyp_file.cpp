@@ -39,7 +39,7 @@ namespace cyp
 		}
 
 		template<typename T>
-		void FileCommunication::addArr_char(char* original, T addChar, int originalIndex, int addCharLength)
+		void FileCommunication::extendArray(char* original, T addChar, int originalIndex, int addCharLength)
 		{
 			if constexpr (std::is_same_v<T, char*>)
 			{
@@ -53,23 +53,24 @@ namespace cyp
 
 		void FileCommunication::assembleIngPacket()
 		{
-			addArr_char(s_header, s_fileIngLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
-			addArr_char(s_Buffer, s_header, 0, HEADER_MAX);
-			addArr_char(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
+			extendArray(s_header, s_fileIngLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
+			extendArray(s_Buffer, s_header, 0, HEADER_MAX);
+			extendArray(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
 			sha.strToSha<CryptoPP::SHA1>(s_Buffer).copy(s_checkSum, CHECKSUM_MAX);
-			addArr_char(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
+			extendArray(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
 		}
 
 		void FileCommunication::assembleRemainPacket()
 		{
-			addArr_char(s_header, s_fileRemainLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
-			addArr_char(s_Buffer, s_header, 0, HEADER_MAX);
-			addArr_char(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
+			extendArray(s_header, s_fileRemainLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
+			extendArray(s_Buffer, s_header, 0, HEADER_MAX);
+			extendArray(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
 			sha.strToSha<CryptoPP::SHA1>(s_Buffer).copy(s_checkSum, CHECKSUM_MAX);
-			addArr_char(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
+			extendArray(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
 		}
 
-		bool FileCommunication::cmpCharArr(char* input1, char* input2, int size)
+		template<typename T, typename F>
+		bool FileCommunication::cmpObjectArr(T input1, F input2, int size)
 		{
 			for (int iter_ = 0; iter_ < size; ++iter_)
 			{
@@ -100,6 +101,8 @@ namespace cyp
 			delete[] s_header;
 			delete[] s_checkSum;
 			delete[] HEADER_IDENT;
+			delete[] r_ident;
+			delete[] r_checkSumContent;
 		}
 
 		/*
@@ -126,7 +129,7 @@ namespace cyp
 				s_fileFullLength = file.tellg();
 				file.seekg(0, std::ios::beg);
 
-				addArr_char(s_header, s_fileFullLength, 12, sizeof(unsigned long long));
+				extendArray(s_header, s_fileFullLength, 12, sizeof(unsigned long long));
 
 				while (s_fileIngLength < s_fileFullLength)
 				{
@@ -190,18 +193,17 @@ namespace cyp
 				recvfrom(_recvSocket, receiveBuffer, PACKET_MAX, 0, (struct sockaddr*)&_recvAddr, &addrlen);
 				memcpy(r_ident, receiveBuffer, HEADER_IDENT_MAX);
 
-				if (cmpCharArr(r_ident,HEADER_IDENT, HEADER_IDENT_MAX))
+				if (cmpObjectArr(r_ident, HEADER_IDENT, HEADER_IDENT_MAX))
 				{
 					memcpy(&r_fileIngLength, receiveBuffer + 4, 8);
 					memcpy(&r_fileFullLength, receiveBuffer + 12, 8);
-					
-					std::copy(sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).begin(), 
-						sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).end(), r_checkSum);
+					memcpy(r_checkSumContent, receiveBuffer, 1452 + 20);
 
-					if (r_checkSum == r_checkSumContent)
+					r_checkSum = sha.strToSha<CryptoPP::SHA1>(r_checkSumContent);
+					
+					if (cmpObjectArr(r_checkSumContent, r_checkSum, 1452 + 20))
 					{
 						memcpy(r_payload, receiveBuffer + HEADER_MAX, PAYLOAD_MAX);
-
 						file.write(r_payload, PAYLOAD_MAX);
 					}
 					else
@@ -210,6 +212,7 @@ namespace cyp
 					}
 				}
 			}
+
 			delete[] receiveBuffer;
 
 			closesocket(_recvSocket);

@@ -35,7 +35,7 @@ namespace cyp
 
 			// send
 			template<typename T>
-			void addArr_char(char* input, T addChar, int index, int insert_length);
+			void extendArray(char* input, T addChar, int index, int insert_length);
 			void assembleIngPacket();
 			void assembleRemainPacket();
 
@@ -55,19 +55,20 @@ namespace cyp
 			unsigned short r_fileRemainLength;
 			char* r_payload;
 			char* r_checkSumContent = new char[PACKET_MAX - CHECKSUM_MAX];
-			char* r_checkSum = new char[CHECKSUM_MAX];
+			std::string r_checkSum;
 
 			template<typename T>
 			void assignCharArrToObject(T& obj, char* charArr);
-			bool cmpCharArr(char * input1, char * input2, int size);
+			template<typename T, typename F>
+			bool cmpObjectArr(T input1, F input2, int size);
 
 		public:
 			~FileCommunication();
 
-			// send : use tcp client.
+			// send : use udp client.
 			void sendFile(const std::string& ip, u_short port, const std::string& filePath);
 
-			// receive : use tcp server
+			// receive : use udp server
 			// -> There is a possibility of improvement.
 			void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
 		};
