@@ -1374,7 +1374,7 @@ public:
 	/// \param messageLength the size of the messagetext buffer, in bytes
 	/// \details EncryptAndAuthenticate() encrypts and generates the MAC in one call. The function
 	///  truncates the MAC if <tt>macSize < TagSize()</tt>.
-	virtual void EncryptAndAuthenticate(byte *ciphertext, byte *mac, size_t macSize, const byte *iv, int ivLength, const byte *header, size_t headerLength, const byte *message, size_t messageLength);
+	virtual void EncryptAndAuthenticate(byte *ciphertext, byte *mac, size_t macSize, const byte *iv, int ivLength, const byte *s_header, size_t headerLength, const byte *message, size_t messageLength);
 
 	/// \brief Decrypts and verifies a MAC in one call
 	/// \param message the decryption buffer
@@ -1391,7 +1391,7 @@ public:
 	/// <tt>message</tt> is a decryption buffer and should be at least as large as the ciphertext buffer.
 	/// \details The function returns true iff MAC is valid. DecryptAndVerify() assumes the MAC
 	///  is truncated if <tt>macLength < TagSize()</tt>.
-	virtual bool DecryptAndVerify(byte *message, const byte *mac, size_t macSize, const byte *iv, int ivLength, const byte *header, size_t headerLength, const byte *ciphertext, size_t ciphertextLength);
+	virtual bool DecryptAndVerify(byte *message, const byte *mac, size_t macSize, const byte *iv, int ivLength, const byte *s_header, size_t headerLength, const byte *ciphertext, size_t ciphertextLength);
 
 	/// \brief Provides the name of this algorithm
 	/// \return the standard algorithm name
