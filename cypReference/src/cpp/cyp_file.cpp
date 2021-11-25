@@ -56,8 +56,6 @@ namespace cyp
 			extendArray(s_header, s_fileIngLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
 			extendArray(s_Buffer, s_header, 0, HEADER_MAX);
 			extendArray(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
-			sha.strToSha<CryptoPP::SHA1>(s_Buffer).copy(s_checkSum, CHECKSUM_MAX);
-			extendArray(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
 		}
 
 		void FileCommunication::assembleRemainPacket()
@@ -65,8 +63,6 @@ namespace cyp
 			extendArray(s_header, s_fileRemainLength, HEADER_IDENT_MAX, sizeof(unsigned long long));
 			extendArray(s_Buffer, s_header, 0, HEADER_MAX);
 			extendArray(s_Buffer, s_payload, HEADER_MAX, PAYLOAD_MAX);
-			sha.strToSha<CryptoPP::SHA1>(s_Buffer).copy(s_checkSum, CHECKSUM_MAX);
-			extendArray(s_Buffer, s_checkSum, PAYLOAD_MAX, HEADER_MAX);
 		}
 
 		template<typename T, typename F>
@@ -99,10 +95,8 @@ namespace cyp
 		FileCommunication::~FileCommunication()
 		{
 			delete[] s_header;
-			delete[] s_checkSum;
 			delete[] HEADER_IDENT;
 			delete[] r_ident;
-			delete[] r_checkSumContent;
 		}
 
 		/*
@@ -119,7 +113,7 @@ namespace cyp
 		*/
 		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
-			open_send(ip, port);
+			openClient(ip, port);
 
 			std::ifstream file(filePath, std::ios_base::binary);
 
@@ -129,20 +123,15 @@ namespace cyp
 				s_fileFullLength = file.tellg();
 				file.seekg(0, std::ios::beg);
 
+
 				extendArray(s_header, s_fileFullLength, 12, sizeof(unsigned long long));
 
 				while (s_fileIngLength < s_fileFullLength)
 				{
 					s_payload = new char[PAYLOAD_MAX];
 					file.read(s_payload, PAYLOAD_MAX);
-					
 					assembleIngPacket();
-
-					if (sendto(_sendSocket, s_Buffer, static_cast<int>(PACKET_MAX), 0,
-						(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
-					{
-						throw "error : client error send";
-					}
+					send(_serverSocket, s_Buffer, static_cast<int>(PACKET_MAX), 0);
 					
 					Sleep(50); // testCode
 					s_fileIngLength += PAYLOAD_MAX;
@@ -157,11 +146,7 @@ namespace cyp
 
 				assembleRemainPacket();
 
-				if (sendto(_sendSocket, s_Buffer, static_cast<int>(s_fileRemainLength), 0,
-					(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
-				{
-					throw "error : client error send";
-				}
+				send(_serverSocket, s_Buffer, static_cast<int>(s_fileRemainLength), 0);
 
 				delete[] s_payload;
 			}
@@ -169,9 +154,6 @@ namespace cyp
 			{
 				throw "error : Unable to open file.";
 			}
-
-			closesocket(_sendSocket);
-			WSACleanup();
 		}
 
 		/*
@@ -180,43 +162,29 @@ namespace cyp
 		*/
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
-			open_receive(port);
+			openServer(port);
 
 			char* receiveBuffer = new char[PACKET_MAX];
 			int ing = 0;
 
 			std::ofstream file(filePath, std::ios::binary);
-			int addrlen = sizeof(_recvAddr);
 
 			while (true)
 			{
-				recvfrom(_recvSocket, receiveBuffer, PACKET_MAX, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+				recv(_clientSocket, receiveBuffer, PACKET_MAX, 0);
 				memcpy(r_ident, receiveBuffer, HEADER_IDENT_MAX);
 
 				if (cmpObjectArr(r_ident, HEADER_IDENT, HEADER_IDENT_MAX))
 				{
 					memcpy(&r_fileIngLength, receiveBuffer + 4, 8);
 					memcpy(&r_fileFullLength, receiveBuffer + 12, 8);
-					memcpy(r_checkSumContent, receiveBuffer, 1452 + 20);
 
-					r_checkSum = sha.strToSha<CryptoPP::SHA1>(r_checkSumContent);
-
-					if (cmpObjectArr(r_checkSumContent, r_checkSum, 1452 + 20))
-					{
-						memcpy(r_payload, receiveBuffer + HEADER_MAX, PAYLOAD_MAX);
-						file.write(r_payload, PAYLOAD_MAX);
-					}
-					else
-					{
-
-					}
+					memcpy(r_payload, receiveBuffer + HEADER_MAX, PAYLOAD_MAX);
+					file.write(r_payload, PAYLOAD_MAX);
 				}
 			}
 
 			delete[] receiveBuffer;
-
-			closesocket(_recvSocket);
-			WSACleanup();
 		}
 	}
 }
