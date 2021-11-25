@@ -174,9 +174,9 @@ namespace cyp
 			WSACleanup();
 		}
 
-		/* 
+		/*
 		* The reason for using std::vector is that it is sent in order when sending,
-		* but there is no guarantee that it will come in order when receiving it. 
+		* but there is no guarantee that it will come in order when receiving it.
 		*/
 		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
@@ -193,15 +193,15 @@ namespace cyp
 				recvfrom(_recvSocket, receiveBuffer, PACKET_MAX, 0, (struct sockaddr*)&_recvAddr, &addrlen);
 				memcpy(r_ident, receiveBuffer, HEADER_IDENT_MAX);
 
-				if (cmpCharArr(r_ident,HEADER_IDENT, HEADER_IDENT_MAX))
+				if (cmpObjectArr(r_ident, HEADER_IDENT, HEADER_IDENT_MAX))
 				{
 					memcpy(&r_fileIngLength, receiveBuffer + 4, 8);
 					memcpy(&r_fileFullLength, receiveBuffer + 12, 8);
-					
-					std::copy(sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).begin(), 
-						sha.strToSha<CryptoPP::SHA1>(r_checkSumContent).end(), r_checkSum);
+					memcpy(r_checkSumContent, receiveBuffer, 1452 + 20);
 
-					if (r_checkSum == r_checkSumContent)
+					r_checkSum = sha.strToSha<CryptoPP::SHA1>(r_checkSumContent);
+
+					if (cmpObjectArr(r_checkSumContent, r_checkSum, 1452 + 20))
 					{
 						memcpy(r_payload, receiveBuffer + HEADER_MAX, PAYLOAD_MAX);
 						file.write(r_payload, PAYLOAD_MAX);
