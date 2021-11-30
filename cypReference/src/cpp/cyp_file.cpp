@@ -38,53 +38,76 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
-		void FileCommunication::sendFile(const std::string& ip, u_short port, const std::string& filePath)
+		void FileCommunication::FileSend::setHeader(unsigned long long ingCount, unsigned long long fullCount)
 		{
+			memcpy(header + 4, &ingCount, 8);
+			memcpy(header + 12, &fullCount, 8);
+		}
+
+		void FileCommunication::FileSend::sendBuffer()
+		{
+			memcpy(buffer, header, 20);
+			memcpy(buffer + 20, payload, 1440);
+
+			if (send(_clientSocket, buffer, static_cast<int>(1460), 0) == SOCKET_ERROR)
+			{
+				throw "error : client error send";
+			}
+		}
+
+		void FileCommunication::FileSend::setEnd()
+		{
+			memset(&end[5], 1, 0x7F);
+			
+		}
+
+		void FileCommunication::FileSend::fileHashCalculate(std::string filePath)
+		{
+			hex.strToHex(sha.fileToSha<CryptoPP::SHA1>(filePath));
+
+		}
+
+		void FileCommunication::FileSend::sendFile(const std::string& ip, u_short port, const std::string& filePath)
+		{
+			fileHashCalculate(filePath);
 			openClient(ip, port);
 
 			std::ifstream file(filePath, std::ios::binary);
 
 			if (file.is_open())
 			{
-				char* sendBuffer;
 				file.seekg(0, std::ios::end);
 				unsigned long long fileLength = file.tellg();
 				file.seekg(0, std::ios::beg);
 
-				unsigned long long loopCount = fileLength / 1480;
-				unsigned long long ing = 0;
+				unsigned long long fullCount = fileLength / 1440;
+				unsigned long long ingCount = 0;
 				unsigned short remain = 0;
 
-				while (ing < loopCount)
+				while (ingCount < fullCount)
 				{
-					sendBuffer = new char[1480];
-					ZeroMemory(sendBuffer, 1480);
-					file.read(sendBuffer, 1480);
-					file.seekg(1480, std::ios_base::cur);
+					file.read(payload, 1440);
+					file.seekg(1440, std::ios_base::cur);
 
-					if(send(_clientSocket, sendBuffer, static_cast<int>(1480), 0) == SOCKET_ERROR)
-					{
-						throw "error : client error send";
-					}
+					setHeader(ingCount, fullCount);
+					sendBuffer();
 
-					++ing;
-					delete[] sendBuffer;
+					++ingCount;
+					delete[] payload;
 				}
 
-				remain = static_cast<unsigned short>(fileLength - (1480 * ing));
+				remain = static_cast<unsigned short>(fileLength - (1480 * ingCount));
 
-				sendBuffer = new char[remain];
-				ZeroMemory(sendBuffer, remain);
-				file.read(sendBuffer, remain);
+				payload = new char[remain];
+				file.read(payload, remain);
 				file.seekg(remain, std::ios_base::cur);
 
-
-				if (send(_clientSocket, sendBuffer, static_cast<int>(remain), 0) == SOCKET_ERROR)
+				if (send(_clientSocket, payload, static_cast<int>(remain), 0) == SOCKET_ERROR)
 				{
 					throw "error : client error send";
 				}
 
-				delete[] sendBuffer;
+				delete[] payload;
 			}
 			else
 			{
@@ -94,7 +117,7 @@ namespace cyp
 			closesocket(_clientSocket);
 		}
 
-		void FileCommunication::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
+		void FileCommunication::FileReceive::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
 			openServer(port);
 
@@ -121,6 +144,14 @@ namespace cyp
 
 			closesocket(_listenSocket);
 			closesocket(_serverSocket);
+		}
+
+
+
+		FileCommunication::FileSend::FileSend()
+		{
+			memcpy(header, identifier, 4);
+			memcpy(end, identifier, 4);
 		}
 	}
 }

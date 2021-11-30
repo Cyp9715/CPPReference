@@ -26,7 +26,6 @@ namespace cyp
 	namespace hash
 	{
 		std::string errorType(CryptoPP::Exception::ErrorType exception);
-
 		// The MD algorithm is not secure.
 		class Md
 		{
@@ -58,8 +57,7 @@ namespace cyp
 		{
 		public:
 			template <typename T>
-			std::string strToHkdf(const std::string& str, const std::string& salt_, const std::string& info);
+			std::string strToHkdf(const std::string& str, const std::string& salt, const std::string& info);
 		};
 	}
-
 }

@@ -3,6 +3,8 @@
 #include <ostream>
 #include <fstream>
 #include "cyp_communication.hpp"
+#include "cyp_hash.hpp"
+#include "cyp_convert.hpp"
 
 namespace cyp
 {
@@ -20,15 +22,47 @@ namespace cyp
 		*
 		* I'm going to correct the above problems and delete the comments within a few months.
 		*/
-		class FileCommunication : cyp::communication::Tcp
+		class FileCommunication
 		{
 		public:
-			// send : use tcp client.
-			void sendFile(const std::string& ip, u_short port, const std::string& filePath);
+			class FileSend : cyp::communication::Tcp
+			{
+				cyp::hash::Sha sha;
+				cyp::convert::Hex hex;
 
-			// receive : use tcp server
-			// -> There is a possibility of improvement.
-			void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
+				char* identifier = new char[4] { 0x00, 0x47, 0x02, 0x4F };
+				char* init = new char[13];
+				char* header = new char[20];
+				char* payload = new char[1440];
+				char* buffer = new char[1460];
+				char* end = new char[25];
+
+				unsigned char* fileHash = new unsigned char[20];
+
+				void setHeader(unsigned long long ingLength, unsigned long long fullLength);
+				void sendBuffer();
+				void setEnd();
+				void fileHashCalculate(std::string filePath);
+
+			public:
+				// send : use tcp client.
+				FileSend();
+				void sendFile(const std::string& ip, u_short port, const std::string& filePath);
+
+				// receive : use tcp server
+				// -> There is a possibility of improvement.
+			};
+
+			class FileReceive : cyp::communication::Tcp
+			{
+				// receive
+
+			public:
+				// receive : use tcp server
+				// -> There is a possibility of improvement.
+				void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
+			};
+
 		};
 	}
 }

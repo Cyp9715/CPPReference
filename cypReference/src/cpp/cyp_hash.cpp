@@ -25,7 +25,7 @@ namespace cyp
 		template std::string Sha::fileToSha<CryptoPP::SHA3_512>(const std::string& str);
 
 
-		/* 
+		/*
 		* Add other hash algorithms if necessary.
 		* If CryptoPP supports it, most algorithms can be added.
 		* ex) MD5 : template std::string Hkdf::strToHkdf<CryptoPP::Weak::MD5>(const std::string& str...
@@ -131,8 +131,8 @@ namespace cyp
 		template<typename T>
 		std::string Pbkdf2::strToPbkdf2(const std::string& str, const std::string& salt, unsigned int iterate, float time)
 		{
-			CryptoPP::byte *password_ = new CryptoPP::byte[str.size()+1]();
-			CryptoPP::byte *salt_ = new CryptoPP::byte[salt.size()+1]();
+			CryptoPP::byte* password_ = new CryptoPP::byte[str.size() + 1]();
+			CryptoPP::byte* salt_ = new CryptoPP::byte[salt.size() + 1]();
 
 			std::copy(str.begin(), str.end(), password_);
 			std::copy(salt.begin(), salt.end(), salt_);
@@ -194,6 +194,7 @@ namespace cyp
 			return result;
 		}
 
+
 		std::string errorType(CryptoPP::Exception::ErrorType exception)
 		{
 			std::string output;
@@ -232,5 +233,4 @@ namespace cyp
 			return output;
 		}
 	}
-
 }
