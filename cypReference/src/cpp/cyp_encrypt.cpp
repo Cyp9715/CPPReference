@@ -4,12 +4,6 @@ namespace cyp
 {
 	namespace encrypt
 	{
-		// example code, need analysis.
-		Aes::Aes()
-		{
-
-		}
-
 		std::tuple<std::string, std::string, std::string> Aes::cbcEncrypt_hex256(const std::string& plainText)
 		{
 			std::string cipherHex;

@@ -25,8 +25,5 @@ namespace cyp
 				return false;
 			}
 		}
-		
 	};
-
-
 }

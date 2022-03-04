@@ -22,8 +22,6 @@ namespace cyp
 		private:
 
 		public:
-			Aes();
-
 			/*
 			* IV size can be adjusted autonomously,
 			* It is recommended to use an IV of the same size as the key.
