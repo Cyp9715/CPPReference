@@ -9,9 +9,9 @@ any comments on the source code are welcome.
 
 # 1. License
 
-![WTFPL](https://i.imgur.com/nAsQFRo.png) 
+![WTFPL](https://imgur.com/GklIXU7) 
 
-<h3 align="center">DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE</h1>
+<h3 align="center">MIT LICENSE</h1>
 
 However, additional libraries have been installed.
 
