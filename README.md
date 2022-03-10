@@ -9,7 +9,9 @@ any comments on the source code are welcome.
 
 # 1. License
 
-![WTFPL](https://i.imgur.com/GklIXU7.png) 
+<p align="center">
+    <img src="https://i.imgur.com/GklIXU7.png"  width="700" height="362.25"/></center>
+</p>
 
 <h3 align="center">MIT LICENSE</h1>
 
