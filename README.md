@@ -73,14 +73,7 @@ I will check the compatibility and update repositories
 - cyp:hook
     + *Not yet made (will support keyboard, mouse global hook).*
 # 4. Caution
-
-this code was created without thinking of continuous calls.
-
-for this reason, some functions require modifications when used for the following purposes.
-
-1. When analyzing large amounts of data.
- 
-※ Avoid using dynamic libraries.
+   Avoid using dynamic libraries.
 
    The lib folder contains dynamic library folders, but will not contain any files.
 
