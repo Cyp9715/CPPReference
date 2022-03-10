@@ -54,7 +54,7 @@ I will check the compatibility and update repositories
 
      You can use the hash function below for files and std::string.
     + MD5
-    + SHA5
+    + SHA
      
      You can use the hash function below for std::string
     + PBKDF2
