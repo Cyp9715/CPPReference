@@ -15,7 +15,7 @@ any comments on the source code are welcome.
 
 <h3 align="center">MIT LICENSE</h1>
 
-However, additional libraries have been installed.
+However, additional library is included.
 
 Please check the libraries below, as they are licensed individually.
 
