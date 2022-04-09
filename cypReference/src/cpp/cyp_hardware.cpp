@@ -16,8 +16,8 @@ namespace cyp
 
 		std::vector<Monitor::Info> Monitor::GetDisplayInfo()
 		{
-			v_info.clear();
 			Info info;
+			v_info.clear();
 
 			int deviceIndex = 0;
 			
@@ -31,16 +31,18 @@ namespace cyp
 				{
 					EnumDisplaySettings(deviceName.c_str(), ENUM_REGISTRY_SETTINGS, &devmode);
 					info.monitorName = displayDevice.DeviceString;
-					info.dmBitsPerPel = devmode.dmBitsPerPel;
-					info.dmPelsWidth = devmode.dmPelsWidth;
-					info.dmPelsHeight = devmode.dmPelsHeight;
-					info.dmDisplayFlags = devmode.dmDisplayFlags;
-					info.dmDisplayFrequency = devmode.dmDisplayFrequency;
+					info.bitsPerPel = devmode.dmBitsPerPel;
+					info.pelsWidth = devmode.dmPelsWidth;
+					info.pelsHeight = devmode.dmPelsHeight;
+					info.displayFlags = devmode.dmDisplayFlags;
+					info.displayFrequency = devmode.dmDisplayFrequency;
+					info.position_x = devmode.dmPosition.x;
+					info.position_y = devmode.dmPosition.y;
 
 					v_info.push_back(info);
 				}
 			}
-
+			
 			return v_info;
 		}
 	}

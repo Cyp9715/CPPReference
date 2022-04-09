@@ -17,12 +17,17 @@ namespace cyp
 			struct Info
 			{
 			public:
-				std::string monitorName;	// The monitor name may be incorrect.
-				unsigned long dmBitsPerPel;
-				unsigned long dmPelsWidth;
-				unsigned long dmPelsHeight;
-				unsigned long dmDisplayFlags;
-				unsigned long dmDisplayFrequency;
+				std::string monitorName = "";		// The monitor name may be incorrect.
+				unsigned long bitsPerPel = 0;		// how many bits of color the monitor can display.
+				unsigned long pelsWidth = 0;		// monitor width
+				unsigned long pelsHeight = 0;		// monitor height
+				unsigned long displayFlags = 0;		// 0 : non grayScale & progressive,
+													// 1 : grayScale, 2 : interlaced, 
+													// 3 : grayScale & interlaced
+				
+				unsigned long displayFrequency = 0; // monitor fresh rate
+				long position_x = 0;				// monitor x axis position
+				long position_y = 0;				// monitor y axis position
 			};
 
 		public:
