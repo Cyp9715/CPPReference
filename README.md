@@ -40,16 +40,23 @@ I will check the compatibility and update repositories
 # 3. Introduce namespaces
 - cyp::command
     + You can use the Windows command. Using commands and receiving command return values are concisely configured.
+ 
 - cyp::communication
     + You can use Tcp
     + You can use Udp
     + You can use Udp multicast.
+
 - cyp::encrypt
     + You can use AES encryption.
     + *except for AES 256, is not yet implemented properly...*
+ 
 - cyp::file
     + You can create, delete, read, for files and folder.
     + *planning to provide a class that transfers files through TCP.*
+
+- cyp::hardward
+    + You can get monitors information (name, resolution, fresh rate, monitor position(x,y))
+
 - cyp::hash
 
      You can use the hash function below for files and std::string.
@@ -59,19 +66,25 @@ I will check the compatibility and update repositories
      You can use the hash function below for std::string
     + PBKDF2
     + HKDF
+   
+- cyp::image
+    + At the moment, have a code that can capture images simply (BMP, PNG).
+    + *decided to support OpenCV in the future.*
+
 - cyp::string
     + makes the std::string easier to use.
+    
 - cyp::timer
     + You can use Timer
     + You can use FpsCounter
     + You can run the callback function by attaching it to the timer (delay execution is possible)
+ 
 - cyp::sharedMemory
     + shared memory allows data to be shared between processes.
-- cyp::image
-    + At the moment, have a code that can capture images simply (BMP, PNG).
-    + *Considering openCV support.*
+
 - cyp:hook
     + *Not yet made (will support keyboard, mouse global hook).*
+ 
 # 4. Caution
    Avoid using dynamic libraries.
 
