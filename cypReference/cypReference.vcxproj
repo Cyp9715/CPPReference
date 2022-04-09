@@ -19,17 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="src\cpp\cyp_command.cpp" />
     <ClCompile Include="src\cpp\cyp_communication.cpp" />
     <ClCompile Include="src\cpp\cyp_convert.cpp" />
     <ClCompile Include="src\cpp\cyp_encrypt.cpp" />
     <ClCompile Include="src\cpp\cyp_file.cpp" />
+    <ClCompile Include="src\cpp\cyp_hardware.cpp" />
     <ClCompile Include="src\cpp\cyp_hash.cpp" />
     <ClCompile Include="src\cpp\cyp_hook.cpp" />
     <ClCompile Include="src\cpp\cyp_image.cpp" />
     <ClCompile Include="src\cpp\cyp_string.cpp" />
     <ClCompile Include="src\cpp\cyp_timer.cpp" />
-    <ClCompile Include="src\cpp\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\cyp_command.hpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="src\hpp\cyp_convert.hpp" />
     <ClInclude Include="src\hpp\cyp_encrypt.hpp" />
     <ClInclude Include="src\hpp\cyp_file.hpp" />
+    <ClInclude Include="src\hpp\cyp_hardware.hpp" />
     <ClInclude Include="src\hpp\cyp_hash.hpp" />
     <ClInclude Include="src\hpp\cyp_hook.hpp" />
     <ClInclude Include="src\hpp\cyp_image.hpp" />
