@@ -1,43 +1,47 @@
 #include "cyp_hardware.hpp"
 
-Monitor::Monitor()
+namespace cyp
 {
-	displayDevice->cb = sizeof(DISPLAY_DEVICE);
-}
-
-Monitor::~Monitor()
-{
-	delete displayDevice;
-	delete devmode;
-}
-
-std::vector<Monitor::Info> Monitor::GetDisplayInfo()
-{
-	v_info.clear();
-	Info info;
-
-	while (true)
+	namespace hardware
 	{
-		if (EnumDisplayDevices(NULL, loop++, displayDevice, EDD_GET_DEVICE_INTERFACE_NAME) == false)
+		Monitor::Monitor()
 		{
-			break;
+			displayDevice.cb = sizeof(displayDevice);
+			devmode.dmSize = sizeof(devmode);
 		}
 
-		EnumDisplaySettings(displayDevice->DeviceName, ENUM_REGISTRY_SETTINGS, devmode);
-
-		if (devmode->dmBitsPerPel == 0)
+		Monitor::~Monitor()
 		{
-			break;
 		}
 
-		info.dmBitsPerPel = devmode->dmBitsPerPel;
-		info.dmPelsWidth = devmode->dmPelsWidth;
-		info.dmPelsHeight = devmode->dmPelsHeight;
-		info.dmDisplayFlags = devmode->dmDisplayFlags;
-		info.dmDisplayFrequency = devmode->dmDisplayFrequency;
+		std::vector<Monitor::Info> Monitor::GetDisplayInfo()
+		{
+			v_info.clear();
+			Info info;
 
-		v_info.push_back(info);
+			int deviceIndex = 0;
+			
+			while (EnumDisplayDevices(NULL, deviceIndex++, &displayDevice, 0))
+			{
+				std::string deviceName = displayDevice.DeviceName;
+
+				int monitorIndex = 0;
+
+				while (EnumDisplayDevices(deviceName.c_str(), monitorIndex++, &displayDevice, 0))
+				{
+					EnumDisplaySettings(deviceName.c_str(), ENUM_REGISTRY_SETTINGS, &devmode);
+					info.monitorName = displayDevice.DeviceString;
+					info.dmBitsPerPel = devmode.dmBitsPerPel;
+					info.dmPelsWidth = devmode.dmPelsWidth;
+					info.dmPelsHeight = devmode.dmPelsHeight;
+					info.dmDisplayFlags = devmode.dmDisplayFlags;
+					info.dmDisplayFrequency = devmode.dmDisplayFrequency;
+
+					v_info.push_back(info);
+				}
+			}
+
+			return v_info;
+		}
 	}
-
-	return v_info;
 }

@@ -3,30 +3,36 @@
 #include <vector>
 #include <Windows.h>
 
-class Monitor
+namespace cyp
 {
-private:
-	PDISPLAY_DEVICE displayDevice = new DISPLAY_DEVICE();
-	PDEVMODEA devmode = new DEVMODEA();
-
-public:
-	struct Info
+	namespace hardware
 	{
-	public:
-		unsigned long dmBitsPerPel;
-		unsigned long dmPelsWidth;
-		unsigned long dmPelsHeight;
-		unsigned long dmDisplayFlags;
-		unsigned long dmDisplayFrequency;
-	};
+		class Monitor
+		{
+		private:
+			DISPLAY_DEVICE displayDevice;
+			DEVMODE devmode;
 
-public:
-	std::vector<Info> v_info;
-	int loop = 0;
+		public:
+			struct Info
+			{
+			public:
+				std::string monitorName;	// The monitor name may be incorrect.
+				unsigned long dmBitsPerPel;
+				unsigned long dmPelsWidth;
+				unsigned long dmPelsHeight;
+				unsigned long dmDisplayFlags;
+				unsigned long dmDisplayFrequency;
+			};
 
-public:
-	Monitor();
-	~Monitor();
+		public:
+			std::vector<Info> v_info;
 
-	std::vector<Info> GetDisplayInfo();
-};
+		public:
+			Monitor();
+			~Monitor();
+
+			std::vector<Info> GetDisplayInfo();
+		};
+	}
+}

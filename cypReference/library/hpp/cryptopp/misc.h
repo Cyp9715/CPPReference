@@ -1374,7 +1374,7 @@ template <class T>
 void SecureWipeBuffer(T *buf, size_t n)
 {
 	// GCC 4.3.2 on Cygwin optimizes away the first store if this
-	// loop is done in the forward direction
+	// deviceIndex is done in the forward direction
 	volatile T *p = buf+n;
 	while (n--)
 		*(--p) = 0;

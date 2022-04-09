@@ -58,13 +58,11 @@ namespace cyp
 		void FileCommunication::FileSend::setEnd()
 		{
 			memset(&end[5], 1, 0x7F);
-			
 		}
 
 		void FileCommunication::FileSend::fileHashCalculate(std::string filePath)
 		{
 			hex.strToHex(sha.fileToSha<CryptoPP::SHA1>(filePath));
-
 		}
 
 		void FileCommunication::FileSend::sendFile(const std::string& ip, u_short port, const std::string& filePath)

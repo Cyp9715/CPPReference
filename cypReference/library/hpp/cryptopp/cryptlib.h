@@ -5,89 +5,89 @@
 
 /*!	\mainpage Crypto++ Library 8.6 API Reference
 <dl>
-<dt>Abstract Base Classes<dd>
+<dt>Abstract Base Classes<displayDevice>
 	cryptlib.h
-<dt>Authenticated Encryption Modes<dd>
+<dt>Authenticated Encryption Modes<displayDevice>
 	CCM, EAX, \ref GCM "GCM (2K tables)", \ref GCM "GCM (64K tables)"
-<dt>Block Ciphers<dd>
+<dt>Block Ciphers<displayDevice>
 	\ref Rijndael "AES", ARIA, Weak::ARC4, Blowfish, BTEA, \ref CHAM128 "CHAM (64/128)", Camellia,
 	\ref CAST128 "CAST (128/256)", DES, \ref DES_EDE2 "2-key Triple-DES", \ref DES_EDE3 "3-key Triple-DES",
 	\ref DES_XEX3 "DESX", GOST, HIGHT, IDEA, LEA, \ref LR "Luby-Rackoff", \ref Kalyna128 "Kalyna (128/256/512)",
 	MARS, RC2, RC5, RC6, \ref SAFER_K "SAFER-K", \ref SAFER_SK "SAFER-SK", SEED, Serpent,
 	\ref SHACAL2 "SHACAL-2", SHARK, \ref SIMECK64 "SIMECK (32/64)" SKIPJACK, SM4, Square, TEA,
 	\ref ThreeWay "3-Way", \ref Threefish256 "Threefish (256/512/1024)", Twofish, XTEA
-<dt>Stream Ciphers<dd>
+<dt>Stream Ciphers<displayDevice>
 	\ref ChaCha "ChaCha (8/12/20)", \ref HC128 "HC-128/256", \ref Panama "Panama-LE", \ref Panama "Panama-BE",
 	Rabbit, Salsa20, \ref SEAL "SEAL-LE", \ref SEAL "SEAL-BE", WAKE, XSalsa20
-<dt>Hash Functions<dd>
+<dt>Hash Functions<displayDevice>
 	BLAKE2s, BLAKE2b, \ref Keccak "Keccak (F1600)", SHA1, SHA224, SHA256, SHA384, SHA512,
 	\ref SHA3 "SHA-3", SM3, Tiger, RIPEMD160, RIPEMD320, RIPEMD128, RIPEMD256, SipHash, Whirlpool,
 	Weak::MD2, Weak::MD4, Weak::MD5
-<dt>Non-Cryptographic Checksums<dd>
+<dt>Non-Cryptographic Checksums<displayDevice>
 	CRC32, CRC32C, Adler32
-<dt>Message Authentication Codes<dd>
+<dt>Message Authentication Codes<displayDevice>
 	BLAKE2b, BLAKE2s, CBC_MAC, CMAC, DMAC, \ref GCM "GCM (GMAC)", HMAC, Poly1305, TTMAC, VMAC
-<dt>Random Number Generators<dd>
+<dt>Random Number Generators<displayDevice>
 	NullRNG, LC_RNG, RandomPool, BlockingRng, NonblockingRng, AutoSeededRandomPool, AutoSeededX917RNG,
 	NIST Hash_DRBG and HMAC_DRBG, \ref MersenneTwister "MersenneTwister (MT19937 and MT19937-AR)",
 	DARN, RDRAND, RDSEED
-<dt>Key Derivation and Password-based Cryptography<dd>
+<dt>Key Derivation and Password-based Cryptography<displayDevice>
 	HKDF, \ref PKCS12_PBKDF "PBKDF (PKCS #12)", \ref PKCS5_PBKDF1 "PBKDF-1 (PKCS #5)",
 	\ref PKCS5_PBKDF2_HMAC "PBKDF-2/HMAC (PKCS #5)"
-<dt>Public Key Cryptosystems<dd>
+<dt>Public Key Cryptosystems<displayDevice>
 	DLIES, ECIES, LUCES, RSAES, RabinES, LUC_IES
-<dt>Public Key Signature Schemes<dd>
+<dt>Public Key Signature Schemes<displayDevice>
 	DSA, DSA2, \ref ed25519 "Ed25519", GDSA, ECDSA, NR, ECNR, LUCSS, RSASS, RSASS_ISO,
 	RabinSS, RWSS, ESIGN
-<dt>Key Agreement<dd>
+<dt>Key Agreement<displayDevice>
 	DH, DH2, \ref x25519 "X25519", \ref MQV_Domain "MQV", \ref HMQV_Domain "HMQV",
     \ref FHMQV_Domain "FHMQV", ECDH, x25519, ECMQV, ECHMQV, ECFHMQV, XTR_DH
-<dt>Algebraic Structures<dd>
+<dt>Algebraic Structures<displayDevice>
 	Integer, PolynomialMod2, PolynomialOver, RingOfPolynomialsOver,
 	ModularArithmetic, MontgomeryRepresentation, GFP2_ONB, GF2NP, GF256, GF2_32, EC2N, ECP
-<dt>Secret Sharing and Information Dispersal<dd>
+<dt>Secret Sharing and Information Dispersal<displayDevice>
 	SecretSharing, SecretRecovery, InformationDispersal, InformationRecovery
-<dt>Compression<dd>
+<dt>Compression<displayDevice>
 	Deflator, Inflator, Gzip, Gunzip, ZlibCompressor, ZlibDecompressor
-<dt>Input Source Classes<dd>
+<dt>Input Source Classes<displayDevice>
 	StringSource, ArraySource, VectorSource, FileSource, RandomNumberSource
-<dt>Output Sink Classes<dd>
+<dt>Output Sink Classes<displayDevice>
 	StringSinkTemplate, StringSink, VectorSink, ArraySink, FileSink, RandomNumberSink
-<dt>Filter Wrappers<dd>
+<dt>Filter Wrappers<displayDevice>
 	StreamTransformationFilter, AuthenticatedEncryptionFilter, AuthenticatedDecryptionFilter, HashFilter,
 	HashVerificationFilter, SignerFilter, SignatureVerificationFilter
-<dt>Binary to Text Encoders and Decoders<dd>
+<dt>Binary to Text Encoders and Decoders<displayDevice>
 	HexEncoder, HexDecoder, Base64Encoder, Base64Decoder, Base64URLEncoder, Base64URLDecoder, Base32Encoder,
 	Base32Decoder
-<dt>Wrappers for OS features<dd>
+<dt>Wrappers for OS features<displayDevice>
 	Timer, ThreadUserTimer
 
 </dl>
 
 <!--
 
-<dt>FIPS 140 validated cryptography<dd>
+<dt>FIPS 140 validated cryptography<displayDevice>
 	fips140.h
 
 In the DLL version of Crypto++, only the following implementation class are available.
 <dl>
-<dt>Block Ciphers<dd>
+<dt>Block Ciphers<displayDevice>
 	AES, \ref DES_EDE2 "2-key Triple-DES", \ref DES_EDE3 "3-key Triple-DES", SKIPJACK
-<dt>Cipher Modes (replace template parameter BC with one of the block ciphers above)<dd>
+<dt>Cipher Modes (replace template parameter BC with one of the block ciphers above)<displayDevice>
 	\ref ECB_Mode "ECB_Mode<BC>", \ref CTR_Mode "CTR_Mode<BC>", \ref CBC_Mode "CBC_Mode<BC>",
 	\ref CFB_FIPS_Mode "CFB_FIPS_Mode<BC>", \ref OFB_Mode "OFB_Mode<BC>", \ref GCM "GCM<AES>"
-<dt>Hash Functions<dd>
+<dt>Hash Functions<displayDevice>
 	SHA1, SHA224, SHA256, SHA384, SHA512
-<dt>Public Key Signature Schemes (replace template parameter H with one of the hash functions above)<dd>
+<dt>Public Key Signature Schemes (replace template parameter H with one of the hash functions above)<displayDevice>
 	RSASS\<PKCS1v15, H\>, RSASS\<PSS, H\>, RSASS_ISO\<H\>, RWSS\<P1363_EMSA2, H\>, DSA, ECDSA\<ECP, H\>,
 	ECDSA\<EC2N, H\>
-<dt>Message Authentication Codes (replace template parameter H with one of the hash functions above)<dd>
+<dt>Message Authentication Codes (replace template parameter H with one of the hash functions above)<displayDevice>
 	HMAC\<H\>, CBC_MAC\<DES_EDE2\>, CBC_MAC\<DES_EDE3\>, GCM\<AES\>
-<dt>Random Number Generators<dd>
+<dt>Random Number Generators<displayDevice>
 	DefaultAutoSeededRNG (AutoSeededX917RNG\<AES\>)
-<dt>Key Agreement<dd>
+<dt>Key Agreement<displayDevice>
 	DH, DH2
-<dt>Public Key Cryptosystems<dd>
+<dt>Public Key Cryptosystems<displayDevice>
 	RSAES\<OAEP\<SHA1\> \>
 </dl>
 

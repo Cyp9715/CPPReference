@@ -38,12 +38,12 @@ namespace cyp
 			std::chrono::system_clock::time_point _end;
 
 		public:
-			// The return criterion is how many loop statements were executed per second.
-			// i.e, only use in loop.
+			// The return criterion is how many deviceIndex statements were executed per second.
+			// i.e, only use in deviceIndex.
 			int loopCounting();
 
 			// The Return criteria, number of times a second is divided by running time.
-			// i.e., can measure FPS indirectly even if not loop
+			// i.e., can measure FPS indirectly even if not deviceIndex
 			void startTimeCounting();
 			float endTimeCounting();
 		};
@@ -55,7 +55,7 @@ namespace cyp
 		{
 		public:
 			void regist(int miliseconds, std::function<void()>& func);
-			// An infinite loop thread that is already running can be stopped using the isLoop reference variable.
+			// An infinite deviceIndex thread that is already running can be stopped using the isLoop reference variable.
 			void regist_loop(int miliseconds, std::function<void()>& func, bool &isLoop);
 		};
 	}
