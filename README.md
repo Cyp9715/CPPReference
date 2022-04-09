@@ -54,7 +54,7 @@ I will check the compatibility and update repositories
     + You can create, delete, read, for files and folder.
     + *planning to provide a class that transfers files through TCP.*
 
-- cyp::hardward
+- cyp::hardware
     + You can get monitors information (name, resolution, fresh rate, monitor position(x,y))
 
 - cyp::hash
