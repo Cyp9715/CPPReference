@@ -26,8 +26,8 @@ namespace cyp
 													// 3 : grayScale & interlaced
 				
 				unsigned long displayFrequency = 0; // monitor fresh rate
-				long position_x = 0;				// monitor x axis position
-				long position_y = 0;				// monitor y axis position
+				long position_x = 0;				// monitor x axis position (start point)
+				long position_y = 0;				// monitor y axis position (start point)
 			};
 
 		public:
