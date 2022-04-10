@@ -55,7 +55,7 @@ I will check the compatibility and update repositories
     + *planning to provide a class that transfers files through TCP.*
 
 - cyp::hardware
-    + You can get monitors information (name, resolution, fresh rate, monitor position(x,y))
+    + You can get monitors information (name, resolution, refresh rate, monitor position(x,y))
 
 - cyp::hash
 
