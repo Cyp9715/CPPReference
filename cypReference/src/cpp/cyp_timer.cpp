@@ -17,7 +17,7 @@ namespace cyp
 		template long long Timer::getTime<std::chrono::microseconds>();
 		template long long Timer::getTime<std::chrono::nanoseconds>();
 
-		void Timer::start()
+		void Timer::Start()
 		{
 			_start = std::chrono::system_clock::now();
 		}
@@ -30,7 +30,7 @@ namespace cyp
 			return t.count();
 		}
 
-		int FpsCounter::loopCounting()
+		int FpsCounter::LoopCounting()
 		{
 			++_tempFps;
 			if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _loopStart) >= std::chrono::seconds(1))
@@ -45,12 +45,12 @@ namespace cyp
 		}
 
 
-		void FpsCounter::startTimeCounting()
+		void FpsCounter::StartTimeCounting()
 		{
 			_start = std::chrono::system_clock::now();
 		}
 
-		float FpsCounter::endTimeCounting()
+		float FpsCounter::EndTimeCounting()
 		{
 			_end = std::chrono::system_clock::now();
 			std::chrono::milliseconds delta = std::chrono::duration_cast<std::chrono::milliseconds>(_end - _start);
@@ -61,7 +61,7 @@ namespace cyp
 			return 0;
 		}
 
-		void CallbackTimer::regist(int miliseconds, std::function<void()>& func)
+		void CallbackTimer::Regist(int miliseconds, std::function<void()>& func)
 		{
 			std::thread([miliseconds, &func]()
 				{
@@ -70,7 +70,7 @@ namespace cyp
 				}).detach();
 		}
 
-		void CallbackTimer::regist_loop(int miliseconds, std::function<void()>& func, bool& isLoop)
+		void CallbackTimer::Regist_loop(int miliseconds, std::function<void()>& func, bool& isLoop)
 		{
 			std::thread([miliseconds, &func, &isLoop]()
 				{

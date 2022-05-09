@@ -4,7 +4,7 @@ namespace cyp
 {
 	namespace convert
 	{
-		std::string Hex::strToHex(std::string& str)
+		std::string Hex::StrToHex(std::string& str)
 		{
 			std::string decoded;
 
@@ -22,7 +22,7 @@ namespace cyp
 			return decoded;
 		}
 
-		std::string Hex::strToHex(std::string&& str)
+		std::string Hex::StrToHex(std::string&& str)
 		{
 			std::string decoded;
 
@@ -40,7 +40,7 @@ namespace cyp
 			return decoded;
 		}
 		
-		std::string Hex::hexToStr(unsigned char* decoded, size_t size)
+		std::string Hex::HexToStr(unsigned char* decoded, size_t size)
 		{
 			std::string encoded;
 

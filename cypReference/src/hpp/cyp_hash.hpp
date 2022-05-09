@@ -30,8 +30,8 @@ namespace cyp
 		class Md
 		{
 		public:
-			std::string strToMD5(const std::string& str);
-			std::string fileToMD5(const std::string filePath);
+			std::string StrToMD5(const std::string& str);
+			std::string FileToMD5(const std::string filePath);
 		};
 
 		// The SHA1 algorithm is not secure.
@@ -39,9 +39,9 @@ namespace cyp
 		{
 		public:
 			template <typename T>
-			std::string strToSha(const std::string& str);
+			std::string StrToSha(const std::string& str);
 			template <typename T>
-			std::string fileToSha(const std::string& filePath);
+			std::string FileToSha(const std::string& filePath);
 		};
 
 		class Pbkdf2
@@ -50,14 +50,14 @@ namespace cyp
 			// If time > 0.0 then DeriveKey will run for the specified amount of time. 
 			// If time is 0.0 then DeriveKey will run for the specified number of iterations.
 			template <typename T>
-			std::string strToPbkdf2(const std::string& str, const std::string& salt, unsigned int iterate, float time = 0.0f);
+			std::string StrToPbkdf2(const std::string& str, const std::string& salt, unsigned int iterate, float time = 0.0f);
 		};
 
 		class Hkdf
 		{
 		public:
 			template <typename T>
-			std::string strToHkdf(const std::string& str, const std::string& salt, const std::string& info);
+			std::string StrToHkdf(const std::string& str, const std::string& salt, const std::string& info);
 		};
 	}
 }

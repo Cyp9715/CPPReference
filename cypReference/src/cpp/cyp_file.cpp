@@ -51,7 +51,7 @@ namespace cyp
 
 			if (send(_clientSocket, buffer, static_cast<int>(1460), 0) == SOCKET_ERROR)
 			{
-				throw "error : client error send";
+				throw "error : client error Send";
 			}
 		}
 
@@ -62,13 +62,13 @@ namespace cyp
 
 		void FileCommunication::FileSend::fileHashCalculate(std::string filePath)
 		{
-			hex.strToHex(sha.fileToSha<CryptoPP::SHA1>(filePath));
+			hex.StrToHex(sha.FileToSha<CryptoPP::SHA1>(filePath));
 		}
 
 		void FileCommunication::FileSend::sendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
 			fileHashCalculate(filePath);
-			openClient(ip, port);
+			OpenClient(ip, port);
 
 			std::ifstream file(filePath, std::ios::binary);
 
@@ -102,7 +102,7 @@ namespace cyp
 
 				if (send(_clientSocket, payload, static_cast<int>(remain), 0) == SOCKET_ERROR)
 				{
-					throw "error : client error send";
+					throw "error : client error Send";
 				}
 
 				delete[] payload;
@@ -117,7 +117,7 @@ namespace cyp
 
 		void FileCommunication::FileReceive::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
-			openServer(port);
+			OpenServer(port);
 
 			char* receiveBuffer = new char[1480];
 			int ing = 0;

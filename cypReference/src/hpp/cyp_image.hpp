@@ -26,7 +26,7 @@ namespace cyp
 				png = 1,
 			};
 
-			void capture(std::string filePath_, imageType type = cyp::image::ScreenShot::imageType::png, UINT startX = 0, UINT startY = 0, UINT endX = 1920, UINT endY = 1080);
+			void Capture(std::string filePath_, imageType type = cyp::image::ScreenShot::imageType::png, UINT startX = 0, UINT startY = 0, UINT endX = 1920, UINT endY = 1080);
 		};
 
 	}

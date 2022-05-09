@@ -32,7 +32,7 @@ namespace cyp
 				_pBuf = nullptr;
 			}
 
-			bool start(std::string key, DWORD fileAccess = FILE_MAP_ALL_ACCESS)
+			bool Start(std::string key, DWORD fileAccess = FILE_MAP_ALL_ACCESS)
 			{
 				_hmapFile = CreateFileMapping(
 					INVALID_HANDLE_VALUE, NULL,
@@ -54,12 +54,12 @@ namespace cyp
 				return true;
 			}
 
-			void update(T* instance)
+			void Update(T* instance)
 			{
 				CopyMemory((PVOID)_pBuf, instance, sizeof(T));
 			}
 
-			T* getMemory()
+			T* GetMemory()
 			{
 				if (_pBuf == nullptr)
 				{
@@ -90,7 +90,7 @@ namespace cyp
 				_pBuf = nullptr;
 			}
 
-			bool start(std::string key, DWORD fileAccess = FILE_MAP_READ)
+			bool Start(std::string key, DWORD fileAccess = FILE_MAP_READ)
 			{
 				_hmapFile = OpenFileMapping(fileAccess, FALSE, key.c_str());
 
@@ -107,7 +107,7 @@ namespace cyp
 				}
 			}
 
-			T* getMemory()
+			T* GetMemory()
 			{
 				if (_pBuf == nullptr)
 				{

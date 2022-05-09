@@ -45,20 +45,20 @@ namespace cyp
 				void fileHashCalculate(std::string filePath);
 
 			public:
-				// send : use tcp client.
+				// Send : use tcp client.
 				FileSend();
 				void sendFile(const std::string& ip, u_short port, const std::string& filePath);
 
-				// receive : use tcp server
+				// Receive : use tcp server
 				// -> There is a possibility of improvement.
 			};
 
 			class FileReceive : cyp::communication::Tcp
 			{
-				// receive
+				// Receive
 
 			public:
-				// receive : use tcp server
+				// Receive : use tcp server
 				// -> There is a possibility of improvement.
 				void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
 			};

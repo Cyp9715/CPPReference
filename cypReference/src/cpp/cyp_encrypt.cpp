@@ -4,7 +4,7 @@ namespace cyp
 {
 	namespace encrypt
 	{
-		std::tuple<std::string, std::string, std::string> Aes::cbcEncrypt_hex256(const std::string& plainText)
+		std::tuple<std::string, std::string, std::string> Aes::CbcEncrypt_hex256(const std::string& plainText)
 		{
 			std::string cipherHex;
 			std::string cipherText, ivText, keyText;
@@ -59,7 +59,7 @@ namespace cyp
 		}
 
 
-		std::string Aes::cbcDecrypt_hex256(const std::string& keyText, const std::string& ivText, const std::string& cipherText)
+		std::string Aes::CbcDecrypt_hex256(const std::string& keyText, const std::string& ivText, const std::string& cipherText)
 		{
 			std::string keyHex;
 			std::string ivHex;

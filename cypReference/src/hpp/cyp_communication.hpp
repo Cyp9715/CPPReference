@@ -29,14 +29,14 @@ namespace cyp
 			Tcp();
 			~Tcp();
 
-			void openServer(const u_short port);
-			void openClient(const std::string& serverIp, const u_short port);
+			void OpenServer(const u_short port);
+			void OpenClient(const std::string& serverIp, const u_short port);
 
-			void sendServerToClient(const std::string& message);
-			void sendClientToServer(const std::string& message);
+			void SendServerToClient(const std::string& message);
+			void SendClientToServer(const std::string& message);
 
-			std::string receiveServer();
-			std::string receiveClient();
+			std::string ReceiveServer();
+			std::string ReceiveClient();
 		};
 
 		class Udp
@@ -56,11 +56,11 @@ namespace cyp
 			Udp();
 			~Udp();
 
-			void open_send(const std::string& ip, const u_short port);
-			void open_receive(const u_short port);
+			void Open_send(const std::string& ip, const u_short port);
+			void Open_receive(const u_short port);
 
-			bool send(const std::string& message);
-			std::string receive();
+			bool Send(const std::string& message);
+			std::string Receive();
 		};
 
 
@@ -82,11 +82,11 @@ namespace cyp
 			Udp_multicast();
 			~Udp_multicast();
 
-			void open_send(const std::string& multicastIp, const u_short port);
-			void open_receive(const std::string& ip_multicast, const u_short port_multicast);
+			void Open_send(const std::string& multicastIp, const u_short port);
+			void Open_receive(const std::string& ip_multicast, const u_short port_multicast);
 
-			bool send(const std::string& message);
-			std::string receive();
+			bool Send(const std::string& message);
+			std::string Receive();
 		};
 
 	}

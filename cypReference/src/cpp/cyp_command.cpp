@@ -4,18 +4,18 @@ namespace cyp
 {
 	namespace command
 	{
-		void systemCmd(const std::string& command)
+		void SystemCmd(const std::string& command)
 		{
 			system(command.c_str());
 		}
 
-		void popenCmd(const std::string& command)
+		void PopenCmd(const std::string& command)
 		{
 			FILE* pipe = _popen(command.c_str(), "r");
 			if (!pipe) throw std::runtime_error("popen() failed");
 		}
 
-		std::string getStrPopenCmd(const std::string& command)
+		std::string GetStrPopenCmd(const std::string& command)
 		{
 			char buffer[128];
 			std::string result = "";

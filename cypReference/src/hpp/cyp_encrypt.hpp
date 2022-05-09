@@ -27,8 +27,8 @@ namespace cyp
 			* It is recommended to use an IV of the same size as the key.
 			* In CBC mode, the same size is recommended for XOR operation.
 			*/
-			std::tuple<std::string, std::string, std::string> cbcEncrypt_hex256(const std::string& plainText);
-			std::string cbcDecrypt_hex256(const std::string& key, const std::string& iv, const std::string& cipherText);
+			std::tuple<std::string, std::string, std::string> CbcEncrypt_hex256(const std::string& plainText);
+			std::string CbcDecrypt_hex256(const std::string& key, const std::string& iv, const std::string& cipherText);
 		
 		};
 

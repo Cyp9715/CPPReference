@@ -5,8 +5,8 @@ namespace cyp
 {
 	namespace command
 	{
-		void systemCmd(const std::string& commad);
-		void popenCmd(const std::string& command);
-		std::string getStrPopenCmd(const std::string& command);
+		void SystemCmd(const std::string& commad);
+		void PopenCmd(const std::string& command);
+		std::string GetStrPopenCmd(const std::string& command);
 	}
 }

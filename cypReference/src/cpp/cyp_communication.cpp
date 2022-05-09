@@ -21,7 +21,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void Tcp::openServer(const u_short port)
+		void Tcp::OpenServer(const u_short port)
 		{
 			_listenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -59,7 +59,7 @@ namespace cyp
 			closesocket(_listenSocket);
 		}
 
-		void Tcp::openClient(const std::string& serverIp, const u_short port)
+		void Tcp::OpenClient(const std::string& serverIp, const u_short port)
 		{
 			_clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -84,7 +84,7 @@ namespace cyp
 			}
 		}
 
-		std::string Tcp::receiveServer()
+		std::string Tcp::ReceiveServer()
 		{
 			char msgbuf[512];
 			std::string output;
@@ -99,7 +99,7 @@ namespace cyp
 			return output;
 		}
 
-		std::string Tcp::receiveClient()
+		std::string Tcp::ReceiveClient()
 		{
 			char msgbuf[512];
 			std::string output;
@@ -114,7 +114,7 @@ namespace cyp
 			return output;
 		}
 
-		void Tcp::sendServerToClient(const std::string& message)
+		void Tcp::SendServerToClient(const std::string& message)
 		{
 			if (send(_serverSocket, message.data(), static_cast<int>(message.length()), 0) == SOCKET_ERROR)
 			{
@@ -122,7 +122,7 @@ namespace cyp
 			}
 		}
 
-		void Tcp::sendClientToServer(const std::string& message)
+		void Tcp::SendClientToServer(const std::string& message)
 		{
 			if (send(_clientSocket, message.data(), static_cast<int>(message.length()), 0) == SOCKET_ERROR)
 			{
@@ -147,7 +147,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void Udp::open_send(const std::string& ip, const u_short port)
+		void Udp::Open_send(const std::string& ip, const u_short port)
 		{
 			_sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -163,7 +163,7 @@ namespace cyp
 			}
 		}
 
-		void Udp::open_receive(const u_short port)
+		void Udp::Open_receive(const u_short port)
 		{
 			_recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -181,7 +181,7 @@ namespace cyp
 			}
 		}
 
-		bool Udp::send(const std::string& message)
+		bool Udp::Send(const std::string& message)
 		{
 			if (sendto(_sendSocket, message.data(), static_cast<int>(message.length()), 0,
 				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
@@ -194,7 +194,7 @@ namespace cyp
 			}
 		}
 
-		std::string Udp::receive()
+		std::string Udp::Receive()
 		{
 			std::string output;
 			char msgbuf[512];
@@ -225,13 +225,13 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void Udp_multicast::open_send(const std::string& ip_multicast, const u_short port_multicast)
+		void Udp_multicast::Open_send(const std::string& ip_multicast, const u_short port_multicast)
 		{
 			_sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 			ZeroMemory(&_sendAddr, sizeof(_sendAddr));
 
-			// receive
+			// Receive
 			_recvAddr.sin_family = PF_INET;
 			_recvAddr.sin_port = htons(port_multicast);
 			if (inet_pton(PF_INET, ip_multicast.data(), &_recvAddr.sin_addr.s_addr) != INET_PTON_SUCCESS)
@@ -245,7 +245,7 @@ namespace cyp
 			}
 		}
 
-		void Udp_multicast::open_receive(const std::string& ip_multicast, const u_short port_multicast)
+		void Udp_multicast::Open_receive(const std::string& ip_multicast, const u_short port_multicast)
 		{
 			_recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
@@ -278,7 +278,7 @@ namespace cyp
 			}
 		}
 
-		bool Udp_multicast::send(const std::string& message)
+		bool Udp_multicast::Send(const std::string& message)
 		{
 			if (sendto(_sendSocket, message.data(), static_cast<int>(message.length()), 0,
 				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
@@ -291,7 +291,7 @@ namespace cyp
 			}
 		}
 
-		std::string Udp_multicast::receive()
+		std::string Udp_multicast::Receive()
 		{
 			std::string output;
 			char msgbuf[512];

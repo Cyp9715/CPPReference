@@ -33,7 +33,7 @@ namespace cyp
 			return -1;  // Failure
 		}
 
-		void ScreenShot::capture(std::string filePath_, imageType type, UINT startX, UINT startY, UINT endX, UINT endY)
+		void ScreenShot::Capture(std::string filePath_, imageType type, UINT startX, UINT startY, UINT endX, UINT endY)
 		{
 			std::wstring temp_wString = std::wstring(filePath_.begin(), filePath_.end());
 			const wchar_t* filePath = temp_wString.c_str();

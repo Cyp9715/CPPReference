@@ -17,7 +17,7 @@ namespace cyp
 			std::chrono::system_clock::time_point _current;
 
 		public:
-			void start();
+			void Start();
 
 			template<typename T>
 			long long getTime();
@@ -40,12 +40,12 @@ namespace cyp
 		public:
 			// The return criterion is how many deviceIndex statements were executed per second.
 			// i.e, only use in deviceIndex.
-			int loopCounting();
+			int LoopCounting();
 
 			// The Return criteria, number of times a second is divided by running time.
 			// i.e., can measure FPS indirectly even if not deviceIndex
-			void startTimeCounting();
-			float endTimeCounting();
+			void StartTimeCounting();
+			float EndTimeCounting();
 		};
 
 		// It is not possible to build a general - purpose library of that callback timer.
@@ -54,9 +54,9 @@ namespace cyp
 		class CallbackTimer
 		{
 		public:
-			void regist(int miliseconds, std::function<void()>& func);
+			void Regist(int miliseconds, std::function<void()>& func);
 			// An infinite deviceIndex thread that is already running can be stopped using the isLoop reference variable.
-			void regist_loop(int miliseconds, std::function<void()>& func, bool &isLoop);
+			void Regist_loop(int miliseconds, std::function<void()>& func, bool &isLoop);
 		};
 	}
 }

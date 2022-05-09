@@ -5,7 +5,7 @@ namespace cyp
 {
 	namespace string
 	{
-		bool isContain(const std::string& input, const std::string& find)
+		bool IsContain(const std::string& input, const std::string& find)
 		{
 			if (input.find(find) == std::string::npos)
 			{
@@ -17,7 +17,7 @@ namespace cyp
 			}
 		}
 
-		void changeStr(std::string& str, const std::string& find, const std::string& change)
+		void ChangeStr(std::string& str, const std::string& find, const std::string& change)
 		{
 			size_t ui_num = str.find(find);
 
@@ -36,7 +36,7 @@ namespace cyp
 			}
 		}
 
-		bool isAlphabet(const std::string& str)
+		bool IsAlphabet(const std::string& str)
 		{
 			for (size_t i = 0; i < str.size(); ++i)
 			{
@@ -52,23 +52,23 @@ namespace cyp
 			return true;
 		}
 
-		bool isNumber(const std::string& str)
+		bool IsNumber(const std::string& str)
 		{
 			return !str.empty() && std::find_if(str.begin(), str.end(),
 				[](unsigned char c) { return !std::isdigit(c); }) == str.end();
 		}
 
-		void toLower(std::string& str)
+		void ToLower(std::string& str)
 		{
 			std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return std::tolower(c); });
 		}
 
-		void toUpper(std::string& str)
+		void ToUpper(std::string& str)
 		{
 			std::transform(str.begin(), str.end(), str.begin(), [](unsigned char c) { return std::toupper(c); });
 		}
 
-		void removeContinuousChar(std::string& str, char target)
+		void RemoveContinuousChar(std::string& str, char target)
 		{
 			for (int i = 0; i < str.length() - 1; ++i)
 			{
@@ -80,7 +80,7 @@ namespace cyp
 			}
 		}
 
-		std::string removeExtension(const std::string& fileName, bool removeMultiExtension)
+		std::string RemoveExtension(const std::string& fileName, bool removeMultiExtension)
 		{
 			std::string temp_ = fileName;
 			auto point = temp_.find('.');
