@@ -26,7 +26,7 @@ namespace cyp
 				UnmapViewOfFile(_pBuf);
 			}
 
-			Server(int maximumSize = 0)
+			Server() 
 			{
 				_hmapFile = nullptr;
 				_pBuf = nullptr;
@@ -52,6 +52,11 @@ namespace cyp
 				}
 
 				return true;
+			}
+
+			void update(T* instance)
+			{
+				CopyMemory((PVOID)_pBuf, instance, sizeof(T));
 			}
 
 			T* getMemory()

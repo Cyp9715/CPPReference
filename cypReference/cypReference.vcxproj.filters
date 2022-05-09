@@ -51,6 +51,9 @@
     <ClCompile Include="src\cpp\cyp_hardware.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\cyp_command.hpp">
