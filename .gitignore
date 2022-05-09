@@ -387,4 +387,4 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 cypReference/library/lib/static/cryptlib.lib
-cypReference/src/cpp/Source.cpp
+cypReference/Source.cpp
