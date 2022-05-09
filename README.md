@@ -83,8 +83,8 @@ I will check the compatibility and update repositories
     + shared memory allows data to be shared between processes.
 
 - cyp:hook
-    + *Not yet made (will support keyboard, mouse global hook).*
- 
+    + You can use Keyboard global hook. (need implement)
+
 # 4. Caution
    Avoid using dynamic libraries.
 
