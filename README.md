@@ -48,23 +48,23 @@ I will check the compatibility and update repositories
     + use Udp multicast.
 
 - cyp::encrypt
-    + You can use AES encryption.
+    + use AES encryption.
     + *except for AES 256, is not yet implemented properly...*
  
 - cyp::file
-    + You can create, delete, read, for files and folder.
+    + create, delete, read, for files and folder.
     + *planning to provide a class that transfers files through TCP.*
 
 - cyp::hardware
-    + You can get monitors information (name, resolution, refresh rate, monitor position(x,y))
+    + get monitors information (name, resolution, refresh rate, monitor position(x,y))
 
 - cyp::hash
 
-     You can use the hash function below for files and std::string.
+     use the hash function below for files and std::string.
     + MD5
     + SHA
      
-     You can use the hash function below for std::string
+     use the hash function below for std::string
     + PBKDF2
     + HKDF
    
