@@ -9,26 +9,33 @@ namespace cyp
 	{
 		class Hook_KeyBoard
 		{
-			static bool existHook;	// Prevent duplicate hooks created.
-			static HHOOK _hook;
+			static bool _kbdExistHook;	// Prevent duplicate hooks created.
+			static HHOOK _kbdHook;
 			static KBDLLHOOKSTRUCT _kbdStruct;
 
 		private:
-			LRESULT static __stdcall HookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+			LRESULT static __stdcall HookCallback_KeyBoard(int nCode, WPARAM wParam, LPARAM lParam);
 			SHORT static PRESSING_CONTROL();
 			SHORT static PRESSING_SHIFT();
+			SHORT static PRESSING_ALT();
 
 		public:
-			bool SetHook();
-			void RemoveHook();
+			bool InstallHook();
+			void UnInstallHook();
 		};
 
 		class Hook_Mouse
 		{
-		private:
+			static bool _mslExistHook;
+			static HHOOK _mslHook;
+			static MSLLHOOKSTRUCT _mslStruct;
+
+		private:			
+			LRESULT static __stdcall HookCallback_Mouse(int nCode, WPARAM wParam, LPARAM lParam);
 
 		public:
-
+			bool InstallHook();
+			void UnInstallHook();
 		};
 
 
