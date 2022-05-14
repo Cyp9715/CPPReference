@@ -84,8 +84,8 @@ I will check the compatibility and update repositories
     + use shared memory(shared memory allows data to be shared between processes.)
 
 - cyp:hook
-    + use Keyboard global hook. (need implement)
-    + use Mouse global hook. (need implement)
+    + use Keyboard global hook. (need user implement)
+    + use Mouse global hook. (need user implement)
 
 # 4. Caution
    Avoid using dynamic libraries.
