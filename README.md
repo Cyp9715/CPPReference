@@ -43,12 +43,12 @@ I will check the compatibility and update repositories
     + get command return string.
  
 - cyp::communication
-    + use Tcp
-    + use Udp
-    + use Udp multicast.
+    + provide Tcp
+    + provide Udp
+    + provide Udp multicast.
 
 - cyp::encrypt
-    + use AES encryption.
+    + provide AES encryption.
     + *except for AES 256, is not yet implemented properly...*
  
 - cyp::file
@@ -76,16 +76,16 @@ I will check the compatibility and update repositories
     + makes the std::string easier to use.
     
 - cyp::timer
-    + use Timer
-    + use FpsCounter
+    + provide Timer
+    + provide FpsCounter
     + run the callback function by attaching it to the timer (delay execution is possible)
  
 - cyp::sharedMemory
-    + use shared memory(shared memory allows data to be shared between processes.)
+    + provide shared memory(shared memory allows data to be shared between processes.)
 
 - cyp:hook
-    + use Keyboard global hook. (need user implement)
-    + use Mouse global hook. (need user implement)
+    + provide Keyboard global hook. (need user implement)
+    + provide Mouse global hook. (need user implement)
 
 # 4. Caution
    Avoid using dynamic libraries.
