@@ -39,8 +39,8 @@ namespace cyp
 				_tempFps = 0;
 				_loopStart = std::chrono::system_clock::now();
 				return _loopFps;
-			} 
-			
+			}
+
 			return _loopFps;
 		}
 
@@ -54,10 +54,10 @@ namespace cyp
 		{
 			_end = std::chrono::system_clock::now();
 			std::chrono::milliseconds delta = std::chrono::duration_cast<std::chrono::milliseconds>(_end - _start);
-			
-			if(delta.count() > 0)
+
+			if (delta.count() > 0)
 				return MILISECOND / delta.count();
-			
+
 			return 0;
 		}
 
@@ -80,6 +80,87 @@ namespace cyp
 						func();
 					} while (isLoop == true);
 				}).detach();
+		}
+
+		void CallbackTimer::Regist_loop_thread(int& miliseconds, std::function<void()>& func, bool& isLoop, int& maxThreadCount)
+		{
+			if (isRunningTimer)
+				throw("Callback loop function is already in progress. Create a new CallbackTimer objectand proceed.");
+
+			isRunningTimer = true;
+			std::thread([this, &miliseconds, &func, &isLoop, &maxThreadCount]()
+				{
+					do
+					{
+						while (true)
+						{
+							// 해당 부분 수정해야 됨 매우 비효율적.
+							if (currentThreadCount >= maxThreadCount)
+								std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+							else
+								break;
+						}
+
+						_m.lock();
+						++currentThreadCount;
+						_m.unlock();
+
+						std::thread([this, &miliseconds, &func]()
+							{
+								std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+								
+								func();
+
+								_m.lock();
+								--currentThreadCount;
+								_m.unlock();
+
+							}).detach();
+					} while (isLoop == true);
+
+					isRunningTimer = false;
+				}).detach();
+		}
+
+		void CallbackTimer::Regist_loop_thread(int&& miliseconds, std::function<void()>& func, bool& isLoop, int&& maxThreadCount)
+		{
+			if (isRunningTimer)
+				throw("Callback loop function is already in progress. Create a new CallbackTimer objectand proceed.");
+
+			isRunningTimer = true;
+			std::thread([this, miliseconds, &func, &isLoop, maxThreadCount]()
+				{
+					do
+					{
+						// 해당 부분 수정해야 됨 매우 비효율적.
+						while (true)
+						{
+							if (currentThreadCount >= maxThreadCount)
+								std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+							else
+								break;
+						}
+
+						_m.lock();
+						++currentThreadCount;
+						_m.unlock();
+
+						std::thread([this, miliseconds, &func]()
+							{
+								std::this_thread::sleep_for(std::chrono::milliseconds(miliseconds));
+
+								func();
+
+								_m.lock();
+								--currentThreadCount;
+								_m.unlock();
+
+							}).detach();
+					} while (isLoop == true);
+
+					isRunningTimer = false;
+				}).detach();
+
 		}
 	}
 }

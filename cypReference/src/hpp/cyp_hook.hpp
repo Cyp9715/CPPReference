@@ -26,7 +26,7 @@ namespace cyp
 
 		class Hook_Mouse
 		{
-			static bool _mslExistHook;
+			static bool _mslExistHook;	// Prevent duplicate hooks created.
 			static HHOOK _mslHook;
 			static MSLLHOOKSTRUCT _mslStruct;
 
