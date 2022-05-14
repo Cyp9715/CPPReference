@@ -106,7 +106,7 @@ I will check the compatibility and update repositories
     
    All donations are received through cryptocurrency.
    
-   |rypto|Wallet Address|Tag|
+   |Crypto|Wallet Address|Tag|
    |------|-----|-----|
    |Tron(TRX)|TVNNF3AyuorJC2j1WYmzRnzY9wzysey2QV||
    |Ripple(XRP)|rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh|107445413|
