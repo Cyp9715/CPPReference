@@ -39,27 +39,27 @@ I will check the compatibility and update repositories
 
 # 3. Introduce namespaces
 - cyp::command
-    + use the Windows command.
-    + get command return string.
- 
+    + provide use Windows command.
+    + provide a function that return the result of command execution. 
+
 - cyp::communication
-    + provide Tcp
-    + provide Udp
-    + provide Udp multicast.
+    + provide Tcp example
+    + provide Udp example
+    + provide Udp multicast example
 
 - cyp::encrypt
     + provide AES encryption.
     + *except for AES 256, is not yet implemented properly...*
  
 - cyp::file
-    + create, delete, read, for files and folder.
+    + create, delete, read, for files and folder
     + *planning to provide a class that transfers files through TCP.*
 
 - cyp::hardware
     + get monitors information (name, resolution, refresh rate, monitor position(x,y))
 
 - cyp::hash
-
+- 
      use the hash function below for files and std::string.
     + MD5
     + SHA
