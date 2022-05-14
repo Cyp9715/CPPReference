@@ -100,3 +100,15 @@ I will check the compatibility and update repositories
    Therefore, using dynamic libraries faced a number of miscellaneous problems,
     
    use dynamic libraries only for the purpose of distributing programs.
+
+# 5. Donation.
+   If my reference was of great help to you, I'd like a cup of coffee, please.
+    
+   All donations are received through cryptocurrency.
+   
+   |rypto|Wallet Address|Tag|
+   |------|-----|-----|
+   |Tron(TRX)|TVNNF3AyuorJC2j1WYmzRnzY9wzysey2QV||
+   |Ripple(XRP)|rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh|107445413|
+
+    
