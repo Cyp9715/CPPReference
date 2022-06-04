@@ -114,17 +114,17 @@ namespace cyp
 			return output;
 		}
 
-		void Tcp::SendServerToClient(const std::string& message)
+		void Tcp::SendServerToClient(const char* message, int length)
 		{
-			if (send(_serverSocket, message.data(), static_cast<int>(message.length()), 0) == SOCKET_ERROR)
+			if (send(_serverSocket, message, length, 0) == SOCKET_ERROR)
 			{
 				throw "error : server error send";
 			}
 		}
 
-		void Tcp::SendClientToServer(const std::string& message)
+		void Tcp::SendClientToServer(const char* message, int length)
 		{
-			if (send(_clientSocket, message.data(), static_cast<int>(message.length()), 0) == SOCKET_ERROR)
+			if (send(_clientSocket, message, length, 0) == SOCKET_ERROR)
 			{
 				throw "error : client error send";
 			}
@@ -152,7 +152,6 @@ namespace cyp
 			_sendSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 			ZeroMemory(&_recvAddr, sizeof(_recvAddr));
-			_dummyAddrSize = sizeof(_dummyAddr);
 
 			// send
 			_recvAddr.sin_family = PF_INET;
@@ -181,32 +180,22 @@ namespace cyp
 			}
 		}
 
-		bool Udp::Send(const std::string& message)
+		void Udp::Send(const char* message, int length)
 		{
-			if (sendto(_sendSocket, message.data(), static_cast<int>(message.length()), 0,
+			if (sendto(_sendSocket, message, length, 0,
 				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 			{
-				return false;
-			}
-			else
-			{
-				return true;
+				throw "error : Send Fail";
 			}
 		}
 
-		std::string Udp::Receive()
+		void Udp::Receive(char* msgBuf, int megLen)
 		{
-			std::string output;
-			char msgbuf[512];
-			int addrlen = sizeof(_recvAddr);
-			int size = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+			int size = recvfrom(_recvSocket, msgBuf, megLen, 0, (struct sockaddr*)&_recvAddr, &addrlen);
 			if (size < 0)
 			{
 				throw "recvfrom";
 			}
-			msgbuf[size] = '\0';
-			output = msgbuf;
-			return output;
 		}
 
 		Udp_multicast::Udp_multicast()
@@ -278,32 +267,24 @@ namespace cyp
 			}
 		}
 
-		bool Udp_multicast::Send(const std::string& message)
+		void Udp_multicast::Send(char *msg, int msgLen)
 		{
-			if (sendto(_sendSocket, message.data(), static_cast<int>(message.length()), 0,
+			if (sendto(_sendSocket, msg, msgLen, 0,
 				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 			{
-				return false;
-			}
-			else
-			{
-				return true;
+				throw "error : send Fail";
 			}
 		}
 
-		std::string Udp_multicast::Receive()
+		constexpr int bufferLen = 10;
+
+		void Udp_multicast::Receive(char* msgbuf, int msgLen)
 		{
-			std::string output;
-			char msgbuf[512];
 			int addrlen = sizeof(_recvAddr);
-			int size = recvfrom(_recvSocket, msgbuf, 512, 0, (struct sockaddr*)&_recvAddr, &addrlen);
-			if (size < 0) 
+			if (recvfrom(_recvSocket, msgbuf, msgLen, 0, (struct sockaddr*)&_recvAddr, &addrlen) < 0)
 			{
 				throw "recvfrom";
 			}
-			msgbuf[size] = '\0';
-			output = msgbuf;
-			return output;
 		}
 	}
 

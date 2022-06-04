@@ -32,8 +32,8 @@ namespace cyp
 			void OpenServer(const u_short port);
 			void OpenClient(const std::string& serverIp, const u_short port);
 
-			void SendServerToClient(const std::string& message);
-			void SendClientToServer(const std::string& message);
+			void SendServerToClient(const char* message, int length);
+			void SendClientToServer(const char* message, int length);
 
 			std::string ReceiveServer();
 			std::string ReceiveClient();
@@ -50,7 +50,7 @@ namespace cyp
 			sockaddr_in _recvAddr = { 0 };
 			sockaddr_in _sendAddr = { 0 };
 			sockaddr_in _dummyAddr = { 0 };
-			int _dummyAddrSize = 0;
+			int addrlen = sizeof(_recvAddr);
 
 		public:
 			Udp();
@@ -59,11 +59,10 @@ namespace cyp
 			void Open_send(const std::string& ip, const u_short port);
 			void Open_receive(const u_short port);
 
-			bool Send(const std::string& message);
-			std::string Receive();
+			void Send(const char* msgBuf, int msgLen);
+			void Receive(char* msgBuf, int msgLen);
 		};
-
-
+		
 		class Udp_multicast
 		{
 		protected:
@@ -85,8 +84,8 @@ namespace cyp
 			void Open_send(const std::string& multicastIp, const u_short port);
 			void Open_receive(const std::string& ip_multicast, const u_short port_multicast);
 
-			bool Send(const std::string& message);
-			std::string Receive();
+			void Send(char* msgBuf, int msgLen);
+			void Receive(char* msgBuf, int msgLen);
 		};
 
 	}
