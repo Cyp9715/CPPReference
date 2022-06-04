@@ -99,19 +99,12 @@ namespace cyp
 			return output;
 		}
 
-		std::string Tcp::ReceiveClient()
+		void Tcp::ReceiveClient(char* msgBuf, int length)
 		{
-			char msgbuf[512];
-			std::string output;
-
-			int size = recv(_clientSocket, msgbuf, 512, 0);
-			if (size < 0)
+			if (recv(_clientSocket, msgBuf, length, 0) < 0)
 			{
 				throw "recvfrom";
 			}
-			msgbuf[size] = '\0';
-			output = msgbuf;
-			return output;
 		}
 
 		void Tcp::SendServerToClient(const char* message, int length)
@@ -275,8 +268,6 @@ namespace cyp
 				throw "error : send Fail";
 			}
 		}
-
-		constexpr int bufferLen = 10;
 
 		void Udp_multicast::Receive(char* msgbuf, int msgLen)
 		{

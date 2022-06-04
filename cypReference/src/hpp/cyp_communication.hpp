@@ -7,6 +7,7 @@
 
 namespace cyp
 {
+	// 
 	namespace communication
 	{
 		enum error
@@ -35,8 +36,8 @@ namespace cyp
 			void SendServerToClient(const char* message, int length);
 			void SendClientToServer(const char* message, int length);
 
-			std::string ReceiveServer();
-			std::string ReceiveClient();
+			void ReceiveServer(char* msgBuf, int length);
+			void ReceiveClient(char* msgBuf, int length);
 		};
 
 		class Udp
