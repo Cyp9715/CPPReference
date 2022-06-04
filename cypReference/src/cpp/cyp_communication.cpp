@@ -84,19 +84,12 @@ namespace cyp
 			}
 		}
 
-		std::string Tcp::ReceiveServer()
+		void Tcp::ReceiveServer(char* msgBuf, int msgLen)
 		{
-			char msgbuf[512];
-			std::string output;
-
-			int size = recv(_serverSocket, msgbuf, 512, 0);
-			if (size < 0)
+			if (recv(_serverSocket, msgBuf, msgLen, 0) < 0)
 			{
 				throw "recvfrom";
 			}
-			msgbuf[size] = '\0';
-			output = msgbuf;
-			return output;
 		}
 
 		void Tcp::ReceiveClient(char* msgBuf, int length)
