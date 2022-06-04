@@ -7,7 +7,8 @@
 
 namespace cyp
 {
-	// 
+	// when receiving message,
+	// you can use reinterpret_cast.
 	namespace communication
 	{
 		enum error
@@ -30,14 +31,14 @@ namespace cyp
 			Tcp();
 			~Tcp();
 
-			void OpenServer(const u_short port);
-			void OpenClient(const std::string& serverIp, const u_short port);
+			void OpenServer(const u_short serverPort);
+			void OpenClient(const std::string& serverIp, const u_short serverPort);
 
-			void SendServerToClient(const char* message, int length);
-			void SendClientToServer(const char* message, int length);
+			void SendServerToClient(const char* msgBuf, int msgLen);
+			void SendClientToServer(const char* msgBuf, int msgLen);
 
-			void ReceiveServer(char* msgBuf, int length);
-			void ReceiveClient(char* msgBuf, int length);
+			void ReceiveServer(char* msgBuf, int msgLen);
+			void ReceiveClient(char* msgBuf, int msgLen);
 		};
 
 		class Udp

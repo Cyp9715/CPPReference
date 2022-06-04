@@ -21,7 +21,7 @@ namespace cyp
 			WSACleanup();
 		}
 
-		void Tcp::OpenServer(const u_short port)
+		void Tcp::OpenServer(const u_short serverPort)
 		{
 			_listenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -36,7 +36,7 @@ namespace cyp
 			int addrSize = sizeof(addrClient);
 
 			addrServer.sin_family = AF_INET;
-			addrServer.sin_port = htons(port);
+			addrServer.sin_port = htons(serverPort);
 			addrServer.sin_addr.s_addr = htonl(INADDR_ANY);
 
 			if (bind(_listenSocket, (SOCKADDR*)&addrServer, sizeof(addrServer)) == BIND_ERROR)
@@ -59,7 +59,7 @@ namespace cyp
 			closesocket(_listenSocket);
 		}
 
-		void Tcp::OpenClient(const std::string& serverIp, const u_short port)
+		void Tcp::OpenClient(const std::string& serverIp, const u_short serverPort)
 		{
 			_clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -72,7 +72,7 @@ namespace cyp
 			ZeroMemory(&addrServer, sizeof(addrServer));
 
 			addrServer.sin_family = PF_INET;
-			addrServer.sin_port = htons(port);
+			addrServer.sin_port = htons(serverPort);
 			if (inet_pton(PF_INET, serverIp.data(), &(addrServer.sin_addr.s_addr)) != INET_PTON_SUCCESS)
 			{
 				throw "error : can't inet_pton init";
@@ -92,25 +92,25 @@ namespace cyp
 			}
 		}
 
-		void Tcp::ReceiveClient(char* msgBuf, int length)
+		void Tcp::ReceiveClient(char* msgBuf, int msgLen)
 		{
-			if (recv(_clientSocket, msgBuf, length, 0) < 0)
+			if (recv(_clientSocket, msgBuf, msgLen, 0) < 0)
 			{
 				throw "recvfrom";
 			}
 		}
 
-		void Tcp::SendServerToClient(const char* message, int length)
+		void Tcp::SendServerToClient(const char* msgBuf, int msgLen)
 		{
-			if (send(_serverSocket, message, length, 0) == SOCKET_ERROR)
+			if (send(_serverSocket, msgBuf, msgLen, 0) == SOCKET_ERROR)
 			{
 				throw "error : server error send";
 			}
 		}
 
-		void Tcp::SendClientToServer(const char* message, int length)
+		void Tcp::SendClientToServer(const char* msgBuf, int msgLen)
 		{
-			if (send(_clientSocket, message, length, 0) == SOCKET_ERROR)
+			if (send(_clientSocket, msgBuf, msgLen, 0) == SOCKET_ERROR)
 			{
 				throw "error : client error send";
 			}
@@ -166,18 +166,18 @@ namespace cyp
 			}
 		}
 
-		void Udp::Send(const char* message, int length)
+		void Udp::Send(const char* msgBuf, int msgLen)
 		{
-			if (sendto(_sendSocket, message, length, 0,
+			if (sendto(_sendSocket, msgBuf, msgLen, 0,
 				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 			{
 				throw "error : Send Fail";
 			}
 		}
 
-		void Udp::Receive(char* msgBuf, int megLen)
+		void Udp::Receive(char* msgBuf, int msgLen)
 		{
-			int size = recvfrom(_recvSocket, msgBuf, megLen, 0, (struct sockaddr*)&_recvAddr, &addrlen);
+			int size = recvfrom(_recvSocket, msgBuf, msgLen, 0, (struct sockaddr*)&_recvAddr, &addrlen);
 			if (size < 0)
 			{
 				throw "recvfrom";
@@ -253,9 +253,9 @@ namespace cyp
 			}
 		}
 
-		void Udp_multicast::Send(char *msg, int msgLen)
+		void Udp_multicast::Send(char *msgBuf, int msgLen)
 		{
-			if (sendto(_sendSocket, msg, msgLen, 0,
+			if (sendto(_sendSocket, msgBuf, msgLen, 0,
 				(struct sockaddr*)&_recvAddr, sizeof(_recvAddr)) == SOCKET_ERROR)
 			{
 				throw "error : send Fail";
