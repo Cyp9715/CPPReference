@@ -38,7 +38,7 @@ namespace cyp
 
 			bool Install(std::string key, DWORD fileAccess = FILE_MAP_ALL_ACCESS)
 			{
-				_hmapFile = CreateFileMapping(
+				_hmapFile = CreateFileMappingA(
 					INVALID_HANDLE_VALUE, NULL,
 					PAGE_READWRITE, 0,
 					64, key.c_str());
