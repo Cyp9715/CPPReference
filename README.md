@@ -10,7 +10,7 @@ any comments on the source code are welcome.
 # 1. License
 
 <p align="center">
-    <img src="https://i.imgur.com/GklIXU7.png"  width="700" height="362.25"/></center>
+    <img src="https://i.imgur.com/GklIXU7.png"  width="560" height="362.25"/></center>
 </p>
 
 <h3 align="center">MIT LICENSE</h1>
@@ -53,6 +53,7 @@ I will check the compatibility and update repositories
  
 - cyp::file
     + create, delete, read, for files and folder
+    + *To provide file transfer function using TCP*
     + *planning to provide a class that transfers files through TCP.*
 
 - cyp::hardware
