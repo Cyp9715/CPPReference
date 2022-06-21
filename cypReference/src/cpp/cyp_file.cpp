@@ -62,7 +62,7 @@ namespace cyp
 
 		void FileCommunication::FileSend::fileHashCalculate(std::string filePath)
 		{
-			hex.StrToHex(sha.FileToSha<CryptoPP::SHA1>(filePath));
+			//hex.StrToHex(sha.FileToSha<CryptoPP::SHA1>(filePath));
 		}
 
 		void FileCommunication::FileSend::sendFile(const std::string& ip, u_short port, const std::string& filePath)
