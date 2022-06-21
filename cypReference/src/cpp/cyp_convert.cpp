@@ -21,24 +21,6 @@ namespace cyp
 
 			return decoded;
 		}
-
-		std::string Hex::StrToHex(std::string&& str)
-		{
-			std::string decoded;
-
-			CryptoPP::HexDecoder decoder;
-			decoder.Put((CryptoPP::byte*)str.data(), str.size());
-			decoder.MessageEnd();
-
-			CryptoPP::word64 size = decoder.MaxRetrievable();
-			if (size && size <= SIZE_MAX)
-			{
-				decoded.resize(size);
-				decoder.Get((CryptoPP::byte*)&decoded[0], decoded.size());
-			}
-
-			return decoded;
-		}
 		
 		std::string Hex::HexToStr(unsigned char* decoded, size_t size)
 		{
