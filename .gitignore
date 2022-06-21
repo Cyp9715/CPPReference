@@ -386,5 +386,10 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+
+# cyp custom
 cypReference/library/lib/static/cryptlib.lib
 cypReference/Source.cpp
+
+cypOpencvReference/Source.cpp
