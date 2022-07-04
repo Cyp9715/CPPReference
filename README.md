@@ -53,7 +53,6 @@ I will check the compatibility and update repositories
  
 - cyp::file
     + create, delete, read, for files and folder
-    + *To provide file transfer function using TCP*
     + *planning to provide a class that transfers files through TCP.*
 
 - cyp::hardware
@@ -88,21 +87,8 @@ I will check the compatibility and update repositories
     + provide Keyboard global hook. (need user implement)
     + provide Mouse global hook. (need user implement)
 
-# 4. Caution
-   Avoid using dynamic libraries.
 
-   The lib folder contains dynamic library folders, but will not contain any files.
-
-   I deliberately avoid using dll for stability.
-    
-   This code has no binary purpose, is to be built by implanting it into another code.
-    
-
-   Therefore, using dynamic libraries faced a number of miscellaneous problems,
-    
-   use dynamic libraries only for the purpose of distributing programs.
-
-# 5. Donation.
+# 4. Donation.
    If my reference was of great help to you, I'd like a cup of coffee, please.
     
    All donations are received through cryptocurrency.
