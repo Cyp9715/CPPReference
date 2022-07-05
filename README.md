@@ -42,7 +42,7 @@ I will check the compatibility and update repositories
 include a lot of miscellaneous code.
 
 - cyp::command
-    + provide use Windows command.
+    + provide Windows command.
     + provide a function that return the result of command execution. 
 
 - cyp::communication
