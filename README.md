@@ -38,6 +38,9 @@ I will check the compatibility and update repositories
 ※ there are currently no plans to write Linux code.
 
 # 3. Introduce namespaces
+## 3-1. CypReference
+include a lot of miscellaneous code.
+
 - cyp::command
     + provide use Windows command.
     + provide a function that return the result of command execution. 
@@ -70,7 +73,6 @@ I will check the compatibility and update repositories
    
 - cyp::image
     + At the moment, have a code that can capture images simply (BMP, PNG).
-    + *decided to support OpenCV in the future.*
 
 - cyp::string
     + makes the std::string easier to use.
@@ -87,6 +89,10 @@ I will check the compatibility and update repositories
     + provide Keyboard global hook. (need user implement)
     + provide Mouse global hook. (need user implement)
 
+## 3-2. cypOpencvReference
+*OpenCV related codes will be inserted.*
+
+\* OpenCV version: 4.6.0
 
 # 4. Donation.
    If my reference was of great help to you, I'd like a cup of coffee, please.
