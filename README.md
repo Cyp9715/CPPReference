@@ -20,6 +20,7 @@ However, additional library is included.
 Please check the libraries below, as they are licensed individually.
 
 - [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
+- [OpenCV 4.6.0](https://opencv.org/license/) : Apache 2
 
 # 2. Environment
 
@@ -42,7 +43,7 @@ I will check the compatibility and update repositories
 include a lot of miscellaneous code.
 
 - cyp::command
-    + provide Windows command.
+    + provide Windows command usage.
     + provide a function that return the result of command execution. 
 
 - cyp::communication
@@ -62,7 +63,7 @@ include a lot of miscellaneous code.
     + get monitors information (name, resolution, refresh rate, monitor position(x,y))
 
 - cyp::hash
-- 
+
      use the hash function below for files and std::string.
     + MD5
     + SHA
@@ -72,7 +73,7 @@ include a lot of miscellaneous code.
     + HKDF
    
 - cyp::image
-    + At the moment, have a code that can capture images simply (BMP, PNG).
+    + At the moment, have a code that can capture images simply (BMP, PNG). (will be changed to use OpenCV code in the future.)
 
 - cyp::string
     + makes the std::string easier to use.
