@@ -50,6 +50,9 @@ include a lot of miscellaneous code.
     + provide Tcp example
     + provide Udp example
     + provide Udp multicast example
+    
+    **you can use reinterpret_cast to properly marshal.**
+
 
 - cyp::encrypt
     + provide AES encryption.
