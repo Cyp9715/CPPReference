@@ -4,24 +4,30 @@ namespace cyp
 {
 	namespace file
 	{
-		bool deleteFile(const std::string& filePath)
+		bool ExistFile(const std::string& filePath)
+		{
+			std::filesystem::path p(filePath);
+			return std::filesystem::exists(p) ? true : false;
+		}
+
+		bool DeleteFile(const std::string& filePath)
 		{
 			return std::filesystem::remove(filePath) ? true : false;
 		}
 
-		bool createDirectory(const std::string& directoryLoc)
+		bool CreateDirectory(const std::string& directoryLoc)
 		{
 			return std::filesystem::create_directory(directoryLoc) ? true : false;
 		}
 
-		void createFile(const std::string& filePath, const std::string& fileContent)
+		void CreateFile(const std::string& filePath, const std::string& fileContent)
 		{
 			std::ofstream file(filePath);
 			file << fileContent;
 			file.close();
 		}
 
-		std::string readAllFile(const std::string& fileLoc)
+		std::string ReadAllFile(const std::string& fileLoc)
 		{
 			std::ifstream file(fileLoc);
 			std::string buffer = "";
@@ -38,13 +44,13 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
-		void FileCommunication::FileSend::setHeader(unsigned long long ingCount, unsigned long long fullCount)
+		void FileCommunication::FileSend::SetHeader(unsigned long long ingCount, unsigned long long fullCount)
 		{
 			memcpy(header + 4, &ingCount, 8);
 			memcpy(header + 12, &fullCount, 8);
 		}
 
-		void FileCommunication::FileSend::sendBuffer()
+		void FileCommunication::FileSend::SendBuffer()
 		{
 			memcpy(buffer, header, 20);
 			memcpy(buffer + 20, payload, 1440);
@@ -60,14 +66,14 @@ namespace cyp
 			memset(&end[5], 1, 0x7F);
 		}
 
-		void FileCommunication::FileSend::fileHashCalculate(std::string filePath)
+		void FileCommunication::FileSend::FileHashCalculate(std::string filePath)
 		{
 			//hex.StrToHex(sha.FileToSha<CryptoPP::SHA1>(filePath));
 		}
 
-		void FileCommunication::FileSend::sendFile(const std::string& ip, u_short port, const std::string& filePath)
+		void FileCommunication::FileSend::SendFile(const std::string& ip, u_short port, const std::string& filePath)
 		{
-			fileHashCalculate(filePath);
+			FileHashCalculate(filePath);
 			OpenClient(ip, port);
 
 			std::ifstream file(filePath, std::ios::binary);
@@ -87,8 +93,8 @@ namespace cyp
 					file.read(payload, 1440);
 					file.seekg(1440, std::ios_base::cur);
 
-					setHeader(ingCount, fullCount);
-					sendBuffer();
+					SetHeader(ingCount, fullCount);
+					SendBuffer();
 
 					++ingCount;
 					delete[] payload;
@@ -115,7 +121,7 @@ namespace cyp
 			closesocket(_clientSocket);
 		}
 
-		void FileCommunication::FileReceive::receiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
+		void FileCommunication::FileReceive::ReceiveFile(u_short port, std::string filePath, unsigned int fileByteSize)
 		{
 			OpenServer(port);
 

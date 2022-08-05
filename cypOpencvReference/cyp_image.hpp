@@ -1,5 +1,6 @@
 #pragma once
-#include <opencv2/highgui.hpp>
+
+#include "cyp_common.hpp"
 
 namespace cyp
 {
@@ -7,5 +8,6 @@ namespace cyp
 	{
 	public:
 		ShowImage(std::string&& title, std::string&& filePath);
+	
 	};
 }

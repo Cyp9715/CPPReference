@@ -10,10 +10,11 @@ namespace cyp
 {
 	namespace file
 	{
-		void createFile(const std::string& filePath, const std::string& fileContent = "");
-		bool deleteFile(const std::string& filePath);
-		bool createDirectory(const std::string& directoryLoc);
-		std::string readAllFile(const std::string& fileLoc);
+		bool ExistFile(const std::string& filePath);
+		void CreateFile(const std::string& filePath, const std::string& fileContent = "");
+		bool DeleteFile(const std::string& filePath);
+		bool CreateDirectory(const std::string& directoryLoc);
+		std::string ReadAllFile(const std::string& fileLoc);
 
 		/*
 		* 1. Since the files are loaded into memory at onceand then transferred, a different solution is required for very large files.
@@ -39,15 +40,15 @@ namespace cyp
 
 				unsigned char* fileHash = new unsigned char[20];
 
-				void setHeader(unsigned long long ingLength, unsigned long long fullLength);
-				void sendBuffer();
+				void SetHeader(unsigned long long ingLength, unsigned long long fullLength);
+				void SendBuffer();
 				void setEnd();
-				void fileHashCalculate(std::string filePath);
+				void FileHashCalculate(std::string filePath);
 
 			public:
 				// Send : use tcp client.
 				FileSend();
-				void sendFile(const std::string& ip, u_short port, const std::string& filePath);
+				void SendFile(const std::string& ip, u_short port, const std::string& filePath);
 
 				// Receive : use tcp server
 				// -> There is a possibility of improvement.
@@ -60,7 +61,7 @@ namespace cyp
 			public:
 				// Receive : use tcp server
 				// -> There is a possibility of improvement.
-				void receiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
+				void ReceiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
 			};
 
 		};

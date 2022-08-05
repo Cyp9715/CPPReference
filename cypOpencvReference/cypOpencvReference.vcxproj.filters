@@ -21,9 +21,18 @@
     <ClCompile Include="cyp_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cyp_video.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cyp_image.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cyp_video.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cyp_common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
