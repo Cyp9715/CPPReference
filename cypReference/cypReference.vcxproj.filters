@@ -21,7 +21,7 @@
     <ClCompile Include="src\cpp\cyp_command.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\cyp_communication.cpp">
+    <ClCompile Include="src\cpp\cyp_network.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\cyp_file.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="src\hpp\cyp_common.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\hpp\cyp_communication.hpp">
+    <ClInclude Include="src\hpp\cyp_network.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\hpp\cyp_file.hpp">

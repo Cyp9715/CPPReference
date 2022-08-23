@@ -2,7 +2,7 @@
 #include <filesystem>
 #include <ostream>
 #include <fstream>
-#include "cyp_communication.hpp"
+#include "cyp_network.hpp"
 #include "cyp_hash.hpp"
 #include "cyp_convert.hpp"
 
@@ -26,7 +26,7 @@ namespace cyp
 		class FileCommunication
 		{
 		public:
-			class FileSend : cyp::communication::Tcp
+			class FileSend : cyp::network::protocol::Tcp
 			{
 				cyp::hash::Sha sha;
 				cyp::convert::Hex hex;
@@ -54,7 +54,7 @@ namespace cyp
 				// -> There is a possibility of improvement.
 			};
 
-			class FileReceive : cyp::communication::Tcp
+			class FileReceive : cyp::network::protocol::Tcp
 			{
 				// Receive
 

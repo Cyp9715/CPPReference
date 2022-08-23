@@ -14,5 +14,20 @@ namespace cyp
 			// unsigned char[6] {0xFF, 0xFD, 0xFC, 0xCF, 0xDF, 0xFF} -> FFFDFCCFDFFF
 			std::string HexToStr(unsigned char* str, size_t size);
 		};
+
+		class Byte
+		{
+		public:
+			template<typename T>
+			void ClassToByteArray(T t, char* output)
+			{
+				int size = sizeof(t);
+
+				for (int i = 0; i < size; ++i)
+				{
+					std::cout << output[i] << std::endl;
+				}
+			}
+		};
 	}
 }	

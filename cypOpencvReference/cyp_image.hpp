@@ -4,10 +4,14 @@
 
 namespace cyp
 {
-	class ShowImage
+	class Image
 	{
+	private:
+		bool CheckExistFile(const std::string& filePath);
+
 	public:
-		ShowImage(std::string&& title, std::string&& filePath);
-	
+		void ShowImg(std::string& title, std::string& filePath, cv::ImreadModes imreadModes = cv::IMREAD_COLOR);
+		void ReadImage(std::string& filePath, cv::Mat& mat);
+		void WriteImage(cv::Mat& mat, std::string& filePath);
 	};
 }
