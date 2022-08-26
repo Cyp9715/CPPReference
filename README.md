@@ -46,7 +46,7 @@ include a lot of miscellaneous code.
     + provide Windows command usage.
     + provide a function that return the result of command execution. 
 
-- cyp::communication
+- cyp::network
     + provide Tcp example
     + provide Udp example
     + provide Udp multicast example
