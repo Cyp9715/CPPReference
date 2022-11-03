@@ -86,20 +86,14 @@ namespace cyp
 				}
 			}
 
-			void Tcp::ReceiveServer(char* msgBuf, int msgLen)
+			int Tcp::ReceiveServer(char* msgBuf, int readLen)
 			{
-				if (recv(_serverSocket, msgBuf, msgLen, 0) < 0)
-				{
-					throw "recvfrom";
-				}
+				return recv(_serverSocket, msgBuf, readLen, 0);
 			}
 
-			void Tcp::ReceiveClient(char* msgBuf, int msgLen)
+			int Tcp::ReceiveClient(char* msgBuf, int readLen)
 			{
-				if (recv(_clientSocket, msgBuf, msgLen, 0) < 0)
-				{
-					throw "recvfrom";
-				}
+				return recv(_clientSocket, msgBuf, readLen, 0);
 			}
 
 			void Tcp::SendServerToClient(const char* msgBuf, int msgLen)

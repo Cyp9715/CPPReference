@@ -39,8 +39,9 @@ namespace cyp
 				void SendServerToClient(const char* msgBuf, int msgLen);
 				void SendClientToServer(const char* msgBuf, int msgLen);
 
-				void ReceiveServer(char* msgBuf, int msgLen);
-				void ReceiveClient(char* msgBuf, int msgLen);
+				// return value is the read length.
+				int ReceiveServer(char* msgBuf, int readLen);
+				int ReceiveClient(char* msgBuf, int readLen);
 			};
 
 			class Udp
