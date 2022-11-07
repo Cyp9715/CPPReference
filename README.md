@@ -22,6 +22,8 @@ Please check the libraries below, as they are licensed individually.
 - [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
 - [OpenCV 4.6.0](https://opencv.org/license/) : Apache 2
 
+For CryptoPP library, version 8.7.0 appeared, but it is a minor update, so keep it.
+
 # 2. Environment
 
 
