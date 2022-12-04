@@ -100,14 +100,4 @@ include a lot of miscellaneous code.
 
 \* OpenCV version: 4.6.0
 
-# 4. Donation.
-   If my reference was of great help to you, I'd like a cup of coffee, please.
-    
-   All donations are received through cryptocurrency.
-   
-   |Crypto|Wallet Address|Tag|
-   |------|-----|-----|
-   |Tron(TRX)|TVNNF3AyuorJC2j1WYmzRnzY9wzysey2QV||
-   |Ripple(XRP)|rEb8TK3gBgk5auZkwc6sHnwrGVJH8DuaLh|107445413|
-
     
