@@ -17,41 +17,41 @@ namespace cyp
 		std::string ReadAllFile(const std::string& fileLoc);
 
 		/*
-		* 1. Since the files are loaded into memory at onceand then transferred, a different solution is required for very large files.
-		* 2. Basically, it operates within different PCs.
-		* 3. There is room for improvement. (Especially in the receiving part.)
-		*
-		* I'm going to correct the above problems and delete the comments within a few months.
+		* Send and receive files.
+		* Unencrypted packet is transmitted through TCP.
+		* Hackers can easily obtain the file through packet sniffing, so it is recommended to use it only in a controlled environment.
+		* If a file is transmitted through the corresponding class on a public network, 
+		* it is possible to hide at least the internal format of the file if it is encryptedand transmitted in the form of 'compression (.zip)'.
 		*/
 		class FileCommunication
 		{
+		private:
+			static const int MB2 = 2000000;
+			char identifier[4] = { 0x00, 0x47, 0x02, 0x4F };
+
+			class Packet_FileHeader
+			{
+			public:
+				char identifier[4] = { 0x00, 0x47, 0x02, 0x4F };
+				char fileName[256] = { '\0', };
+				unsigned long long fileSize_byte;
+			};
+
+			class Packet_FileBody
+			{
+			public:
+				char* buffer;
+			};
+
+
 		public:
 			class FileSend : cyp::network::protocol::Tcp
 			{
-				cyp::hash::Sha sha;
-				cyp::convert::Hex hex;
-
-				char* identifier = new char[4] { 0x00, 0x47, 0x02, 0x4F };
-				char* init = new char[13];
-				char* header = new char[20];
-				char* payload = new char[1440];
-				char* buffer = new char[1460];
-				char* end = new char[25];
-
-				unsigned char* fileHash = new unsigned char[20];
-
-				void SetHeader(unsigned long long ingLength, unsigned long long fullLength);
-				void SendBuffer();
-				void setEnd();
-				void FileHashCalculate(std::string filePath);
+				void SendHeader(Packet_FileHeader& packet_fileHeader);
+				void SendBody(Packet_FileBody& packet_fileBody, unsigned int packetSize);
 
 			public:
-				// Send : use tcp client.
-				FileSend();
 				void SendFile(const std::string& ip, u_short port, const std::string& filePath);
-
-				// Receive : use tcp server
-				// -> There is a possibility of improvement.
 			};
 
 			class FileReceive : cyp::network::protocol::Tcp
@@ -61,7 +61,7 @@ namespace cyp
 			public:
 				// Receive : use tcp server
 				// -> There is a possibility of improvement.
-				void ReceiveFile(u_short port, std::string filePath, unsigned int fileByteSize);
+				void ReceiveFile(u_short port, std::string filePath);
 			};
 
 		};
