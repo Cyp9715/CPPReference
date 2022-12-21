@@ -62,7 +62,7 @@ include a lot of miscellaneous code.
  
 - cyp::file
     + create, delete, read, for files and folder
-    + *planning to provide a class that transfers files through TCP.*
+    + provide File transfer function (not encrypted).
 
 - cyp::hardware
     + get monitors information (name, resolution, refresh rate, monitor position(x,y))
@@ -71,7 +71,7 @@ include a lot of miscellaneous code.
 
      use the hash function below for files and std::string.
     + MD5
-    + SHA
+    + SHA(SHA1, SHA2, SHA3)
      
      use the hash function below for std::string
     + PBKDF2
