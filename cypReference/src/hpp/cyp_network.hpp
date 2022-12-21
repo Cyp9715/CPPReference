@@ -33,8 +33,8 @@ namespace cyp
 				Tcp();
 				~Tcp();
 
-				void OpenServer(const u_short serverPort);
-				void OpenClient(const std::string& serverIp, const u_short serverPort);
+				SOCKET& OpenServer(const u_short serverPort);
+				SOCKET& OpenClient(const std::string& serverIp, const u_short serverPort);
 
 				void SendServerToClient(const char* msgBuf, int msgLen);
 				void SendClientToServer(const char* msgBuf, int msgLen);
@@ -54,7 +54,6 @@ namespace cyp
 
 				sockaddr_in _recvAddr = { 0 };
 				sockaddr_in _sendAddr = { 0 };
-				sockaddr_in _dummyAddr = { 0 };
 				int addrlen = sizeof(_recvAddr);
 
 			public:
@@ -97,17 +96,6 @@ namespace cyp
 		// supporter namespace contains various methods that can be usefully used during communication.
 		namespace supporter
 		{
-			template<typename T>
-			void PrintBytes(T* t)
-			{
-				char* output = reinterpret_cast<char*>(t);
-
-				for (int i = 0; i < sizeof(T); ++i)
-				{
-					std::cout << std::to_string(output[i]) << std::endl;
-				}
-			}
-
 			void Reverse(char* start, const int size);
 		}
 	}

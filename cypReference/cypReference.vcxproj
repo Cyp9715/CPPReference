@@ -30,6 +30,7 @@
     <ClCompile Include="src\cpp\cyp_image.cpp" />
     <ClCompile Include="src\cpp\cyp_string.cpp" />
     <ClCompile Include="src\cpp\cyp_timer.cpp" />
+    <ClCompile Include="src\cpp\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\hpp\cyp_command.hpp" />

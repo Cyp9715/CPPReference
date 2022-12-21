@@ -149,9 +149,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="C:\Users\Cyphe\source\repos\CppReference\cypOpencvReference\Source.cpp" />
     <ClCompile Include="cyp_image.cpp" />
     <ClCompile Include="cyp_video.cpp" />
-    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cyp_common.hpp" />
@@ -159,7 +159,6 @@
     <ClInclude Include="cyp_video.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\OneDrive\바탕 화면\testView.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

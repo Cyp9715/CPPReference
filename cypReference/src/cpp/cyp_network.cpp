@@ -23,7 +23,7 @@ namespace cyp
 				WSACleanup();
 			}
 
-			void Tcp::OpenServer(const u_short serverPort)
+			SOCKET& Tcp::OpenServer(const u_short serverPort)
 			{
 				_listenSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -58,10 +58,10 @@ namespace cyp
 					throw "error : accept failed";
 				}
 
-				closesocket(_listenSocket);
+				return _serverSocket;
 			}
 
-			void Tcp::OpenClient(const std::string& serverIp, const u_short serverPort)
+			SOCKET& Tcp::OpenClient(const std::string& serverIp, const u_short serverPort)
 			{
 				_clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -84,6 +84,8 @@ namespace cyp
 				{
 					throw "error : can't connection";
 				}
+
+				return _clientSocket;
 			}
 
 			int Tcp::ReceiveServer(char* msgBuf, int readLen)
@@ -148,7 +150,6 @@ namespace cyp
 			{
 				_recvSocket = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-				ZeroMemory(&_dummyAddr, sizeof(_dummyAddr));
 				ZeroMemory(&_sendAddr, sizeof(_sendAddr));
 
 				// recv

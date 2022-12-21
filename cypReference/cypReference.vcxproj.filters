@@ -51,7 +51,7 @@
     <ClCompile Include="src\cpp\cyp_hardware.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="src\cpp\Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

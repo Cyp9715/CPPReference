@@ -44,25 +44,25 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
-		void FileCommunication::FileSend::SendHeader(Packet_FileHeader& packet_fileHeader)
+		void FileCommunication::FileSend::SendHeader(SOCKET& sendSocket, Packet_FileHeader& packet_fileHeader)
 		{
-			if (send(_clientSocket, reinterpret_cast<char*>(&packet_fileHeader), static_cast<int>(sizeof(Packet_FileHeader)), 0) == SOCKET_ERROR)
+			if (send(sendSocket, reinterpret_cast<char*>(&packet_fileHeader), static_cast<int>(sizeof(Packet_FileHeader)), 0) == SOCKET_ERROR)
 			{
 				throw "error : client error Send";
 			}
 		}
 
-		void FileCommunication::FileSend::SendBody(Packet_FileBody& packet_fileBody, unsigned int packetSize)
+		void FileCommunication::FileSend::SendBody(SOCKET& sendSocket, Packet_FileBody& packet_fileBody, unsigned int packetSize)
 		{
-			if (send(_clientSocket, reinterpret_cast<char *>(packet_fileBody.buffer), packetSize, 0) == SOCKET_ERROR)
+			if (send(sendSocket, reinterpret_cast<char *>(packet_fileBody.buffer), packetSize, 0) == SOCKET_ERROR)
 			{
 				throw "error : client error Send";
 			}
 		}
 
-		void FileCommunication::FileSend::SendFile(const std::string& ip, u_short port, const std::string& filePath)
+		void FileCommunication::FileSend::SendFile(const u_short port, const std::string filePath)
 		{
-			OpenClient(ip, port);
+			SOCKET serverSocket = OpenServer(port);
 
 			std::ifstream file(filePath, std::ios::binary);
 			Packet_FileHeader fileHeader;
@@ -78,19 +78,18 @@ namespace cyp
 				unsigned long long loopCount_present = 0;
 				unsigned int remainSize = static_cast<unsigned int>(fileHeader.fileSize_byte - (loopCount_full * MB2));
 
-				SendHeader(fileHeader);
+				SendHeader(serverSocket, fileHeader);
 
 				if (fileHeader.fileSize_byte >= MB2)
 				{
 					fileBody.buffer = new char[MB2];
 
-					// For memory limits, large files are sent in 2MB units 
-					// (not 2MB units, of course, because the actual transmission takes place over TCP)
+					// For memory limit, large files are sent in 2MB units 
 					while (loopCount_present < loopCount_full)
 					{
 						file.read(fileBody.buffer, MB2);
 
-						SendBody(fileBody, MB2);
+						SendBody(serverSocket, fileBody, MB2);
 						++loopCount_present;
 					}
 
@@ -100,7 +99,7 @@ namespace cyp
 				fileBody.buffer = new char[remainSize];
 				file.read(fileBody.buffer, remainSize);
 
-				SendBody(fileBody, remainSize);
+				SendBody(serverSocket, fileBody, remainSize);
 
 				delete[] fileBody.buffer;
 			}
@@ -108,26 +107,24 @@ namespace cyp
 			{
 				throw "error : Unable to open file.";
 			}
-
-			closesocket(_clientSocket);
 		}
 
-		void FileCommunication::FileReceive::ReceiveFile(u_short port, std::string filePath)
+		void FileCommunication::FileReceive::ReceiveFile(const std::string ip, const u_short port, const std::string filePath, double& progress)
 		{
-			OpenServer(port);
+			SOCKET clientSocket = OpenClient(ip, port);
 
 			Packet_FileHeader fileHeader;
 			Packet_FileBody fileBody;
+			char recvIdentifier[4] = { '\0', };
 
 			memset(fileHeader.identifier, '\0', 4);
+			recv(clientSocket, reinterpret_cast<char*>(&fileHeader), sizeof(Packet_FileHeader), 0);
+			memcpy(recvIdentifier, fileHeader.identifier, 4);
 
-			recv(_serverSocket, reinterpret_cast<char*>(&fileHeader), sizeof(Packet_FileHeader), 0);
-			char identifier[4] = { 0x00, 0x47, 0x02, 0x4F };
-			
 			unsigned long long totalRecvSize = 0;
 
 			// check Header.
-			if (memcmp(fileHeader.identifier, identifier, 4) == 0)
+			if (memcmp(fileHeader.identifier, recvIdentifier, 4) == 0)
 			{
 				fileBody.buffer = new char[MB2];
 				std::ofstream file(filePath, std::ios::binary);
@@ -138,17 +135,25 @@ namespace cyp
 				{
 					while (fileHeader.fileSize_byte > totalRecvSize)
 					{
-						int receiveSize = recv(_serverSocket, reinterpret_cast<char*>(fileBody.buffer), sizeof(fileBody.buffer), 0);
+						int receiveSize = recv(clientSocket, reinterpret_cast<char*>(fileBody.buffer), MB2, 0);
+						
+						if (receiveSize <= 0)
+						{
+							if (receiveSize == 0)
+							{
+								throw "error : FileCommunication::FileReceive::ReceiveFile() shutdown FileSender";
+							}
+							else
+							{
+								throw "error : FileCommunication::FileReceive::ReceiveFile()";
+							}
+
+						}
+						
 						file.write(fileBody.buffer, receiveSize);
 						totalRecvSize += receiveSize;
 					
-						if (count % 10000000 == 0)
-						{
-							std::cout << "Percentage : " << round((double)totalRecvSize / (double)fileHeader.fileSize_byte * 10000) / 100 << std::endl;
-							count = 0;
-						}
-
-						++count;
+						progress = round((double)totalRecvSize / (double)fileHeader.fileSize_byte * 100000) / 1000;
 					}
 				}
 

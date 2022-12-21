@@ -27,7 +27,6 @@ namespace cyp
 		{
 		private:
 			static const int MB2 = 2000000;
-			char identifier[4] = { 0x00, 0x47, 0x02, 0x4F };
 
 			class Packet_FileHeader
 			{
@@ -43,25 +42,21 @@ namespace cyp
 				char* buffer;
 			};
 
-
 		public:
 			class FileSend : cyp::network::protocol::Tcp
 			{
-				void SendHeader(Packet_FileHeader& packet_fileHeader);
-				void SendBody(Packet_FileBody& packet_fileBody, unsigned int packetSize);
+			private:
+				void SendHeader(SOCKET& sendSocket, Packet_FileHeader& packet_fileHeader);
+				void SendBody(SOCKET& sendSocket, Packet_FileBody& packet_fileBody, unsigned int packetSize);
 
 			public:
-				void SendFile(const std::string& ip, u_short port, const std::string& filePath);
+				void SendFile(const u_short port, const std::string filePath);
 			};
 
 			class FileReceive : cyp::network::protocol::Tcp
 			{
-				// Receive
-
 			public:
-				// Receive : use tcp server
-				// -> There is a possibility of improvement.
-				void ReceiveFile(u_short port, std::string filePath);
+				void ReceiveFile(const std::string ip, const u_short port, const std::string filePath, double& progress);
 			};
 
 		};
