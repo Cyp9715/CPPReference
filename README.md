@@ -17,7 +17,7 @@ any comments on the source code are welcome.
 
 However, additional library is included.
 
-Please check the libraries below, as they are licensed individually.
+please check the libraries below, as they are licensed individually.
 
 - [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
 - [OpenCV 4.6.0](https://opencv.org/license/) : Apache 2
