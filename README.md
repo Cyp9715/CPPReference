@@ -59,7 +59,7 @@ include a lot of miscellaneous code.
  
 - cyp::file
     + create, delete, read, for files and folder
-    + provide File transfer function (not encrypted).
+    + provide file transfer function (not encrypted).
 
 - cyp::hardware
     + get monitors information (name, resolution, refresh rate, monitor position(x,y))
