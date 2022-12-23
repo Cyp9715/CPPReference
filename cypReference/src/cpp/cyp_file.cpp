@@ -129,8 +129,6 @@ namespace cyp
 				fileBody.buffer = new char[MB2];
 				std::ofstream file(filePath, std::ios::binary);
 
-				int count = 0;
-
 				if (file.is_open())
 				{
 					while (fileHeader.fileSize_byte > totalRecvSize)
@@ -155,6 +153,10 @@ namespace cyp
 					
 						progress = round((double)totalRecvSize / (double)fileHeader.fileSize_byte * 100000) / 1000;
 					}
+				}
+				else
+				{
+					throw "error : Unable to open file.";
 				}
 
 				delete[] fileBody.buffer;
