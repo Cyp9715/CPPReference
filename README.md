@@ -17,7 +17,7 @@ any comments on the source code are welcome.
 
 However, additional library is included.
 
-Please check the libraries below, as they are licensed individually.
+please check the libraries below, as they are licensed individually.
 
 - [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
 - [OpenCV 4.6.0](https://opencv.org/license/) : Apache 2
@@ -52,9 +52,6 @@ include a lot of miscellaneous code.
     + provide Tcp example
     + provide Udp example
     + provide Udp multicast example
-    
-    **you can use reinterpret_cast to properly marshalling.**
-
 
 - cyp::encrypt
     + provide AES encryption.
@@ -62,7 +59,7 @@ include a lot of miscellaneous code.
  
 - cyp::file
     + create, delete, read, for files and folder
-    + *planning to provide a class that transfers files through TCP.*
+    + provide file transfer function (not encrypted).
 
 - cyp::hardware
     + get monitors information (name, resolution, refresh rate, monitor position(x,y))
@@ -71,7 +68,7 @@ include a lot of miscellaneous code.
 
      use the hash function below for files and std::string.
     + MD5
-    + SHA
+    + SHA(SHA1, SHA2, SHA3)
      
      use the hash function below for std::string
     + PBKDF2
