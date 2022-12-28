@@ -15,6 +15,7 @@ namespace cyp
 		bool DeleteFile(const std::string& filePath);
 		bool CreateDirectory(const std::string& directoryLoc);
 		std::string ReadAllFile(const std::string& fileLoc);
+		std::string GetFileName(std::string filePath);
 
 		/*
 		* Send and receive files.
@@ -23,7 +24,7 @@ namespace cyp
 		* If a file is transmitted through the corresponding class on a public network, 
 		* it is possible to hide at least the internal format of the file if it is encryptedand transmitted in the form of 'compression (.zip)'.
 		*/
-		class FileCommunication
+		class FileCommunication : cyp::network::protocol::Tcp
 		{
 		private:
 			static const int MB2 = 2000000;
@@ -33,7 +34,7 @@ namespace cyp
 			public:
 				char identifier[4] = { 0x00, 0x47, 0x02, 0x4F };
 				char fileName[256] = { '\0', };
-				unsigned long long fileSize_byte;
+				unsigned long long fileSize;	// unit, byte
 			};
 
 			class Packet_FileBody
@@ -42,22 +43,12 @@ namespace cyp
 				char* buffer;
 			};
 
+			void SendHeader(SOCKET& sendSocket, Packet_FileHeader& packet_fileHeader);
+			void SendBody(SOCKET& sendSocket, Packet_FileBody& packet_fileBody, unsigned int packetSize);
+
 		public:
-			class FileSend : cyp::network::protocol::Tcp
-			{
-			private:
-				void SendHeader(SOCKET& sendSocket, Packet_FileHeader& packet_fileHeader);
-				void SendBody(SOCKET& sendSocket, Packet_FileBody& packet_fileBody, unsigned int packetSize);
-
-			public:
-				void SendFile(const u_short port, const std::string filePath);
-			};
-
-			class FileReceive : cyp::network::protocol::Tcp
-			{
-			public:
-				void ReceiveFile(const std::string ip, const u_short port, const std::string filePath, double& progress);
-			};
+			void SendFile(const u_short port, const std::string sendFilePath);
+			void ReceiveFile(const std::string ip, const u_short port, const std::string saveFilePath, double& progress);
 
 		};
 	}

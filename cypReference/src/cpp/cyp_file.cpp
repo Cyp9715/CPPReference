@@ -44,7 +44,12 @@ namespace cyp
 			throw "error : cypReference::file::readAllFile";
 		}
 
-		void FileCommunication::FileSend::SendHeader(SOCKET& sendSocket, Packet_FileHeader& packet_fileHeader)
+		std::string GetFileName(std::string filePath)
+		{
+			return filePath.substr(filePath.find_last_of("/\\") + 1);
+		}
+
+		void FileCommunication::SendHeader(SOCKET& sendSocket, Packet_FileHeader& packet_fileHeader)
 		{
 			if (send(sendSocket, reinterpret_cast<char*>(&packet_fileHeader), static_cast<int>(sizeof(Packet_FileHeader)), 0) == SOCKET_ERROR)
 			{
@@ -52,7 +57,7 @@ namespace cyp
 			}
 		}
 
-		void FileCommunication::FileSend::SendBody(SOCKET& sendSocket, Packet_FileBody& packet_fileBody, unsigned int packetSize)
+		void FileCommunication::SendBody(SOCKET& sendSocket, Packet_FileBody& packet_fileBody, unsigned int packetSize)
 		{
 			if (send(sendSocket, reinterpret_cast<char *>(packet_fileBody.buffer), packetSize, 0) == SOCKET_ERROR)
 			{
@@ -60,27 +65,31 @@ namespace cyp
 			}
 		}
 
-		void FileCommunication::FileSend::SendFile(const u_short port, const std::string filePath)
+		void FileCommunication::SendFile(const u_short port, const std::string sendFilePath)
 		{
+			// Implement Multi accept via Thread to send multiple files at the same time.
 			SOCKET serverSocket = OpenServer(port);
 
-			std::ifstream file(filePath, std::ios::binary);
+			std::ifstream file(sendFilePath, std::ios::binary);
 			Packet_FileHeader fileHeader;
 			Packet_FileBody fileBody;
 
 			if (file.is_open())
 			{
 				file.seekg(0, std::ios::end);
-				fileHeader.fileSize_byte = file.tellg();
+				fileHeader.fileSize = file.tellg();
 				file.seekg(0, std::ios::beg);
+				
+				std::string fileName = GetFileName(sendFilePath);
+				memcpy(fileHeader.fileName, fileName.c_str(), fileName.length());
 
-				unsigned long long loopCount_full = fileHeader.fileSize_byte / MB2;
+				unsigned long long loopCount_full = fileHeader.fileSize / MB2;
 				unsigned long long loopCount_present = 0;
-				unsigned int remainSize = static_cast<unsigned int>(fileHeader.fileSize_byte - (loopCount_full * MB2));
+				unsigned int remainSize = static_cast<unsigned int>(fileHeader.fileSize - (loopCount_full * MB2));
 
 				SendHeader(serverSocket, fileHeader);
 
-				if (fileHeader.fileSize_byte >= MB2)
+				if (fileHeader.fileSize >= MB2)
 				{
 					fileBody.buffer = new char[MB2];
 
@@ -109,17 +118,22 @@ namespace cyp
 			}
 		}
 
-		void FileCommunication::FileReceive::ReceiveFile(const std::string ip, const u_short port, const std::string filePath, double& progress)
+		void FileCommunication::ReceiveFile(const std::string ip, const u_short port, const std::string saveFilePath, double& progress)
 		{
+			if (ExistFile(saveFilePath) == true)
+			{
+				throw "error : file already exist.";
+			}
+
 			SOCKET clientSocket = OpenClient(ip, port);
 
 			Packet_FileHeader fileHeader;
 			Packet_FileBody fileBody;
-			char recvIdentifier[4] = { '\0', };
-
+			
+			char recvIdentifier[4];
+			memcpy(recvIdentifier, fileHeader.identifier, 4);
 			memset(fileHeader.identifier, '\0', 4);
 			recv(clientSocket, reinterpret_cast<char*>(&fileHeader), sizeof(Packet_FileHeader), 0);
-			memcpy(recvIdentifier, fileHeader.identifier, 4);
 
 			unsigned long long totalRecvSize = 0;
 
@@ -127,11 +141,11 @@ namespace cyp
 			if (memcmp(fileHeader.identifier, recvIdentifier, 4) == 0)
 			{
 				fileBody.buffer = new char[MB2];
-				std::ofstream file(filePath, std::ios::binary);
+				std::ofstream file(saveFilePath, std::ios::binary);
 
 				if (file.is_open())
 				{
-					while (fileHeader.fileSize_byte > totalRecvSize)
+					while (fileHeader.fileSize > totalRecvSize)
 					{
 						int receiveSize = recv(clientSocket, reinterpret_cast<char*>(fileBody.buffer), MB2, 0);
 						
@@ -139,11 +153,11 @@ namespace cyp
 						{
 							if (receiveSize == 0)
 							{
-								throw "error : FileCommunication::FileReceive::ReceiveFile() shutdown FileSender";
+								throw "error : FileCommunication::ReceiveFile() shutdown FileSender";
 							}
 							else
 							{
-								throw "error : FileCommunication::FileReceive::ReceiveFile()";
+								throw "error : FileCommunication::ReceiveFile()";
 							}
 
 						}
@@ -151,7 +165,7 @@ namespace cyp
 						file.write(fileBody.buffer, receiveSize);
 						totalRecvSize += receiveSize;
 					
-						progress = round((double)totalRecvSize / (double)fileHeader.fileSize_byte * 100000) / 1000;
+						progress = round((double)totalRecvSize / (double)fileHeader.fileSize * 100000) / 1000;
 					}
 				}
 				else
