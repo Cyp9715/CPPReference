@@ -65,7 +65,7 @@ namespace cyp
 			{
 				_clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-				if (socket(PF_INET, SOCK_STREAM, IPPROTO_TCP) == INVALID_SOCKET)
+				if (_clientSocket == INVALID_SOCKET)
 				{
 					throw "error : _clientSocket stop";
 				}
