@@ -1,11 +1,8 @@
 # Cpp Reference
 
-C++ libraries are complex, fragmented, and hard to find well abstracted libraries.
-
-my personal reference is easy to use.(especially useful for beginner)
-
+C++ libraries are complex, fragmented, and hard to find well abstracted libraries.  
+my personal reference is easy to use.(especially useful for beginner)  
 any comments on the source code are welcome.
-
 
 # 1. License
 
@@ -15,17 +12,14 @@ any comments on the source code are welcome.
 
 <h3 align="center">MIT LICENSE</h1>
 
-However, additional library is included.
-
-please check the libraries below, as they are licensed individually.
-
+However, additional library is included.  
+please check the libraries below, as they are licensed individually.  
 - [Cryptopp 8.6.0](https://github.com/weidai11/cryptopp) : Boost License
 - [OpenCV 4.6.0](https://opencv.org/license/) : Apache 2
 
-I am currently planning to change the encryption library to OpenSSL in relation to '''FIPS 140''' compliance.
 
-After changing related Hash and Encrypte functions to OpenSSL
-
+I am currently planning to change the encryption library to OpenSSL in relation to '''FIPS 140''' compliance.  
+After changing related Hash and Encrypte functions to OpenSSL  
 I plan to add a file encryption TCP transmission function using OpenSSL as well.
 
 
@@ -37,10 +31,8 @@ OS : Windows 10 and 11
 Complier : Visual Studio 2022 / C++20 / x64 / MTd
 
 
-I prefer to use the latest version.
-
-whenever official versions of Windows OS, C++, Visual Studio, etc. are updated,
-
+I prefer to use the latest version.  
+whenever official versions of Windows OS, C++, Visual Studio, etc. are updated,  
 I will check the compatibility and update repositories
 
 ※ there are currently no plans to write Linux code.
